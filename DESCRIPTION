@@ -1,0 +1,13 @@
+Package: wcontrolvalve
+Type: Package
+Title: Meta Analysis Plunger Valves
+Version: 0.1.0
+Author: Dr. Raul Trujillo Alvarez <dr.ing.trujillo@gmail.com>
+Maintainer: Dr. Raul Trujillo Alvarez <dr.ing.trujillo@gmail.com>
+Description: This package provides functionalities for the control valve calculation. 
+  This package aims to collect the functions and data for the analysis of control 
+  valves in water distribution systems.
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.1.0
