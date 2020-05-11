@@ -19,7 +19,7 @@ This function calculates the velocity of the fluid in a
   circular pipe.
 }
 \examples{
-velocity(1, 500/1000)
+velocity(flow = 0.4, dn = 0.2)
 }
 \author{
 Dr. Raúl Trujillo Álvarez \email{dr.ing.trujillo@gmail.com}

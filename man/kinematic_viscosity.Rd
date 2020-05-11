@@ -10,7 +10,7 @@ kinematic_viscosity(temp)
 \item{temp}{is in °C}
 }
 \value{
-Kinematic Viscosity in (mm2/s)
+Kinematic Viscosity in (m2/s)
 }
 \description{
 Kinematic viscosity is the ratio of - absolute (or dynamic) viscosity
@@ -20,7 +20,7 @@ divided by the fluid density ρ.
 The units of μ are pascals-seconds (kg/m.s) vs. the units of ν which are m2/s.
 }
 \examples{
-kinematic_viscosity(25)
+kinematic_viscosity(15)
 
 }
 \author{

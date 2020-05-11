@@ -13,48 +13,10 @@
 #' @export
 #'
 #' @examples
-#' velocity(1, 500/1000)
+#' velocity(flow = 0.4, dn = 0.2)
 
   velocity <- function(flow, dn){
     flow/((pi*dn^2)/4)
-  }
-
-#' @title Kv Value
-#' @description Kv Value
-#'
-#' @author Dr. Raúl Trujillo Álvarez \email{dr.ing.trujillo@gmail.com}
-#'
-#' @param dn diameter in meter [m]
-#' @param zeta dimensionless quantity
-#'
-#' @return kv value
-#' @export
-#'
-#' @examples
-#'
-
-  kv_value <- function(dn, zeta){
-    ((dn*1000)^2)/sqrt(626.3*zeta)
-  }
-
-
-
-#' @title  Zeta Value
-#' @description Zeta Value
-#'
-#' @author Dr. Raúl Trujillo Álvarez \email{dr.ing.trujillo@gmail.com}
-#'
-#' @param kv Kv value
-#' @param dn diameter in meter (m)
-#'
-#' @return Zeta Vaule
-#'
-#' @export
-#'
-#' @examples
-#'
-  zeta_vaule  <- function(kv,dn){
-    (1/626.3)*((dn*1000)^2/kv)^2
   }
 
 
@@ -73,82 +35,98 @@
 #' @export
 #'
 #' @examples
-#'
+#' reynolds_number(flow = 0.157, dn = 0.3, temp = 20)
+#' reynolds_number(flow = 3.72, dn = 1.2, temp = 14)
+#' reynolds_number(flow = 0.4, dn = 0.2, temp = 15)
 #'
   reynolds_number  <- function(flow,dn,temp=20){
     (4*flow)/(pi*dn*kinematic_viscosity(temp))
   }
 
-#' @title Friction in Pipe
-#' @description Friction calculation
+#' @title Friction loss in Pipe (Zigrand and Sylvester function)
+#' @description In fluid flow, friction loss (or skin friction) is the loss of
+#'    pressure or “head” that occurs in pipe or duct flow due to the effect of
+#'    the fluid's viscosity near the surface of the pipe or duct.
+#'    [https://en.wikipedia.org/wiki/Friction_loss]
+#'
 #' @author Dr. Raúl Trujillo Álvarez \email{dr.ing.trujillo@gmail.com}
 #'
 #' @param flow cubic meter per second (m³/s)
 #' @param dn diameter in meter (m)
-#' @param roughness in (mm)
+#' @param roughness in (m)
 #' @param temp temp is in °C
 #'
-#' @return Friction value
+#' @return Solve the ecuation of Colebrook-White with the ecuaton of
+#'   Zigrand and Sylvester (1982)
 #'
 #' @export
 #'
 #' @examples
-#'
-#'
+#' friction_zigrang(flow = 0.157, dn = 0.3, roughness = 0.0015, temp = 20)
+#' friction_zigrang(flow = 0.4,   dn = 0.2, roughness = 1.5e-4, temp = 15)
+
   friction_zigrang <- function(flow, dn, roughness, temp=20){
     re <- reynolds_number(flow,dn,temp)
-    (-2*log((roughness/3.7)-(5.02/re)*log(roughness-(5.02/re)*log(roughness/3.7+13/re))))^(-2)
+    r_roughness <- roughness/dn
+    (-2*log((r_roughness/3.7)-(5.02/re)*log(r_roughness-(5.02/re)*log(r_roughness/3.7+13/re))))^(-2)
   }
 
-
-#' @title Barometric formula (Atm. Pressure)
-#'
-#' @description The barometric formula, sometimes called the exponential atmosphere or
-#' isothermal atmosphere, is a formula used to model how the pressure
-#' or density of the air changes with altitude. The pressure drops
-#' approximately by 11.3 Pa per meter in first 1000 meters above sea level.
-#' 1 Kilopascals (kPa)	=	0.101972 Meters of Water (mH2O)
+#' @title Friction loss in Pipe (Swanee-Jain)
+#' @description In fluid flow, friction loss (or skin friction) is the loss of
+#'    pressure or “head” that occurs in pipe or duct flow due to the effect of
+#'    the fluid's viscosity near the surface of the pipe or duct.
+#'    [https://en.wikipedia.org/wiki/Friction_loss]
 #'
 #' @author Dr. Raúl Trujillo Álvarez \email{dr.ing.trujillo@gmail.com}
+#' @param flow cubic meter per second (m³/s)
+#' @param dn diameter in meter (m)
+#' @param roughness internal roughness of the pipe in (m)
+#' @param temp temperature is in °C
 #'
-#' @param masl metres above sea level [m]
-#' @return Atmospheric pressure in Meters of Water (mH2O)
-#'
+#' @return Solve the ecuation of Colebrook-White with the ecuaton of
+#'   Swanee-Jain (1976)
 #' @export
 #'
 #' @examples
-#' atm_pressure(2600)
-
-  atm_pressure  <- function(masl) {
-    0.101972*101325*exp(-(0.02896*9.807)/(8.3143*288.15)*masl)
+#' friction_swamee(flow = 0.4,   dn = 0.2, roughness = 1.5e-4, temp = 15)
+#'
+  friction_swamee <- function(flow, dn, roughness, temp=20){
+    re <- reynolds_number(flow,dn,temp)
+    r_roughness <- roughness/dn
+    (-2*log(r_roughness/3.7+5.74/re^(0.9)))^(-2)
   }
 
 
-#' @title Vapour pressure of water
-#'
-#' @description The vapour pressure of water is the pressure at which water vapour is in
-#' thermodynamic equilibrium with its condensed state. At higher pressures water
-#' would condense. The water vapour pressure is the partial pressure of water
-#' vapour in any gas mixture in equilibrium with solid or liquid water.
-#' As for other substances, water vapour pressure is a function of temperature
-#' and can be determined with the Clausius–Clapeyron relation.
-#' Approximation formula :
-#' The Buck equation. where T is in °C and P is in kPa.
-#' https://en.wikipedia.org/wiki/Vapour_pressure_of_water
-#'
+
+#' @title Darcy–Weisbach equation
+#' @description In fluid dynamics, the Darcy–Weisbach equation is an empirical
+#'    equation, which relates the head loss, or pressure loss, due to friction
+#'    along a given length of pipe to the average velocity of the fluid flow
+#'    for an incompressible fluid.
+#'    The Darcy–Weisbach equation contains a dimensionless friction factor,
+#'    known as the Darcy friction factor. This is also variously called the
+#'    Darcy–Weisbach friction factor, friction factor, resistance coefficient,
+#'    or flow coefficient.
+#'    [https://en.wikipedia.org/wiki/Darcy%E2%80%93Weisbach_equation]
 #' @author Dr. Raúl Trujillo Álvarez \email{dr.ing.trujillo@gmail.com}
+#' @param flow cubic meter per second (m³/s)
+#' @param pipe_length length of pipe  (m)
+#' @param dn inner diameter of pipe  (m)
+#' @param roughness internal roughness of the pipe in (m)
+#' @param temp temperature in °C
 #'
-#' @param temp is in °C
-#'
-#' @return Vapour pressure of water in (kPa)
+#' @return head loss (m)
 #' @export
 #'
 #' @examples
-#' vapour_pressure(25)
-
-  vapour_pressure <- function(temp){
-    0.61121*exp((18.678-temp/234.5)*(temp/(257.14+temp)))
-  }
+#' darcy_weisbach(flow = 0.4, pipe_length = 100,
+#'                dn = 0.2, roughness = 1.5e-4, temp = 15)
+#'
+    darcy_weisbach <- function(flow, pipe_length, dn, roughness, temp=20){
+      friction <- friction_zigrang (flow, dn, roughness, temp)
+      v <- velocity(flow, dn)
+      friction*(pipe_length/dn)*((v^2)/(2*9.807))
+    }
 
 
 #' @title Water Dynamic Viscosity
@@ -169,15 +147,15 @@
 #' @export
 #'
 #' @examples
-#' dynamic_viscosity(25)
+#' dynamic_viscosity(15)
 #'
-  dynamic_viscosity <- function(temp){
-    a = -3.7188
-    b =  578.919
-    c = -137.546
-    temp = temp + 273.15
-    exp(a+b/(c+temp))
-  }
+    dynamic_viscosity <- function(temp){
+      a = -3.7188
+      b =  578.919
+      c = -137.546
+      temp = temp + 273.15
+      exp(a+b/(c+temp))
+    }
 
 
 #' @title Saturated water Density
@@ -197,7 +175,7 @@
 #' @export
 #'
 #' @examples
-#' water_density(25)
+#' water_density(15)
 #'
   water_density <- function(temp){
     a <- 0.14395
@@ -221,12 +199,12 @@
 #'
 #' @param temp  is in °C
 #'
-#' @return Kinematic Viscosity in (mm2/s)
+#' @return Kinematic Viscosity in (m2/s)
 #' @export
 #'
 #' @examples
-#' kinematic_viscosity(25)
+#' kinematic_viscosity(15)
 #'
-  kinematic_viscosity <- function(temp){
-    dynamic_viscosity(temp)/(water_density(temp)/1000)
-  }
+    kinematic_viscosity <- function(temp){
+      dynamic_viscosity(temp)/(water_density(temp)/1000)*1e-6
+   }

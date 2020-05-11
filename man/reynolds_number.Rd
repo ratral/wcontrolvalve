@@ -21,7 +21,9 @@ The Reynolds number (Re) is an important dimensionless quantity in fluid
 mechanics used to help predict flow patterns in different fluid flow situations.
 }
 \examples{
-
+reynolds_number(flow = 0.157, dn = 0.3, temp = 20)
+reynolds_number(flow = 3.72, dn = 1.2, temp = 14)
+reynolds_number(flow = 0.4, dn = 0.2, temp = 15)
 
 }
 \author{
