@@ -19,7 +19,6 @@
     flow/((pi*dn^2)/4)
   }
 
-
 #' @title  Reynolds number
 #'
 #' @description The Reynolds number (Re) is an important dimensionless quantity in fluid
@@ -35,13 +34,43 @@
 #' @export
 #'
 #' @examples
-#' reynolds_number(flow = 0.157, dn = 0.3, temp = 20)
-#' reynolds_number(flow = 3.72, dn = 1.2, temp = 14)
-#' reynolds_number(flow = 0.4, dn = 0.2, temp = 15)
+#' reynolds_number(flow = 0.157, dn = 0.3,   temp = 20)
+#' reynolds_number(flow = 3.72,  dn = 1.2,   temp = 14)
+#' reynolds_number(flow = 0.042, dn = 0.150, temp = 14.5)
 #'
   reynolds_number  <- function(flow,dn,temp=20){
     (4*flow)/(pi*dn*kinematic_viscosity(temp))
   }
+
+#' @title Colebrook–White equation (Darcy friction factor formula)
+#' @description The phenomenological Colebrook–White equation
+#'   (or Colebrook equation) expresses the Darcy friction factor f as a function
+#'   of Reynolds number Re and pipe relative roughness ε/Dh, fitting the data
+#'   of experimental studies of turbulent flow in smooth and rough pipes.
+#'   The equation can be used to (iteratively) solve for the Darcy–Weisbach
+#'   friction factor f.
+#'   [https://en.wikipedia.org/wiki/Darcy_friction_factor_formulae#Colebrook%E2%80%93White_equation]
+#'
+#' @param flow cubic meter per second (m³/s)
+#' @param dn diameter in meter (m)
+#' @param roughness roughness in (m)
+#' @param temp temp is in °C
+#'
+#' @return the output from \code{\link{uniroot}} for the calculation of the
+#'   root from the ecuation of Colebrook-White
+#' @export
+#' @importFrom stats uniroot
+#' @examples
+#' friction_colebrook(flow = 0.042, dn = 0.150, roughness = 1.5e-6, temp = 14.5)
+#'
+  friction_colebrook <- function(flow, dn, roughness, temp=20){
+    re <- reynolds_number(flow,dn,temp)
+    r_roughness <- roughness/dn
+    f <- function(x){-2*log10(r_roughness/3.7 + 2.51/(re*sqrt(x)))-1/sqrt(x)}
+    root <- uniroot(f, lower = 0, upper = 0.1)$root
+    return(root)
+  }
+
 
 #' @title Friction loss in Pipe (Zigrand and Sylvester function)
 #' @description In fluid flow, friction loss (or skin friction) is the loss of
@@ -62,13 +91,13 @@
 #' @export
 #'
 #' @examples
-#' friction_zigrang(flow = 0.157, dn = 0.3, roughness = 0.0015, temp = 20)
-#' friction_zigrang(flow = 0.4,   dn = 0.2, roughness = 1.5e-4, temp = 15)
+#' friction_zigrang(flow = 0.042, dn = 0.150, roughness = 1.5e-6, temp = 14.5)
+
 
   friction_zigrang <- function(flow, dn, roughness, temp=20){
     re <- reynolds_number(flow,dn,temp)
     r_roughness <- roughness/dn
-    (-2*log((r_roughness/3.7)-(5.02/re)*log(r_roughness-(5.02/re)*log(r_roughness/3.7+13/re))))^(-2)
+    (-2*log10((r_roughness/3.7)-(5.02/re)*log10(r_roughness-(5.02/re)*log10(r_roughness/3.7+13/re))))^(-2)
   }
 
 #' @title Friction loss in Pipe (Swanee-Jain)
@@ -88,14 +117,13 @@
 #' @export
 #'
 #' @examples
-#' friction_swamee(flow = 0.4,   dn = 0.2, roughness = 1.5e-4, temp = 15)
+#' friction_swamee(flow = 0.042, dn = 0.150, roughness = 1.5e-6, temp = 14.5)
 #'
   friction_swamee <- function(flow, dn, roughness, temp=20){
     re <- reynolds_number(flow,dn,temp)
     r_roughness <- roughness/dn
-    (-2*log(r_roughness/3.7+5.74/re^(0.9)))^(-2)
+    (-2*log10(r_roughness/3.7+5.74/re^(0.9)))^(-2)
   }
-
 
 
 #' @title Darcy–Weisbach equation
@@ -204,6 +232,7 @@
 #'
 #' @examples
 #' kinematic_viscosity(15)
+#' kinematic_viscosity(14.5)
 #'
     kinematic_viscosity <- function(temp){
       dynamic_viscosity(temp)/(water_density(temp)/1000)*1e-6

@@ -26,8 +26,7 @@ In fluid flow, friction loss (or skin friction) is the loss of
    [https://en.wikipedia.org/wiki/Friction_loss]
 }
 \examples{
-friction_zigrang(flow = 0.157, dn = 0.3, roughness = 0.0015, temp = 20)
-friction_zigrang(flow = 0.4,   dn = 0.2, roughness = 1.5e-4, temp = 15)
+friction_zigrang(flow = 0.042, dn = 0.150, roughness = 1.5e-6, temp = 14.5)
 }
 \author{
 Dr. Raúl Trujillo Álvarez \email{dr.ing.trujillo@gmail.com}

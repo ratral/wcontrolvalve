@@ -26,7 +26,7 @@ In fluid flow, friction loss (or skin friction) is the loss of
    [https://en.wikipedia.org/wiki/Friction_loss]
 }
 \examples{
-friction_swamee(flow = 0.4,   dn = 0.2, roughness = 1.5e-4, temp = 15)
+friction_swamee(flow = 0.042, dn = 0.150, roughness = 1.5e-6, temp = 14.5)
 
 }
 \author{
