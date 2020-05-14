@@ -21,9 +21,9 @@ Solve the ecuation of Colebrook-White with the ecuaton of
 }
 \description{
 In fluid flow, friction loss (or skin friction) is the loss of
-   pressure or “head” that occurs in pipe or duct flow due to the effect of
-   the fluid's viscosity near the surface of the pipe or duct.
-   [https://en.wikipedia.org/wiki/Friction_loss]
+pressure or “head” that occurs in pipe or duct flow due to the effect of
+the fluid's viscosity near the surface of the pipe or duct.
+[https://en.wikipedia.org/wiki/Friction_loss]
 }
 \examples{
 friction_swamee(flow = 0.042, dn = 0.150, roughness = 1.5e-6, temp = 14.5)

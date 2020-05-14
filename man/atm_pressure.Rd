@@ -4,20 +4,21 @@
 \alias{atm_pressure}
 \title{Barometric formula (Atm. Pressure)}
 \usage{
-atm_pressure(masl)
+atm_pressure(masl = 0)
 }
 \arguments{
 \item{masl}{metres above sea level [m]}
 }
 \value{
-Atmospheric pressure in Meters of Water (mH2O)
+Atmospheric pressure in bar
 }
 \description{
 The barometric formula, sometimes called the exponential atmosphere or
 isothermal atmosphere, is a formula used to model how the pressure
 or density of the air changes with altitude. The pressure drops
 approximately by 11.3 Pa per meter in first 1000 meters above sea level.
-1 Kilopascals (kPa)	=	0.101972 Meters of Water (mH2O)
+1 Kilopascals (kPa)	=	0.01 bar
+https://www.math24.net/barometric-formula/
 }
 \examples{
 atm_pressure(2600)

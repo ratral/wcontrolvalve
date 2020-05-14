@@ -44,12 +44,12 @@
 
 #' @title Colebrook–White equation (Darcy friction factor formula)
 #' @description The phenomenological Colebrook–White equation
-#'   (or Colebrook equation) expresses the Darcy friction factor f as a function
-#'   of Reynolds number Re and pipe relative roughness ε/Dh, fitting the data
-#'   of experimental studies of turbulent flow in smooth and rough pipes.
-#'   The equation can be used to (iteratively) solve for the Darcy–Weisbach
-#'   friction factor f.
-#'   [https://en.wikipedia.org/wiki/Darcy_friction_factor_formulae#Colebrook%E2%80%93White_equation]
+#' (or Colebrook equation) expresses the Darcy friction factor f as a function
+#' of Reynolds number Re and pipe relative roughness ε/Dh, fitting the data
+#' of experimental studies of turbulent flow in smooth and rough pipes.
+#' The equation can be used to (iteratively) solve for the Darcy–Weisbach
+#' friction factor f.
+#' [https://en.wikipedia.org/wiki/Darcy_friction_factor_formulae#Colebrook%E2%80%93White_equation]
 #'
 #' @param flow cubic meter per second (m³/s)
 #' @param dn diameter in meter (m)
@@ -74,9 +74,9 @@
 
 #' @title Friction loss in Pipe (Zigrand and Sylvester function)
 #' @description In fluid flow, friction loss (or skin friction) is the loss of
-#'    pressure or “head” that occurs in pipe or duct flow due to the effect of
-#'    the fluid's viscosity near the surface of the pipe or duct.
-#'    [https://en.wikipedia.org/wiki/Friction_loss]
+#' pressure or “head” that occurs in pipe or duct flow due to the effect of
+#' the fluid's viscosity near the surface of the pipe or duct.
+#' [https://en.wikipedia.org/wiki/Friction_loss]
 #'
 #' @author Dr. Raúl Trujillo Álvarez \email{dr.ing.trujillo@gmail.com}
 #'
@@ -102,9 +102,9 @@
 
 #' @title Friction loss in Pipe (Swanee-Jain)
 #' @description In fluid flow, friction loss (or skin friction) is the loss of
-#'    pressure or “head” that occurs in pipe or duct flow due to the effect of
-#'    the fluid's viscosity near the surface of the pipe or duct.
-#'    [https://en.wikipedia.org/wiki/Friction_loss]
+#' pressure or “head” that occurs in pipe or duct flow due to the effect of
+#' the fluid's viscosity near the surface of the pipe or duct.
+#' [https://en.wikipedia.org/wiki/Friction_loss]
 #'
 #' @author Dr. Raúl Trujillo Álvarez \email{dr.ing.trujillo@gmail.com}
 #' @param flow cubic meter per second (m³/s)
@@ -128,14 +128,14 @@
 
 #' @title Darcy–Weisbach equation
 #' @description In fluid dynamics, the Darcy–Weisbach equation is an empirical
-#'    equation, which relates the head loss, or pressure loss, due to friction
-#'    along a given length of pipe to the average velocity of the fluid flow
-#'    for an incompressible fluid.
-#'    The Darcy–Weisbach equation contains a dimensionless friction factor,
-#'    known as the Darcy friction factor. This is also variously called the
-#'    Darcy–Weisbach friction factor, friction factor, resistance coefficient,
-#'    or flow coefficient.
-#'    [https://en.wikipedia.org/wiki/Darcy%E2%80%93Weisbach_equation]
+#' equation, which relates the head loss, or pressure loss, due to friction
+#' along a given length of pipe to the average velocity of the fluid flow
+#' for an incompressible fluid.
+#' The Darcy–Weisbach equation contains a dimensionless friction factor,
+#' known as the Darcy friction factor. This is also variously called the
+#' Darcy–Weisbach friction factor, friction factor, resistance coefficient,
+#' or flow coefficient.
+#' [https://en.wikipedia.org/wiki/Darcy%E2%80%93Weisbach_equation]
 #' @author Dr. Raúl Trujillo Álvarez \email{dr.ing.trujillo@gmail.com}
 #' @param flow cubic meter per second (m³/s)
 #' @param pipe_length length of pipe  (m)
@@ -147,11 +147,14 @@
 #' @export
 #'
 #' @examples
-#' darcy_weisbach(flow = 0.4, pipe_length = 100,
-#'                dn = 0.2, roughness = 1.5e-4, temp = 15)
+#' darcy_weisbach( flow = 0.042,
+#'                 pipe_length = 970,
+#'                 dn = 0.150,
+#'                 roughness = 1.5e-6,
+#'                 temp = 14.5)
 #'
     darcy_weisbach <- function(flow, pipe_length, dn, roughness, temp=20){
-      friction <- friction_zigrang (flow, dn, roughness, temp)
+      friction <- friction_colebrook (flow, dn, roughness, temp)
       v <- velocity(flow, dn)
       friction*(pipe_length/dn)*((v^2)/(2*9.807))
     }
@@ -175,7 +178,7 @@
 #' @export
 #'
 #' @examples
-#' dynamic_viscosity(15)
+#' dynamic_viscosity(14.5)
 #'
     dynamic_viscosity <- function(temp){
       a = -3.7188
@@ -203,7 +206,7 @@
 #' @export
 #'
 #' @examples
-#' water_density(15)
+#' water_density(14.5)
 #'
   water_density <- function(temp){
     a <- 0.14395
@@ -231,7 +234,6 @@
 #' @export
 #'
 #' @examples
-#' kinematic_viscosity(15)
 #' kinematic_viscosity(14.5)
 #'
     kinematic_viscosity <- function(temp){

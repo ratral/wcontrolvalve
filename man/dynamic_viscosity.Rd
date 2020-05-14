@@ -23,7 +23,7 @@ where Pa is N/m^2 - SI unit of pressure
 http://ddbonline.ddbst.de/VogelCalculation/VogelCalculationCGI.exe
 }
 \examples{
-dynamic_viscosity(15)
+dynamic_viscosity(14.5)
 
 }
 \author{

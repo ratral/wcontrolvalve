@@ -4,13 +4,13 @@
 \alias{vapour_pressure}
 \title{Vapour pressure of water}
 \usage{
-vapour_pressure(temp)
+vapour_pressure(temp = 15)
 }
 \arguments{
 \item{temp}{is in °C}
 }
 \value{
-Vapour pressure of water in (kPa)
+Vapour pressure of water in (kPa). 1 kPa is  0.01 bar
 }
 \description{
 The vapour pressure of water is the pressure at which water vapour is in

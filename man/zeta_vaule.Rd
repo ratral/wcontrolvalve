@@ -2,7 +2,7 @@
 % Please edit documentation in R/valve_hydrailic_functions.R
 \name{zeta_vaule}
 \alias{zeta_vaule}
-\title{Resistance Coefficient "_Zeta value_"}
+\title{Resistance Coefficient Zeta in function of Kv}
 \usage{
 zeta_vaule(dn, kv)
 }
@@ -16,9 +16,9 @@ Zeta Vaule
 }
 \description{
 Pressure drop or head loss is proportional to the velocity
-  in valves or fittings. For the most engineering practices it can be assumed
-  that pressure drop or head loss due to flow of fluids in turbulent range
-  through valves and fittings is proportional to square of velocity.
+in valves or fittings. For the most engineering practices it can be assumed
+that pressure drop or head loss due to flow of fluids in turbulent range
+through valves and fittings is proportional to square of velocity.
 }
 \examples{
 zeta_vaule( dn =0.5, kv = 7247.229)

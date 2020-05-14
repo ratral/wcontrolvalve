@@ -22,18 +22,21 @@ head loss (m)
 }
 \description{
 In fluid dynamics, the Darcy–Weisbach equation is an empirical
-   equation, which relates the head loss, or pressure loss, due to friction
-   along a given length of pipe to the average velocity of the fluid flow
-   for an incompressible fluid.
-   The Darcy–Weisbach equation contains a dimensionless friction factor,
-   known as the Darcy friction factor. This is also variously called the
-   Darcy–Weisbach friction factor, friction factor, resistance coefficient,
-   or flow coefficient.
-   [https://en.wikipedia.org/wiki/Darcy%E2%80%93Weisbach_equation]
+equation, which relates the head loss, or pressure loss, due to friction
+along a given length of pipe to the average velocity of the fluid flow
+for an incompressible fluid.
+The Darcy–Weisbach equation contains a dimensionless friction factor,
+known as the Darcy friction factor. This is also variously called the
+Darcy–Weisbach friction factor, friction factor, resistance coefficient,
+or flow coefficient.
+[https://en.wikipedia.org/wiki/Darcy%E2%80%93Weisbach_equation]
 }
 \examples{
-darcy_weisbach(flow = 0.4, pipe_length = 100,
-               dn = 0.2, roughness = 1.5e-4, temp = 15)
+darcy_weisbach( flow = 0.042,
+                pipe_length = 970,
+                dn = 0.150,
+                roughness = 1.5e-6,
+                temp = 14.5)
 
 }
 \author{

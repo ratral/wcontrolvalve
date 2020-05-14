@@ -21,12 +21,12 @@ the output from \code{\link{uniroot}} for the calculation of the
 }
 \description{
 The phenomenological Colebrook–White equation
-  (or Colebrook equation) expresses the Darcy friction factor f as a function
-  of Reynolds number Re and pipe relative roughness ε/Dh, fitting the data
-  of experimental studies of turbulent flow in smooth and rough pipes.
-  The equation can be used to (iteratively) solve for the Darcy–Weisbach
-  friction factor f.
-  [https://en.wikipedia.org/wiki/Darcy_friction_factor_formulae#Colebrook%E2%80%93White_equation]
+(or Colebrook equation) expresses the Darcy friction factor f as a function
+of Reynolds number Re and pipe relative roughness ε/Dh, fitting the data
+of experimental studies of turbulent flow in smooth and rough pipes.
+The equation can be used to (iteratively) solve for the Darcy–Weisbach
+friction factor f.
+[https://en.wikipedia.org/wiki/Darcy_friction_factor_formulae#Colebrook%E2%80%93White_equation]
 }
 \examples{
 friction_colebrook(flow = 0.042, dn = 0.150, roughness = 1.5e-6, temp = 14.5)

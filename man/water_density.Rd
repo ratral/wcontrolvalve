@@ -20,7 +20,7 @@ as the temperature increases, the density rises to a peak at 3.98 °C (39.16 °F
 and then decreases.
 }
 \examples{
-water_density(15)
+water_density(14.5)
 
 }
 \author{

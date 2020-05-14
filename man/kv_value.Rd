@@ -2,7 +2,7 @@
 % Please edit documentation in R/valve_hydrailic_functions.R
 \name{kv_value}
 \alias{kv_value}
-\title{Flow coefficient Kv of the Value}
+\title{Flow coefficient Kv Value in function of the Zeta  Value}
 \usage{
 kv_value(dn, zeta)
 }
@@ -16,10 +16,10 @@ kv value in m³/h
 }
 \description{
 The valve flow coefficient Kv is defined as the number
-  of cubic meters per hour of 5°C to 30°C water that will flow through
-  a control valve at a specified position of the control valve (travel) h
-  with a differential pressure Delta P (p1-p2) of 1bar  (105 Pa)
-  across it.
+of cubic meters per hour of 5°C to 30°C water that will flow through
+a control valve at a specified position of the control valve (travel) h
+with a differential pressure Delta P (p1-p2) of 1bar  (105 Pa)
+across it.
 }
 \examples{
 kv_value( dn = 0.5, zeta = 1.9)
