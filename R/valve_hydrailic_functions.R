@@ -66,6 +66,60 @@
   }
 
 
+#' @title Piping geometry factor
+#' @description The piping geometry factor Fp accounts for fittings attached to
+#' either the valve inlet or the outlet that disturb the flow to the extent that
+#' valve capacity is affected. Fp is actually the ratio of the flow coefficient
+#' of a valve with attached fittings to the flow coefficient (kv) of a valve
+#' installed in a straight pipe of the same size as the valve.
+#'
+#' @param kv Flow coefficient in m³/h
+#' @param dn diameter in meter [m]
+#' @param d1 Inlet diameter reducer only in meter [m]
+#' @param d2 Outlet diameter increaser only in meter [m]
+#'
+#' @return Piping geometry factor, dimensionless
+#' @export
+#'
+#' @examples
+#' fp(kv = 7247.229, dn =0.5, d1 = 0.6, d2 = 0.6)
+#'
+  fp <- function(kv, dn, d1, d2){
+    z1 <- 0.5*(1-(dn/d1)^2)^2
+    z2 <- (1-(dn/d2)^2)^2
+    z  <- z1 + z2
+    return(1 / sqrt(1+(z*(kv/dn^2)^2)/0.0016))
+  }
+
+
+#' @title Combined liquid pressure recovery factor flp
+#' @description When a valve is installed with reducers or other attached
+#' fittings, the liquid pressure recovery of the valve-fitting combination is
+#' not the same as that for the valve alone. For calculations involving choked
+#' flow, it is convenient to treat the piping geometry factor (fp) and the fl
+#' factor for the valve-fitting combination as a single factor, flp.
+#'
+#' @param kv Flow coefficient in m³/h
+#' @param fl Liquid pressure recovery factor of a control valve without attached fittings
+#' @param dn diameter in meter [m]
+#' @param d1 Inlet diameter reducer only in meter [m]
+#' @param d2 Outlet diameter increaser only in meter [m]
+#'
+#' @return Product of the liquid pressure recovery factor of a valve with
+#' attached fittings (no symbol has been identified) and the piping geometry
+#' factor, dimensionless.
+#' @export
+#'
+#' @examples
+#' flp(kv = 7247.229, fl = 0.9, dn =0.5, d1 = 0.6, d2 = 0.6)
+#'
+  flp <- function(kv, fl, dn, d1, d2){
+    z1 <- 0.5*(1-(dn/d1)^2)^2
+    z2 <- (1-(dn/d2)^2)^2
+    z  <- z1 + z2
+    return(fl / sqrt(1+(z*(kv/dn^2)^2)*(fl^2)/0.0016))
+  }
+
 
 #' @title Type of flow
 #' @description Tested ob the flow is choked or not
@@ -84,8 +138,7 @@
 #'
   type_of_flow <- function(p1, p2, temp, fl){
     dp <- p1-p2
-    ff_value <- ff(temp)* vapour_pressure(temp)*0.01
-    dp_max   <- (fl^2)*(p1-ff_value)
+    dp_max   <- (fl^2)*(p1-ff(temp)* vapour_pressure(temp)*0.01)
     if (dp < dp_max ) {
       return("non-choked flow")
     } else {
@@ -142,12 +195,12 @@
     #  Absolute pressureis it is gauge pressure plus atmospheric pressure
     dp <- p1-p2
     relat_density <- water_density(15)/water_density(temp)
-    ff_value <- ff(temp)* vapour_pressure(temp)*0.01
     dp_max   <- (fl^2)*(p1-ff_value)
 
     if (dp < dp_max ) {
       flow <- fr*kv*sqrt(dp/relat_density)
     } else {
+      ff_value <- ff(temp)* vapour_pressure(temp)*0.01
       flow <- fl*fr*kv*sqrt((p1-ff_value)/relat_density)
     }
   return(flow)
