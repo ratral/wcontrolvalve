@@ -4,7 +4,7 @@
 \alias{darcy_weisbach}
 \title{Darcy–Weisbach equation}
 \usage{
-darcy_weisbach(flow, pipe_length, dn, roughness, temp = 20)
+darcy_weisbach(flow, pipe_length, dn, roughness, temp = 15)
 }
 \arguments{
 \item{flow}{cubic meter per second (m³/s)}

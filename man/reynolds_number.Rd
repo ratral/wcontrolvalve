@@ -4,7 +4,7 @@
 \alias{reynolds_number}
 \title{Reynolds number}
 \usage{
-reynolds_number(flow, dn, temp = 20)
+reynolds_number(flow, dn, temp = 15)
 }
 \arguments{
 \item{flow}{cubic meter per second (m³/s)}

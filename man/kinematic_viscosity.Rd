@@ -4,13 +4,13 @@
 \alias{kinematic_viscosity}
 \title{Kinematic Viscosity}
 \usage{
-kinematic_viscosity(temp)
+kinematic_viscosity(temp = 15)
 }
 \arguments{
 \item{temp}{is in °C}
 }
 \value{
-Kinematic Viscosity in (m2/s)
+Kinematic Viscosity in (m2/s)*1e-6
 }
 \description{
 Kinematic viscosity is the ratio of - absolute (or dynamic) viscosity

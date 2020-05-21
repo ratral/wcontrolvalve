@@ -22,7 +22,7 @@ chr with "non-choked flow" or "choked flow"
 Tested ob the flow is choked or not
 }
 \examples{
-type_of_flow(p1 = 6.8, p2 = 2.2, temp = 89, fl = 0.9)
-type_of_flow(p1 = 6.8, p2 = 2.2, temp = 89, fl = 0.6)
+type_of_flow(p1 = 6.8, p2 = 2.2, temp = 80, fl = 0.9)
+type_of_flow(p1 = 6.8, p2 = 2.2, temp = 80, fl = 0.6)
 
 }

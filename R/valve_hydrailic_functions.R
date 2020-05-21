@@ -17,6 +17,8 @@
 #' kv_value( dn = 0.5, zeta = 1.9)
 
   kv_value <- function(dn, zeta){
+    if (dn <= 0)   stop("Diameter must be greater than 0")
+    if (zeta <= 0) stop("Zeta value must be greater than 0")
     ((dn*1000)^2)/sqrt(626.3*zeta)
   }
 
@@ -39,6 +41,8 @@
 #' zeta_vaule( dn =0.5, kv = 7247.229)
 #'
   zeta_vaule  <- function(dn, kv){
+    if (dn <= 0) stop("Diameter must be greater than 0")
+    if (kv <= 0) stop("kv value must be greater than 0")
     (1/626.3)*((dn*1000)^2/kv)^2
   }
 
@@ -133,8 +137,8 @@
 #' @export
 #'
 #' @examples
-#' type_of_flow(p1 = 6.8, p2 = 2.2, temp = 89, fl = 0.9)
-#' type_of_flow(p1 = 6.8, p2 = 2.2, temp = 89, fl = 0.6)
+#' type_of_flow(p1 = 6.8, p2 = 2.2, temp = 80, fl = 0.9)
+#' type_of_flow(p1 = 6.8, p2 = 2.2, temp = 80, fl = 0.6)
 #'
   type_of_flow <- function(p1, p2, temp, fl){
     dp <- p1-p2
@@ -168,39 +172,18 @@
 #' @export
 #'
 #' @examples
-#'  # Example 1: Incompressible flow – non-choked turbulent flow without attached fittings
-#'
-#'  temp        <- 89                         # Water Inlet temperature °C
-#'  density     <- water_density(temp)        # water density at 89°C degrees temperature in kg/m³
-#'  pv          <- vapour_pressure(temp)*0.01 # Vapor pressure in bar
-#'  k_viscosity <- kinematic_viscosity(temp)  # Kinematic viscosity in m²/s
-#'  p1          <- 680*0.01                   # Upstream pressure in bar
-#'  p2          <- 220*0.01                   # Dowstream pressure in bar
-#'  dn          <- 0.150                      # Diamaeter in m
-#'  patm        <- atm_pressure()             # Atm. Pressure
-#'  ff_value    <- ff(temp)
-#'  relat_density <- water_density(temp)/water_density(15)
-#'  fl          <- 0.90                       # Liquid pressure recovery factor
-#'  dp_max      <- (fl^2)*(p1-ff_value)
-#'
-#'  flow_through_valve(kv = 165, p1 = 6.8, p2 = 2.2, temp = 89, fl = 0.9)
-#'
-#'  # Example 2: Incompressible flow – choked flow without attached fittings
-#'  fl <- 0.60   # Liquid pressure recovery factor
-#'  dp_max      <- (fl^2)*(p1-ff_value)
-#'
-#'  flow_through_valve(kv = 238, p1 = 6.8, p2 = 2.2, temp = 89, fl = 0.6)
+#'  flow_through_valve(kv = 238, p1 = 6.8, p2 = 2.2, temp = 80, fl = 0.6)
 
   flow_through_valve <- function(kv, p1, p2, temp = 15, masl = 0,  fl, fr = 1){
     #  Absolute pressureis it is gauge pressure plus atmospheric pressure
     dp <- p1-p2
     relat_density <- water_density(15)/water_density(temp)
+    ff_value <- ff(temp)* vapour_pressure(temp)*0.01
     dp_max   <- (fl^2)*(p1-ff_value)
 
     if (dp < dp_max ) {
       flow <- fr*kv*sqrt(dp/relat_density)
     } else {
-      ff_value <- ff(temp)* vapour_pressure(temp)*0.01
       flow <- fl*fr*kv*sqrt((p1-ff_value)/relat_density)
     }
   return(flow)
@@ -230,6 +213,8 @@
 #' vapour_pressure(25)
 
   vapour_pressure <- function(temp = 15){
+    if (temp < 5)  stop("Temperature cannot be less than 5 C")
+    if (temp > 80) stop("Temperature cannot be bigger than 80 C")
     0.61121*exp((18.678-temp/234.5)*(temp/(257.14+temp)))
   }
 
@@ -253,6 +238,9 @@
 #' atm_pressure(2600)
 
   atm_pressure  <- function(masl = 0 ) {
+    if (masl < 0)    stop("Metres above sea level cannot be less than 0m")
+    if (masl > 6000) stop("Mmeters above sea level cannot be higher than 6000m")
+
     101.325*exp(-0.000118547*masl)*0.01
   }
 

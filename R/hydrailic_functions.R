@@ -16,6 +16,8 @@
 #' velocity(flow = 0.4, dn = 0.2)
 
   velocity <- function(flow, dn){
+    if (dn <= 0) stop("Diameter must be greater than 0")
+    if (flow <= 0) stop("Flow must be greater than 0")
     flow/((pi*dn^2)/4)
   }
 
@@ -38,8 +40,10 @@
 #' reynolds_number(flow = 3.72,  dn = 1.2,   temp = 14)
 #' reynolds_number(flow = 0.042, dn = 0.150, temp = 14.5)
 #'
-  reynolds_number  <- function(flow,dn,temp=20){
-    (4*flow)/(pi*dn*kinematic_viscosity(temp))
+  reynolds_number  <- function(flow,dn,temp = 15){
+    if (dn <= 0) stop("Diameter must be greater than 0")
+    if (flow <= 0) stop("Flow must be greater than 0")
+    (4*flow)/(pi*dn*kinematic_viscosity(temp)*1e-6)
   }
 
 #' @title Colebrook–White equation (Darcy friction factor formula)
@@ -63,68 +67,14 @@
 #' @examples
 #' friction_colebrook(flow = 0.042, dn = 0.150, roughness = 1.5e-6, temp = 14.5)
 #'
-  friction_colebrook <- function(flow, dn, roughness, temp=20){
+  friction_colebrook <- function(flow, dn, roughness, temp = 15){
+    if (roughness <= 0) stop("Roughness must be greater than 0")
     re <- reynolds_number(flow,dn,temp)
     r_roughness <- roughness/dn
     f <- function(x){-2*log10(r_roughness/3.7 + 2.51/(re*sqrt(x)))-1/sqrt(x)}
     root <- uniroot(f, lower = 0, upper = 0.1)$root
     return(root)
   }
-
-
-#' @title Friction loss in Pipe (Zigrand and Sylvester function)
-#' @description In fluid flow, friction loss (or skin friction) is the loss of
-#' pressure or “head” that occurs in pipe or duct flow due to the effect of
-#' the fluid's viscosity near the surface of the pipe or duct.
-#' [https://en.wikipedia.org/wiki/Friction_loss]
-#'
-#' @author Dr. Raúl Trujillo Álvarez \email{dr.ing.trujillo@gmail.com}
-#'
-#' @param flow cubic meter per second (m³/s)
-#' @param dn diameter in meter (m)
-#' @param roughness in (m)
-#' @param temp temp is in °C
-#'
-#' @return Solve the ecuation of Colebrook-White with the ecuaton of
-#'   Zigrand and Sylvester (1982)
-#'
-#' @export
-#'
-#' @examples
-#' friction_zigrang(flow = 0.042, dn = 0.150, roughness = 1.5e-6, temp = 14.5)
-
-
-  friction_zigrang <- function(flow, dn, roughness, temp=20){
-    re <- reynolds_number(flow,dn,temp)
-    r_roughness <- roughness/dn
-    (-2*log10((r_roughness/3.7)-(5.02/re)*log10(r_roughness-(5.02/re)*log10(r_roughness/3.7+13/re))))^(-2)
-  }
-
-#' @title Friction loss in Pipe (Swanee-Jain)
-#' @description In fluid flow, friction loss (or skin friction) is the loss of
-#' pressure or “head” that occurs in pipe or duct flow due to the effect of
-#' the fluid's viscosity near the surface of the pipe or duct.
-#' [https://en.wikipedia.org/wiki/Friction_loss]
-#'
-#' @author Dr. Raúl Trujillo Álvarez \email{dr.ing.trujillo@gmail.com}
-#' @param flow cubic meter per second (m³/s)
-#' @param dn diameter in meter (m)
-#' @param roughness internal roughness of the pipe in (m)
-#' @param temp temperature is in °C
-#'
-#' @return Solve the ecuation of Colebrook-White with the ecuaton of
-#'   Swanee-Jain (1976)
-#' @export
-#'
-#' @examples
-#' friction_swamee(flow = 0.042, dn = 0.150, roughness = 1.5e-6, temp = 14.5)
-#'
-  friction_swamee <- function(flow, dn, roughness, temp=20){
-    re <- reynolds_number(flow,dn,temp)
-    r_roughness <- roughness/dn
-    (-2*log10(r_roughness/3.7+5.74/re^(0.9)))^(-2)
-  }
-
 
 #' @title Darcy–Weisbach equation
 #' @description In fluid dynamics, the Darcy–Weisbach equation is an empirical
@@ -153,7 +103,8 @@
 #'                 roughness = 1.5e-6,
 #'                 temp = 14.5)
 #'
-    darcy_weisbach <- function(flow, pipe_length, dn, roughness, temp=20){
+    darcy_weisbach <- function(flow, pipe_length, dn, roughness, temp = 15){
+      if (pipe_length <= 0) stop("Pipe_length must be greater than 0")
       friction <- friction_colebrook (flow, dn, roughness, temp)
       v <- velocity(flow, dn)
       friction*(pipe_length/dn)*((v^2)/(2*9.807))
@@ -180,7 +131,9 @@
 #' @examples
 #' dynamic_viscosity(14.5)
 #'
-    dynamic_viscosity <- function(temp){
+    dynamic_viscosity <- function(temp = 15){
+      if (temp < 5)  stop("Temperature cannot be less than 5 C")
+      if (temp > 80) stop("Temperature cannot be bigger than 80 C")
       a = -3.7188
       b =  578.919
       c = -137.546
@@ -208,7 +161,9 @@
 #' @examples
 #' water_density(14.5)
 #'
-  water_density <- function(temp){
+  water_density <- function(temp = 15){
+    if (temp < 5)  stop("Temperature cannot be less than 5 C")
+    if (temp > 80) stop("Temperature cannot be bigger than 80 C")
     a <- 0.14395
     b <- 0.0112
     c <- 649.727
@@ -230,12 +185,12 @@
 #'
 #' @param temp  is in °C
 #'
-#' @return Kinematic Viscosity in (m2/s)
+#' @return Kinematic Viscosity in (m2/s)*1e-6
 #' @export
 #'
 #' @examples
 #' kinematic_viscosity(14.5)
 #'
-    kinematic_viscosity <- function(temp){
-      dynamic_viscosity(temp)/(water_density(temp)/1000)*1e-6
+    kinematic_viscosity <- function(temp = 15){
+      dynamic_viscosity(temp)/(water_density(temp)/1000)
    }

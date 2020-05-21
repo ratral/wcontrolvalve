@@ -4,7 +4,7 @@
 \alias{friction_colebrook}
 \title{Colebrook–White equation (Darcy friction factor formula)}
 \usage{
-friction_colebrook(flow, dn, roughness, temp = 20)
+friction_colebrook(flow, dn, roughness, temp = 15)
 }
 \arguments{
 \item{flow}{cubic meter per second (m³/s)}
