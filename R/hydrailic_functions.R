@@ -16,8 +16,10 @@
 #' velocity(flow = 0.4, dn = 0.2)
 
   velocity <- function(flow, dn){
-    if (dn <= 0) stop("Diameter must be greater than 0")
+
+    if (dn   <= 0) stop("Diameter must be greater than 0")
     if (flow <= 0) stop("Flow must be greater than 0")
+
     flow/((pi*dn^2)/4)
   }
 
@@ -41,8 +43,12 @@
 #' reynolds_number(flow = 0.042, dn = 0.150, temp = 14.5)
 #'
   reynolds_number  <- function(flow,dn,temp = 15){
-    if (dn <= 0) stop("Diameter must be greater than 0")
+
+    if (dn <= 0)   stop("Diameter must be greater than 0")
     if (flow <= 0) stop("Flow must be greater than 0")
+    if (temp < 5)  stop("Temperature cannot be less than 5 C")
+    if (temp > 80) stop("Temperature cannot be bigger than 80 C")
+
     (4*flow)/(pi*dn*kinematic_viscosity(temp)*1e-6)
   }
 
@@ -68,12 +74,23 @@
 #' friction_colebrook(flow = 0.042, dn = 0.150, roughness = 1.5e-6, temp = 14.5)
 #'
   friction_colebrook <- function(flow, dn, roughness, temp = 15){
+
     if (roughness <= 0) stop("Roughness must be greater than 0")
+    if (dn <= 0)        stop("Diameter must be greater than 0")
+    if (flow <= 0)      stop("Flow must be greater than 0")
+    if (temp < 5)       stop("Temperature cannot be less than 5 C")
+    if (temp > 80)      stop("Temperature cannot be bigger than 80 C")
+
     re <- reynolds_number(flow,dn,temp)
     r_roughness <- roughness/dn
-    f <- function(x){-2*log10(r_roughness/3.7 + 2.51/(re*sqrt(x)))-1/sqrt(x)}
-    root <- uniroot(f, lower = 0, upper = 0.1)$root
-    return(root)
+
+    if (re <= 2200 ) {
+      return(64/re)
+    } else {
+      f <- function(x){-2*log10(r_roughness/3.7 + 2.51/(re*sqrt(x)))-1/sqrt(x)}
+      root <- uniroot(f, lower = 0, upper = 0.1)$root
+      return(root)
+    }
   }
 
 #' @title Darcy–Weisbach equation
@@ -104,7 +121,15 @@
 #'                 temp = 14.5)
 #'
     darcy_weisbach <- function(flow, pipe_length, dn, roughness, temp = 15){
+
       if (pipe_length <= 0) stop("Pipe_length must be greater than 0")
+      if (roughness <= 0)   stop("Roughness must be greater than 0")
+      if (dn <= 0)          stop("Diameter must be greater than 0")
+      if (flow <= 0)        stop("Flow must be greater than 0")
+      if (temp < 5)         stop("Temperature cannot be less than 5 C")
+      if (temp > 80)        stop("Temperature cannot be bigger than 80 C")
+
+
       friction <- friction_colebrook (flow, dn, roughness, temp)
       v <- velocity(flow, dn)
       friction*(pipe_length/dn)*((v^2)/(2*9.807))
@@ -132,8 +157,10 @@
 #' dynamic_viscosity(14.5)
 #'
     dynamic_viscosity <- function(temp = 15){
+
       if (temp < 5)  stop("Temperature cannot be less than 5 C")
       if (temp > 80) stop("Temperature cannot be bigger than 80 C")
+
       a = -3.7188
       b =  578.919
       c = -137.546
@@ -162,8 +189,10 @@
 #' water_density(14.5)
 #'
   water_density <- function(temp = 15){
+
     if (temp < 5)  stop("Temperature cannot be less than 5 C")
     if (temp > 80) stop("Temperature cannot be bigger than 80 C")
+
     a <- 0.14395
     b <- 0.0112
     c <- 649.727
@@ -192,5 +221,9 @@
 #' kinematic_viscosity(14.5)
 #'
     kinematic_viscosity <- function(temp = 15){
+
+      if (temp < 5)  stop("Temperature cannot be less than 5 C")
+      if (temp > 80) stop("Temperature cannot be bigger than 80 C")
+
       dynamic_viscosity(temp)/(water_density(temp)/1000)
    }
