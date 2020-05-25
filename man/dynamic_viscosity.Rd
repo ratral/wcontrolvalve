@@ -20,7 +20,7 @@ Dynamic vsicosity is the force required to maintain the fluid flow at a
 particular rate. Dynamic viscosity is usually used when the fluid is
 subjected to any external force. The unit of dynamic viscosit is Pa.s
 where Pa is N/m^2 - SI unit of pressure
-http://ddbonline.ddbst.de/VogelCalculation/VogelCalculationCGI.exe
+https://en.wikipedia.org/wiki/Temperature_dependence_of_viscosity
 }
 \examples{
 dynamic_viscosity(14.5)

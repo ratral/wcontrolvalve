@@ -213,9 +213,13 @@
 #' vapour_pressure(25)
 
   vapour_pressure <- function(temp = 15){
-    if (temp < 5)  stop("Temperature cannot be less than 5 C")
-    if (temp > 80) stop("Temperature cannot be bigger than 80 C")
-    0.61121*exp((18.678-temp/234.5)*(temp/(257.14+temp)))
+
+    if (temp < 0 | temp > 100) {
+      stop("\nTemperature outside range for liquid water.\n")
+    }
+    pv <- 0.61121*exp((18.678-temp/234.5)*(temp/(257.14+temp)))
+
+    return(pv)
   }
 
 #' @title Barometric formula (Atm. Pressure)

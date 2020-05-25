@@ -18,6 +18,7 @@ this relationship was originally used to define the gram.
 The density varies with temperature, but not linearly:
 as the temperature increases, the density rises to a peak at 3.98 °C (39.16 °F)
 and then decreases.
+http://ddbonline.ddbst.de/DIPPR105DensityCalculation/DIPPR105CalculationCGI.exe
 }
 \examples{
 water_density(14.5)

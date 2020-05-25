@@ -4,31 +4,31 @@
             {
               expect_equal( dynamic_viscosity(10),   1.3080, tolerance = 0.02)
               expect_equal( dynamic_viscosity(),     1.1334, tolerance = 0.02)
-              expect_equal( dynamic_viscosity(20),   1.0020, tolerance = 0.01)
-              expect_equal( dynamic_viscosity(30),   0.7978, tolerance = 0.01)
-              expect_equal( dynamic_viscosity(40),   0.6531, tolerance = 0.01)
-              expect_equal( dynamic_viscosity(50),   0.5471, tolerance = 0.01)
-              expect_equal( dynamic_viscosity(60),   0.4658, tolerance = 0.01)
-              expect_equal( dynamic_viscosity(70),   0.4044, tolerance = 0.01)
-              expect_equal( dynamic_viscosity(80),   0.3550, tolerance = 0.01)
+              expect_equal( dynamic_viscosity(20),   1.0020, tolerance = 0.02)
+              expect_equal( dynamic_viscosity(30),   0.7978, tolerance = 0.02)
+              expect_equal( dynamic_viscosity(40),   0.6531, tolerance = 0.02)
+              expect_equal( dynamic_viscosity(50),   0.5471, tolerance = 0.02)
+              expect_equal( dynamic_viscosity(60),   0.4658, tolerance = 0.02)
+              expect_equal( dynamic_viscosity(70),   0.4044, tolerance = 0.02)
+              expect_equal( dynamic_viscosity(80),   0.3550, tolerance = 0.02)
 
-              expect_equal( water_density(10),  1008.3, tolerance = 0.1)
-              expect_equal( water_density(),    1005.2, tolerance = 0.1)
-              expect_equal( water_density(20),   998.2, tolerance = 0.1)
-              expect_equal( water_density(40),   992.2, tolerance = 0.1)
-              expect_equal( water_density(60),   983.2, tolerance = 0.1)
-              expect_equal( water_density(80),   971.8, tolerance = 0.1)
+              expect_equal( water_density(10),  1008.3, tolerance = 0.02)
+              expect_equal( water_density(),    1005.2, tolerance = 0.02)
+              expect_equal( water_density(20),   998.2, tolerance = 0.02)
+              expect_equal( water_density(40),   992.2, tolerance = 0.02)
+              expect_equal( water_density(60),   983.2, tolerance = 0.02)
+              expect_equal( water_density(80),   971.8, tolerance = 0.02)
 
               expect_equal( kinematic_viscosity(10), 1.3065 , tolerance = 0.02)
               expect_equal( kinematic_viscosity(),   1.1275 , tolerance = 0.02)
-              expect_equal( kinematic_viscosity(20), 1.0035 , tolerance = 0.01)
-              expect_equal( kinematic_viscosity(25), 0.8927 , tolerance = 0.01)
-              expect_equal( kinematic_viscosity(30), 0.8007 , tolerance = 0.01)
-              expect_equal( kinematic_viscosity(40), 0.6579 , tolerance = 0.01)
-              expect_equal( kinematic_viscosity(50), 0.5531 , tolerance = 0.01)
-              expect_equal( kinematic_viscosity(60), 0.4740 , tolerance = 0.01)
-              expect_equal( kinematic_viscosity(70), 0.4127 , tolerance = 0.01)
-              expect_equal( kinematic_viscosity(80), 0.3643 , tolerance = 0.01)
+              expect_equal( kinematic_viscosity(20), 1.0035 , tolerance = 0.02)
+              expect_equal( kinematic_viscosity(25), 0.8927 , tolerance = 0.02)
+              expect_equal( kinematic_viscosity(30), 0.8007 , tolerance = 0.02)
+              expect_equal( kinematic_viscosity(40), 0.6579 , tolerance = 0.02)
+              expect_equal( kinematic_viscosity(50), 0.5531 , tolerance = 0.02)
+              expect_equal( kinematic_viscosity(60), 0.4740 , tolerance = 0.02)
+              expect_equal( kinematic_viscosity(70), 0.4127 , tolerance = 0.02)
+              expect_equal( kinematic_viscosity(80), 0.3643 , tolerance = 0.02)
 
             }
   )
@@ -80,4 +80,46 @@
              expect_equal( friction_colebrook(flow = 0.40000, dn = 0.200, roughness = 1.5e-4, temp = 14.555), 0.01843941, tolerance = 0.01)
 
            }
+  )
+
+  test_that(desc = "Test Velocity and Darcy-Weisbach function",
+          {
+            expect_equal( velocity(flow = 0.4, dn = 0.2), 12.7324, tolerance = 0.0001)
+            expect_equal( darcy_weisbach( flow = 0.042, pipe_length = 970, dn = 0.150, roughness = 1.5e-6, temp = 14.5), 26.9326,  tolerance = 0.01)
+          }
+  )
+
+
+  test_that(desc = "Test vapour_pressure function",
+            {
+              expect_equal(vapour_pressure(0),     0.6113, tolerance = 0.001)
+              expect_equal(vapour_pressure(20),    2.3388, tolerance = 0.001)
+              expect_equal(vapour_pressure(35),    5.6267, tolerance = 0.001)
+              expect_equal(vapour_pressure(50),   12.3440, tolerance = 0.001)
+              expect_equal(vapour_pressure(75),   38.5630, tolerance = 0.001)
+              expect_equal(vapour_pressure(100), 101.3200, tolerance = 0.001)
+            }
+  )
+
+  # https://www.sablesys.com/support/technical-library/barometric-pressure-vs-altitude-table/
+  test_that(desc = "Atmospheric pressure",
+            {
+              expect_equal(atm_pressure(0),    1.0333, tolerance = 0.02)
+              expect_equal(atm_pressure(153),  1.0150, tolerance = 0.02)
+              expect_equal(atm_pressure(305),  0.9960, tolerance = 0.02)
+              expect_equal(atm_pressure(458),  0.9780, tolerance = 0.02)
+              expect_equal(atm_pressure(610),  0.9600, tolerance = 0.02)
+              expect_equal(atm_pressure(763),  0.9430, tolerance = 0.02)
+              expect_equal(atm_pressure(915),  0.9260, tolerance = 0.02)
+              expect_equal(atm_pressure(1068), 0.9090, tolerance = 0.02)
+              expect_equal(atm_pressure(1220), 0.8920, tolerance = 0.02)
+              expect_equal(atm_pressure(1373), 0.8760, tolerance = 0.02)
+              expect_equal(atm_pressure(1526), 0.8600, tolerance = 0.02)
+              expect_equal(atm_pressure(1831), 0.8280, tolerance = 0.02)
+              expect_equal(atm_pressure(2136), 0.7970, tolerance = 0.02)
+              expect_equal(atm_pressure(2441), 0.7670, tolerance = 0.02)
+              expect_equal(atm_pressure(2746), 0.7380, tolerance = 0.02)
+              expect_equal(atm_pressure(3050), 0.7100, tolerance = 0.02)
+              expect_equal(atm_pressure(4577), 0.5830, tolerance = 0.02)
+            }
   )

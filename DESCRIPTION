@@ -1,7 +1,7 @@
 Package: wcontrolvalve
 Type: Package
 Title: Meta Analysis Plunger Valves
-Version: 0.1.0
+Version: 0.0.9
 Author: Dr. Raul Trujillo Alvarez <dr.ing.trujillo@gmail.com>
 Maintainer: Dr. Raul Trujillo Alvarez <dr.ing.trujillo@gmail.com>
 Description: This package provides functionalities for the calculation of control valves. 

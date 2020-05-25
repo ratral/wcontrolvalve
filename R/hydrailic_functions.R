@@ -16,11 +16,14 @@
 #' velocity(flow = 0.4, dn = 0.2)
 
   velocity <- function(flow, dn){
-
-    if (dn   <= 0) stop("Diameter must be greater than 0")
-    if (flow <= 0) stop("Flow must be greater than 0")
-
-    flow/((pi*dn^2)/4)
+    if (dn   <= 0.0) {
+      stop("\nPositive value needed for diameter\n")
+    }
+    if (flow <= 0.0) {
+      stop("Positive value needed for Flow")
+    }
+    velocity <- flow/((pi*dn^2)/4)
+    return(velocity)
   }
 
 #' @title  Reynolds number
@@ -46,8 +49,9 @@
 
     if (dn <= 0)   stop("Diameter must be greater than 0")
     if (flow <= 0) stop("Flow must be greater than 0")
-    if (temp < 5)  stop("Temperature cannot be less than 5 C")
-    if (temp > 80) stop("Temperature cannot be bigger than 80 C")
+    if (temp < 0 | temp > 100) {
+      stop("\nTemperature outside range for liquid water.\n")
+    }
 
     (4*flow)/(pi*dn*kinematic_viscosity(temp)*1e-6)
   }
@@ -78,17 +82,22 @@
     if (roughness <= 0) stop("Roughness must be greater than 0")
     if (dn <= 0)        stop("Diameter must be greater than 0")
     if (flow <= 0)      stop("Flow must be greater than 0")
-    if (temp < 5)       stop("Temperature cannot be less than 5 C")
-    if (temp > 80)      stop("Temperature cannot be bigger than 80 C")
+    if (temp < 0 | temp > 100) {
+      stop("\nTemperature outside range for liquid water.\n")
+    }
 
     re <- reynolds_number(flow,dn,temp)
     r_roughness <- roughness/dn
+
+    if (roughness/dn > 0.01) {
+      stop(sprintf("ks/dn: %.4f value > 0.01, outside applicable range\n", roughness/dn))
+    }
 
     if (re <= 2200 ) {
       return(64/re)
     } else {
       f <- function(x){-2*log10(r_roughness/3.7 + 2.51/(re*sqrt(x)))-1/sqrt(x)}
-      root <- uniroot(f, lower = 0, upper = 0.1)$root
+      root <- uniroot(f, lower = 0.01, upper = 0.08, tol = 1e-10)$root
       return(root)
     }
   }
@@ -126,8 +135,9 @@
       if (roughness <= 0)   stop("Roughness must be greater than 0")
       if (dn <= 0)          stop("Diameter must be greater than 0")
       if (flow <= 0)        stop("Flow must be greater than 0")
-      if (temp < 5)         stop("Temperature cannot be less than 5 C")
-      if (temp > 80)        stop("Temperature cannot be bigger than 80 C")
+      if (temp < 0 | temp > 100) {
+        stop("\nTemperature outside range for liquid water.\n")
+      }
 
 
       friction <- friction_colebrook (flow, dn, roughness, temp)
@@ -145,7 +155,7 @@
 #' particular rate. Dynamic viscosity is usually used when the fluid is
 #' subjected to any external force. The unit of dynamic viscosit is Pa.s
 #' where Pa is N/m^2 - SI unit of pressure
-#' http://ddbonline.ddbst.de/VogelCalculation/VogelCalculationCGI.exe
+#' https://en.wikipedia.org/wiki/Temperature_dependence_of_viscosity
 #'
 #' @author Dr. Raúl Trujillo Álvarez \email{dr.ing.trujillo@gmail.com}
 #' @param temp is in °C
@@ -158,16 +168,17 @@
 #'
     dynamic_viscosity <- function(temp = 15){
 
-      if (temp < 5)  stop("Temperature cannot be less than 5 C")
-      if (temp > 80) stop("Temperature cannot be bigger than 80 C")
+      if (temp < 0 | temp > 100) {
+        stop("\nTemperature outside range for liquid water.\n")
+      }
 
-      a = -3.7188
-      b =  578.919
-      c = -137.546
-      temp = temp + 273.15
-      exp(a+b/(c+temp))
-    }
-
+      a <- 1.856e-11
+      b <- 4209
+      c <- 0.04527
+      d <- -3.376e-05
+      temp <- temp + 273.15  #T must be in K for approximation
+      visc <- a * exp(b/temp + c * temp + d * temp^2)  # /1000 converts from  mPa·s to Pa-s (N s m-2)
+}
 
 #' @title Saturated water Density
 #'
@@ -176,6 +187,7 @@
 #' The density varies with temperature, but not linearly:
 #' as the temperature increases, the density rises to a peak at 3.98 °C (39.16 °F)
 #' and then decreases.
+#' http://ddbonline.ddbst.de/DIPPR105DensityCalculation/DIPPR105CalculationCGI.exe
 #'
 #' @author Dr. Raúl Trujillo Álvarez \email{dr.ing.trujillo@gmail.com}
 #'
@@ -190,8 +202,9 @@
 #'
   water_density <- function(temp = 15){
 
-    if (temp < 5)  stop("Temperature cannot be less than 5 C")
-    if (temp > 80) stop("Temperature cannot be bigger than 80 C")
+    if (temp < 0 | temp > 100) {
+      stop("\nTemperature outside range for liquid water.\n")
+    }
 
     a <- 0.14395
     b <- 0.0112
@@ -222,8 +235,9 @@
 #'
     kinematic_viscosity <- function(temp = 15){
 
-      if (temp < 5)  stop("Temperature cannot be less than 5 C")
-      if (temp > 80) stop("Temperature cannot be bigger than 80 C")
+      if (temp < 0 | temp > 100) {
+        stop("\nTemperature outside range for liquid water.\n")
+      }
 
       dynamic_viscosity(temp)/(water_density(temp)/1000)
    }
