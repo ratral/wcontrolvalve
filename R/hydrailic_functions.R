@@ -16,12 +16,6 @@
 #' velocity(flow = 0.4, dn = 0.2)
 
   velocity <- function(flow, dn){
-    if (dn   <= 0.0) {
-      stop("\nPositive value needed for diameter\n")
-    }
-    if (flow <= 0.0) {
-      stop("Positive value needed for Flow")
-    }
     velocity <- flow/((pi*dn^2)/4)
     return(velocity)
   }
@@ -46,15 +40,10 @@
 #' reynolds_number(flow = 0.042, dn = 0.150, temp = 14.5)
 #'
   reynolds_number  <- function(flow,dn,temp = 15){
-
-    if (dn <= 0)   stop("Diameter must be greater than 0")
-    if (flow <= 0) stop("Flow must be greater than 0")
-    if (temp < 0 | temp > 100) {
-      stop("\nTemperature outside range for liquid water.\n")
-    }
-
-    (4*flow)/(pi*dn*kinematic_viscosity(temp)*1e-6)
+    reynolds <- (4*flow)/(pi*dn*kinematic_viscosity(temp)*1e-6)
+    return(reynolds)
   }
+
 
 #' @title Colebrook–White equation (Darcy friction factor formula)
 #' @description The phenomenological Colebrook–White equation
@@ -73,33 +62,13 @@
 #' @return the output from \code{\link{uniroot}} for the calculation of the
 #'   root from the ecuation of Colebrook-White
 #' @export
-#' @importFrom stats uniroot
 #' @examples
 #' friction_colebrook(flow = 0.042, dn = 0.150, roughness = 1.5e-6, temp = 14.5)
 #'
   friction_colebrook <- function(flow, dn, roughness, temp = 15){
-
-    if (roughness <= 0) stop("Roughness must be greater than 0")
-    if (dn <= 0)        stop("Diameter must be greater than 0")
-    if (flow <= 0)      stop("Flow must be greater than 0")
-    if (temp < 0 | temp > 100) {
-      stop("\nTemperature outside range for liquid water.\n")
-    }
-
     re <- reynolds_number(flow,dn,temp)
     r_roughness <- roughness/dn
-
-    if (roughness/dn > 0.01) {
-      stop(sprintf("ks/dn: %.4f value > 0.01, outside applicable range\n", roughness/dn))
-    }
-
-    if (re <= 2200 ) {
-      return(64/re)
-    } else {
-      f <- function(x){-2*log10(r_roughness/3.7 + 2.51/(re*sqrt(x)))-1/sqrt(x)}
-      root <- uniroot(f, lower = 0.01, upper = 0.08, tol = 1e-10)$root
-      return(root)
-    }
+    (-2*log10((r_roughness/3.7)-(5.02/re)*log10(r_roughness-(5.02/re)*log10(r_roughness/3.7+13/re))))^(-2)
   }
 
 #' @title Darcy–Weisbach equation
@@ -131,18 +100,10 @@
 #'
     darcy_weisbach <- function(flow, pipe_length, dn, roughness, temp = 15){
 
-      if (pipe_length <= 0) stop("Pipe_length must be greater than 0")
-      if (roughness <= 0)   stop("Roughness must be greater than 0")
-      if (dn <= 0)          stop("Diameter must be greater than 0")
-      if (flow <= 0)        stop("Flow must be greater than 0")
-      if (temp < 0 | temp > 100) {
-        stop("\nTemperature outside range for liquid water.\n")
-      }
-
-
       friction <- friction_colebrook (flow, dn, roughness, temp)
       v <- velocity(flow, dn)
-      friction*(pipe_length/dn)*((v^2)/(2*9.807))
+      darcy <- friction*(pipe_length/dn)*((v^2)/(2*9.807))
+      return(darcy)
     }
 
 
@@ -168,16 +129,13 @@
 #'
     dynamic_viscosity <- function(temp = 15){
 
-      if (temp < 0 | temp > 100) {
-        stop("\nTemperature outside range for liquid water.\n")
-      }
-
       a <- 1.856e-11
       b <- 4209
       c <- 0.04527
       d <- -3.376e-05
       temp <- temp + 273.15  #T must be in K for approximation
       visc <- a * exp(b/temp + c * temp + d * temp^2)  # /1000 converts from  mPa·s to Pa-s (N s m-2)
+      return(visc)
 }
 
 #' @title Saturated water Density
@@ -202,16 +160,13 @@
 #'
   water_density <- function(temp = 15){
 
-    if (temp < 0 | temp > 100) {
-      stop("\nTemperature outside range for liquid water.\n")
-    }
-
     a <- 0.14395
     b <- 0.0112
     c <- 649.727
     d <- 0.05107
     temp = temp + 273.15
-    a/(b^(1+(1-temp/c)^d))
+    density <- a/(b^(1+(1-temp/c)^d))
+    return(density)
   }
 
 
@@ -234,10 +189,6 @@
 #' kinematic_viscosity(14.5)
 #'
     kinematic_viscosity <- function(temp = 15){
-
-      if (temp < 0 | temp > 100) {
-        stop("\nTemperature outside range for liquid water.\n")
-      }
-
-      dynamic_viscosity(temp)/(water_density(temp)/1000)
+      k_viscosity <- dynamic_viscosity(temp)/(water_density(temp)/1000)
+      return(k_viscosity)
    }

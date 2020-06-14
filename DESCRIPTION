@@ -17,4 +17,9 @@ Suggests:
     knitr,
     rmarkdown,
     testthat
-VigenetteBuilder: knitr 
+VigenetteBuilder: 
+    knitr 
+Imports: 
+    dplyr,
+    tidyr,
+    lubridate

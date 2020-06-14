@@ -59,8 +59,8 @@
 
              expect_equal( friction_colebrook(flow = 0.04200, dn = 0.150, roughness = 1.5e-6, temp = 14.555), 0.01446000, tolerance = 0.01)
 
-             expect_equal( friction_colebrook(flow = 0.00025, dn = 0.200, roughness = 1.5e-4, temp = 14.555), 0.04657560, tolerance = 0.01)
-             expect_equal( friction_colebrook(flow = 0.00030, dn = 0.200, roughness = 1.5e-4, temp = 14.555), 0.03881230, tolerance = 0.01)
+             expect_equal( friction_colebrook(flow = 0.00025, dn = 0.200, roughness = 1.5e-4, temp = 14.555), 0.04657560, tolerance = 0.02)
+             expect_equal( friction_colebrook(flow = 0.00030, dn = 0.200, roughness = 1.5e-4, temp = 14.555), 0.03881230, tolerance = 0.02)
              expect_equal( friction_colebrook(flow = 0.00040, dn = 0.200, roughness = 1.5e-4, temp = 14.555), 0.04835293, tolerance = 0.01)
              expect_equal( friction_colebrook(flow = 0.00050, dn = 0.200, roughness = 1.5e-4, temp = 14.555), 0.04534967, tolerance = 0.01)
              expect_equal( friction_colebrook(flow = 0.00070, dn = 0.200, roughness = 1.5e-4, temp = 14.555), 0.04110045, tolerance = 0.01)

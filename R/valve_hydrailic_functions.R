@@ -17,9 +17,9 @@
 #' kv_value( dn = 0.5, zeta = 1.9)
 
   kv_value <- function(dn, zeta){
-    if (dn <= 0)   stop("Diameter must be greater than 0")
-    if (zeta <= 0) stop("Zeta value must be greater than 0")
-    ((dn*1000)^2)/sqrt(626.3*zeta)
+
+    kv <- ((dn*1000)^2)/sqrt(626.3*zeta)
+    return(kv)
   }
 
 #' @title  Resistance Coefficient Zeta in function of Kv
@@ -41,9 +41,9 @@
 #' zeta_vaule( dn =0.5, kv = 7247.229)
 #'
   zeta_vaule  <- function(dn, kv){
-    if (dn <= 0) stop("Diameter must be greater than 0")
-    if (kv <= 0) stop("kv value must be greater than 0")
-    (1/626.3)*((dn*1000)^2/kv)^2
+
+    zeta <- (1/626.3)*((dn*1000)^2/kv)^2
+    return(zeta)
   }
 
 
@@ -143,6 +143,7 @@
   type_of_flow <- function(p1, p2, temp, fl){
     dp <- p1-p2
     dp_max   <- (fl^2)*(p1-ff(temp)* vapour_pressure(temp)*0.01)
+
     if (dp < dp_max ) {
       return("non-choked flow")
     } else {
@@ -214,11 +215,7 @@
 
   vapour_pressure <- function(temp = 15){
 
-    if (temp < 0 | temp > 100) {
-      stop("\nTemperature outside range for liquid water.\n")
-    }
     pv <- 0.61121*exp((18.678-temp/234.5)*(temp/(257.14+temp)))
-
     return(pv)
   }
 
@@ -242,9 +239,31 @@
 #' atm_pressure(2600)
 
   atm_pressure  <- function(masl = 0 ) {
-    if (masl < 0)    stop("Metres above sea level cannot be less than 0m")
-    if (masl > 6000) stop("Mmeters above sea level cannot be higher than 6000m")
 
-    101.325*exp(-0.000118547*masl)*0.01
+    p_at <- 101.325*exp(-0.000118547*masl)*0.01
+    return(p_at)
   }
 
+
+
+#' @title dose-response models.
+#' @description Built-in dose-response models. These models are
+#' parameterized using a unified structure with a coefficient b denoting the
+#' steepness of the dose-response curve, d the upper asymptotes or
+#' limits of the response, and, for some models, e the effective dose.
+#'
+#'
+#' @param x valve position
+#' @param b steepness
+#' @param d upper value
+#' @param e the effective dose
+#'
+#' @return ll3
+#' @export
+#'
+#' @examples
+#' drm_LL3(5, 2.47033, 7.85543, 3.26336)
+  drm_LL3 <- function(x,b,d,e){
+    ll3 <- d/(1+exp(b*(log(x)-log(e))))
+    return(ll3)
+  }
