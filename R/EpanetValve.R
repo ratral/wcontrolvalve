@@ -13,7 +13,7 @@
 #' @importFrom  lubridate hms
 #' @examples
 
-  valve_analyze <- function( net, report, valve_name, temperature, masl ){
+  valve_analyze <- function( net, report, valve_name, temperature = 15, masl = 0 ){
 
     # Filter RIKO Valve base values
     valve <- net$Valves %>% filter(.data$ID == valve_name)

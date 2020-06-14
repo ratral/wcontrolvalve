@@ -9,7 +9,7 @@ zeta_vaule(dn, kv)
 \arguments{
 \item{dn}{diameter in meter (m)}
 
-\item{kv}{Kv value}
+\item{kv}{Kv Flow coefficient in m³/h}
 }
 \value{
 Zeta Vaule

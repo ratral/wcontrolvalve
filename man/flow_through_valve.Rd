@@ -2,20 +2,20 @@
 % Please edit documentation in R/valve_hydrailic_functions.R
 \name{flow_through_valve}
 \alias{flow_through_valve}
-\title{Equations for incompressible fluids}
+\title{Equations for in-compressible fluids}
 \usage{
 flow_through_valve(kv, p1, p2, temp = 15, masl = 0, fl, fr = 1)
 }
 \arguments{
-\item{kv}{Flow coefficient in m³/h}
+\item{kv}{Flow coefficient in [m³/h]}
 
-\item{p1}{Inlet Absolute pressure}
+\item{p1}{Inlet Absolute pressure [bar]}
 
-\item{p2}{Outlet Absolute pressure}
+\item{p2}{Outlet Absolute pressure [bar]}
 
-\item{temp}{temperature in °C}
+\item{temp}{temperature in [°C]}
 
-\item{masl}{metres above sea level [m]}
+\item{masl}{meter above sea level [m]}
 
 \item{fl}{Liquid pressure recovery factor of a control valve without attached fittings}
 
@@ -27,8 +27,8 @@ Volumetric flow rate in m³/h
 \description{
 The equations listed below identify the relationships between
 flow rates, flow coefficients, related installation factors, and pertinent
-service conditions for control valves handling incompressible fluids.
-A sizing flow chart for incompressible fluids is given in Annex B. of the
+service conditions for control valves handling in-compressible fluids.
+A sizing flow chart for in-compressible fluids is given in Annex B. of the
 ISA-75.01.01-2007 : Flow Equations for Sizing Control Valves.
 }
 \note{

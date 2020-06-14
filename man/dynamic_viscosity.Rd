@@ -4,7 +4,7 @@
 \alias{dynamic_viscosity}
 \title{Water Dynamic Viscosity}
 \usage{
-dynamic_viscosity(temp = 15)
+dynamic_viscosity(temp = 15.6)
 }
 \arguments{
 \item{temp}{is in °C}

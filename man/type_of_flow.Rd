@@ -7,11 +7,11 @@
 type_of_flow(p1, p2, temp, fl)
 }
 \arguments{
-\item{p1}{Inlet Absolute pressure}
+\item{p1}{Inlet Absolute pressure [bar]}
 
-\item{p2}{Outlet Absolute pressure}
+\item{p2}{Outlet Absolute pressure [bar]}
 
-\item{temp}{Inlet water temperature in °C}
+\item{temp}{Inlet water temperature in [°C]}
 
 \item{fl}{Liquid pressure recovery factor of a control valve without attached fittings}
 }

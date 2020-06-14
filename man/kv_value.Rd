@@ -12,7 +12,7 @@ kv_value(dn, zeta)
 \item{zeta}{dimensionless quantity}
 }
 \value{
-kv value in m³/h
+kv Flow coefficient in m³/h
 }
 \description{
 The valve flow coefficient Kv is defined as the number

@@ -4,7 +4,7 @@
 \alias{valve_analyze}
 \title{Valve Analyze}
 \usage{
-valve_analyze(net, report, valve_name, temperature, masl)
+valve_analyze(net, report, valve_name, temperature = 15, masl = 0)
 }
 \arguments{
 \item{net}{Network data from EPANET input file with epanetReader::read.inp()}

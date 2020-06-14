@@ -4,7 +4,7 @@
 \alias{water_density}
 \title{Saturated water Density}
 \usage{
-water_density(temp = 15)
+water_density(temp = 15.6)
 }
 \arguments{
 \item{temp}{is in °C}

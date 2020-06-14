@@ -39,7 +39,7 @@
 #' reynolds_number(flow = 3.72,  dn = 1.2,   temp = 14)
 #' reynolds_number(flow = 0.042, dn = 0.150, temp = 14.5)
 #'
-  reynolds_number  <- function(flow,dn,temp = 15){
+  reynolds_number  <- function(flow,dn,temp = 15.6){
     reynolds <- (4*flow)/(pi*dn*kinematic_viscosity(temp)*1e-6)
     return(reynolds)
   }
@@ -65,7 +65,7 @@
 #' @examples
 #' friction_colebrook(flow = 0.042, dn = 0.150, roughness = 1.5e-6, temp = 14.5)
 #'
-  friction_colebrook <- function(flow, dn, roughness, temp = 15){
+  friction_colebrook <- function(flow, dn, roughness, temp = 15.6){
     re <- reynolds_number(flow,dn,temp)
     r_roughness <- roughness/dn
     (-2*log10((r_roughness/3.7)-(5.02/re)*log10(r_roughness-(5.02/re)*log10(r_roughness/3.7+13/re))))^(-2)
@@ -98,7 +98,7 @@
 #'                 roughness = 1.5e-6,
 #'                 temp = 14.5)
 #'
-    darcy_weisbach <- function(flow, pipe_length, dn, roughness, temp = 15){
+    darcy_weisbach <- function(flow, pipe_length, dn, roughness, temp = 15.6){
 
       friction <- friction_colebrook (flow, dn, roughness, temp)
       v <- velocity(flow, dn)
@@ -127,7 +127,7 @@
 #' @examples
 #' dynamic_viscosity(14.5)
 #'
-    dynamic_viscosity <- function(temp = 15){
+    dynamic_viscosity <- function(temp = 15.6){
 
       a <- 1.856e-11
       b <- 4209
@@ -158,7 +158,7 @@
 #' @examples
 #' water_density(14.5)
 #'
-  water_density <- function(temp = 15){
+  water_density <- function(temp = 15.6){
 
     a <- 0.14395
     b <- 0.0112
@@ -188,7 +188,7 @@
 #' @examples
 #' kinematic_viscosity(14.5)
 #'
-    kinematic_viscosity <- function(temp = 15){
+    kinematic_viscosity <- function(temp = 15.6){
       k_viscosity <- dynamic_viscosity(temp)/(water_density(temp)/1000)
       return(k_viscosity)
    }

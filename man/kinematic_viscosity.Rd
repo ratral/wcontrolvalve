@@ -4,7 +4,7 @@
 \alias{kinematic_viscosity}
 \title{Kinematic Viscosity}
 \usage{
-kinematic_viscosity(temp = 15)
+kinematic_viscosity(temp = 15.6)
 }
 \arguments{
 \item{temp}{is in °C}

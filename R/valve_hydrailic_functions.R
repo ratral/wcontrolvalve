@@ -1,3 +1,32 @@
+
+#' @title Valve flow coefficient
+#' @description  The valve flow coefficient Kv is defined as the number
+#' of cubic meters per hour of water that will flow through
+#' a control valve at a specified position of the control valve (travel) h
+#' with a differential pressure Delta P (p1-p2) across it.
+#' @param p1 Inlet Absolute pressure [bar]
+#' @param p2 Outlet Absolute pressure [bar]
+#' @param flow flow in m³/h
+#' @param temperature Inlet water temperature in °C
+#'
+#' @return kv Flow coefficient in m³/h
+#' @export
+#'
+#' @examples
+#' kv(2, 1, 200)
+
+  kv <- function(p1, p2, flow, temperature = 15.6){
+
+    # radio of density of water (15.6)
+    r_density <-  water_density(temperature)/water_density(15.6)
+
+    kv <- flow*sqrt(r_density/(p1-p2))
+
+    return(kv)
+  }
+
+
+#'
 #' @title Flow coefficient Kv Value in function of the Zeta  Value
 #' @description The valve flow coefficient Kv is defined as the number
 #' of cubic meters per hour of 5°C to 30°C water that will flow through
@@ -10,7 +39,7 @@
 #' @param dn diameter in meter [m]
 #' @param zeta dimensionless quantity
 #'
-#' @return kv value in m³/h
+#' @return kv Flow coefficient in m³/h
 #' @export
 #'
 #' @examples
@@ -30,7 +59,7 @@
 #'
 #' @author Dr. Raúl Trujillo Álvarez \email{dr.ing.trujillo@gmail.com}
 #'
-#' @param kv Kv value
+#' @param kv Kv Flow coefficient in m³/h
 #' @param dn diameter in meter (m)
 #'
 #' @return Zeta Vaule
@@ -129,9 +158,9 @@
 #' @description Tested ob the flow is choked or not
 #'
 #' @param fl Liquid pressure recovery factor of a control valve without attached fittings
-#' @param p1 Inlet Absolute pressure
-#' @param p2 Outlet Absolute pressure
-#' @param temp Inlet water temperature in °C
+#' @param p1 Inlet Absolute pressure [bar]
+#' @param p2 Outlet Absolute pressure [bar]
+#' @param temp Inlet water temperature in [°C]
 #'
 #' @return chr with "non-choked flow" or "choked flow"
 #' @export
@@ -151,18 +180,18 @@
     }
   }
 
-#' @title Equations for incompressible fluids
+#' @title Equations for in-compressible fluids
 #' @description The equations listed below identify the relationships between
 #' flow rates, flow coefficients, related installation factors, and pertinent
-#' service conditions for control valves handling incompressible fluids.
-#' A sizing flow chart for incompressible fluids is given in Annex B. of the
+#' service conditions for control valves handling in-compressible fluids.
+#' A sizing flow chart for in-compressible fluids is given in Annex B. of the
 #' ISA-75.01.01-2007 : Flow Equations for Sizing Control Valves.
 #'
-#' @param kv Flow coefficient in m³/h
-#' @param p1 Inlet Absolute pressure
-#' @param p2 Outlet Absolute pressure
-#' @param temp temperature in °C
-#' @param masl metres above sea level [m]
+#' @param kv Flow coefficient in [m³/h]
+#' @param p1 Inlet Absolute pressure [bar]
+#' @param p2 Outlet Absolute pressure [bar]
+#' @param temp temperature in [°C]
+#' @param masl meter above sea level [m]
 #' @param fl Liquid pressure recovery factor of a control valve without attached fittings
 #' @param fr Reynolds number factor.
 #' @note  "Absolute pressure" is zero-referenced against a perfect vacuum, using
