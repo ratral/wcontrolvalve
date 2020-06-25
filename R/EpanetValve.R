@@ -40,13 +40,12 @@
       mutate( valve     = valve_name,
               Timestamp = hms(.data$Timestamp),
               p1_abs    = .data$p1 + p_atm,
-              p2_abs    = .data$p2 + p_atm ) %>%
-      mutate( zs        = .data$Headloss* ( 2*9.81 / .data$Velocity^2 ),
-              sigma_0   = (.data$p1_abs - p_v ) / .data$Headloss,
-              sigma_1   = (.data$p2_abs - p_v ) / .data$Headloss,
-              sigma_2   = (.data$p2_abs - p_v)  / (.data$Headloss + (.data$Velocity^2)/(2*9.81))) %>%
-      mutate( kv        = (.data$Flow*3.6) / sqrt(.data$Headloss/10) ) %>%
-      mutate_if(is.numeric, list(~na_if(., Inf))) %>%
+              p2_abs    = .data$p2 + p_atm,
+              zs        = .data$Headloss* ( 2*9.81 / .data$Velocity^2 )) %>%
+      mutate( sigma_0   = case_when( .data$Headloss > 0 ~ (.data$p1_abs - p_v ) / .data$Headloss, TRUE ~ NA),
+              sigma_1   = case_when( .data$Headloss > 0 ~ (.data$p2_abs - p_v ) / .data$Headloss, TRUE ~ NA),
+              sigma_2   = case_when( .data$Headloss > 0 ~ (.data$p2_abs - p_v)  / (.data$Headloss + (.data$Velocity^2)/(2*9.81)), TRUE ~ NA ),
+              kv        = case_when( .data$Headloss > 0 ~ (.data$Flow*3.6) / sqrt(.data$Headloss/10), TRUE ~ NA ) ) %>%
       select( .data$valve, .data$Timestamp, .data$p1_abs, .data$p2_abs,
               .data$Headloss, .data$Velocity, .data$Flow, .data$kv, Zv=.data$zs,
               .data$sigma_0, .data$sigma_1, .data$sigma_2)
