@@ -76,8 +76,8 @@
   }
 
 
-#' @title Liquid critical pressure ratio factor
-#' @description FF is the liquid critical pressure ratio factor. This factor is
+#' @title Ff Liquid critical pressure ratio factor
+#' @description Ff is the liquid critical pressure ratio factor. This factor is
 #' the ratio of the apparent vena contracta pressure at choked flow conditions
 #' to the vapor pressure of the liquid at inlet temperature. [ISA-75.01.01-2007]
 #' At vapor pressures near zero, this factor is 0.96.
@@ -99,7 +99,7 @@
   }
 
 
-#' @title Piping geometry factor
+#' @title Fp Piping geometry factor
 #' @description The piping geometry factor Fp accounts for fittings attached to
 #' either the valve inlet or the outlet that disturb the flow to the extent that
 #' valve capacity is affected. Fp is actually the ratio of the flow coefficient
@@ -111,7 +111,7 @@
 #' @param d1 Inlet diameter reducer only in meter [m]
 #' @param d2 Outlet diameter increaser only in meter [m]
 #'
-#' @return Piping geometry factor, dimensionless
+#' @return Fp Piping geometry factor, dimensionless
 #' @export
 #'
 #' @examples
@@ -125,7 +125,7 @@
   }
 
 
-#' @title Combined liquid pressure recovery factor flp
+#' @title Flp Combined liquid pressure recovery factor
 #' @description When a valve is installed with reducers or other attached
 #' fittings, the liquid pressure recovery of the valve-fitting combination is
 #' not the same as that for the valve alone. For calculations involving choked
@@ -170,7 +170,9 @@
 #' type_of_flow(p1 = 6.8, p2 = 2.2, temp = 80, fl = 0.6)
 #'
   type_of_flow <- function(p1, p2, temp, fl){
+
     dp <- p1-p2
+
     dp_max   <- (fl^2)*(p1-ff(temp)* vapour_pressure(temp)*0.01)
 
     if (dp < dp_max ) {
@@ -222,11 +224,11 @@
 
 #' @title Vapour pressure of water
 #'
-#' @description The vapour pressure of water is the pressure at which water vapour is in
+#' @description The vapor pressure of water is the pressure at which water vapor is in
 #' thermodynamic equilibrium with its condensed state. At higher pressures water
-#' would condense. The water vapour pressure is the partial pressure of water
-#' vapour in any gas mixture in equilibrium with solid or liquid water.
-#' As for other substances, water vapour pressure is a function of temperature
+#' would condense. The water vapor pressure is the partial pressure of water
+#' vapor in any gas mixture in equilibrium with solid or liquid water.
+#' As for other substances, water vapor pressure is a function of temperature
 #' and can be determined with the Clausius–Clapeyron relation.
 #' Approximation formula :
 #' The Buck equation. where T is in °C and P is in kPa.
