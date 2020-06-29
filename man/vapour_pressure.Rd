@@ -13,11 +13,11 @@ vapour_pressure(temp = 15)
 Vapour pressure of water in (kPa). 1 kPa is  0.01 bar
 }
 \description{
-The vapour pressure of water is the pressure at which water vapour is in
+The vapor pressure of water is the pressure at which water vapor is in
 thermodynamic equilibrium with its condensed state. At higher pressures water
-would condense. The water vapour pressure is the partial pressure of water
-vapour in any gas mixture in equilibrium with solid or liquid water.
-As for other substances, water vapour pressure is a function of temperature
+would condense. The water vapor pressure is the partial pressure of water
+vapor in any gas mixture in equilibrium with solid or liquid water.
+As for other substances, water vapor pressure is a function of temperature
 and can be determined with the Clausius–Clapeyron relation.
 Approximation formula :
 The Buck equation. where T is in °C and P is in kPa.

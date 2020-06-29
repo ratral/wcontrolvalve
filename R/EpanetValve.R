@@ -1,7 +1,9 @@
 #' @title Valve Analyze
 #'
-#' @param net         Network data from EPANET input file with epanetReader::read.inp()
-#' @param report      Report from EPANET report file with epanetReader::read.rpt()
+#' @description Valve analyze using the calculation from the EPANET
+#'
+#' @param net         Network data from EPANET input file with \code{epanetReader::read.inp()}
+#' @param report      Report from EPANET report file with \code{epanetReader::read.rpt()}
 #' @param valve_name  Valve name in EPNET network and report
 #' @param temperature Temperature is in °C
 #' @param masl        Meters above sea level [m]
@@ -40,13 +42,18 @@
       mutate( valve     = valve_name,
               Timestamp = hms(.data$Timestamp),
               p1_abs    = .data$p1 + p_atm,
-              p2_abs    = .data$p2 + p_atm,
-              zs        = .data$Headloss* ( 2*9.81 / .data$Velocity^2 )) %>%
-      mutate( sigma_0   = case_when( .data$Headloss > 0 ~ (.data$p1_abs - p_v ) / .data$Headloss, TRUE ~ NA),
-              sigma_1   = case_when( .data$Headloss > 0 ~ (.data$p2_abs - p_v ) / .data$Headloss, TRUE ~ NA),
-              sigma_2   = case_when( .data$Headloss > 0 ~ (.data$p2_abs - p_v)  / (.data$Headloss + (.data$Velocity^2)/(2*9.81)), TRUE ~ NA ),
-              kv        = case_when( .data$Headloss > 0 ~ (.data$Flow*3.6) / sqrt(.data$Headloss/10), TRUE ~ NA ) ) %>%
-      select( .data$valve, .data$Timestamp, .data$p1_abs, .data$p2_abs,
+              p2_abs    = .data$p2 + p_atm ) %>%
+      mutate( zs        = ifelse( .data$Headloss > 0,
+                                  .data$Headloss* ( 2*9.81 / .data$Velocity^2 ),  NaN),
+              sigma_0   = ifelse( .data$Headloss > 0,
+                                  (.data$p1_abs - p_v )/.data$Headloss,  NaN),
+              sigma_1   = ifelse( .data$Headloss > 0,
+                                  (.data$p2_abs - p_v )/.data$Headloss, NaN),
+              sigma_2   = ifelse( .data$Headloss > 0,
+                                  (.data$p2_abs - p_v)/(.data$Headloss + (.data$Velocity^2)/(2*9.81)), NaN ),
+              kv        = ifelse( .data$Headloss > 0,
+                                  (.data$Flow*3.6)/sqrt(.data$Headloss/10), NaN ) ) %>%
+      select( .data$valve, .data$Timestamp, .data$p1, .data$p2, .data$p1_abs, .data$p2_abs,
               .data$Headloss, .data$Velocity, .data$Flow, .data$kv, Zv=.data$zs,
               .data$sigma_0, .data$sigma_1, .data$sigma_2)
 

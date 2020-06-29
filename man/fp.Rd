@@ -2,7 +2,7 @@
 % Please edit documentation in R/valve_hydrailic_functions.R
 \name{fp}
 \alias{fp}
-\title{Piping geometry factor}
+\title{Fp Piping geometry factor}
 \usage{
 fp(kv, dn, d1, d2)
 }
@@ -16,7 +16,7 @@ fp(kv, dn, d1, d2)
 \item{d2}{Outlet diameter increaser only in meter [m]}
 }
 \value{
-Piping geometry factor, dimensionless
+Fp Piping geometry factor, dimensionless
 }
 \description{
 The piping geometry factor Fp accounts for fittings attached to

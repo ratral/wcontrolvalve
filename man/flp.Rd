@@ -2,7 +2,7 @@
 % Please edit documentation in R/valve_hydrailic_functions.R
 \name{flp}
 \alias{flp}
-\title{Combined liquid pressure recovery factor flp}
+\title{Flp Combined liquid pressure recovery factor}
 \usage{
 flp(kv, fl, dn, d1, d2)
 }

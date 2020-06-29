@@ -7,9 +7,9 @@
 valve_analyze(net, report, valve_name, temperature = 15, masl = 0)
 }
 \arguments{
-\item{net}{Network data from EPANET input file with epanetReader::read.inp()}
+\item{net}{Network data from EPANET input file with \code{epanetReader::read.inp()}}
 
-\item{report}{Report from EPANET report file with epanetReader::read.rpt()}
+\item{report}{Report from EPANET report file with \code{epanetReader::read.rpt()}}
 
 \item{valve_name}{Valve name in EPNET network and report}
 
@@ -21,5 +21,5 @@ valve_analyze(net, report, valve_name, temperature = 15, masl = 0)
 A Tible Table with the values of ..Values of the
 }
 \description{
-Valve Analyze
+Valve analyze using the calculation from the EPANET
 }

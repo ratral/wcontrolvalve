@@ -2,7 +2,7 @@
 % Please edit documentation in R/valve_hydrailic_functions.R
 \name{ff}
 \alias{ff}
-\title{Liquid critical pressure ratio factor}
+\title{Ff Liquid critical pressure ratio factor}
 \usage{
 ff(temp = 15)
 }
@@ -13,7 +13,7 @@ ff(temp = 15)
 Liquid critical pressure ratio factor Dimensionless
 }
 \description{
-FF is the liquid critical pressure ratio factor. This factor is
+Ff is the liquid critical pressure ratio factor. This factor is
 the ratio of the apparent vena contracta pressure at choked flow conditions
 to the vapor pressure of the liquid at inlet temperature. [ISA-75.01.01-2007]
 At vapor pressures near zero, this factor is 0.96.
