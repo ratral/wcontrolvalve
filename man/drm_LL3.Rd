@@ -25,5 +25,5 @@ steepness of the dose-response curve, d the upper asymptotes or
 limits of the response, and, for some models, e the effective dose.
 }
 \examples{
-drm_LL3(5, 2.47033, 7.85543, 3.26336)
+drm_LL3( 50, -2.39, 1.39, 67.42 )
 }
