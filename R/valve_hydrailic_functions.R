@@ -314,11 +314,11 @@
 #' @export
 #'
 #' @examples
-#' inv_LL3( 0.45, -2.39, 1.39, 67.42 )
+#' inv_LL3(0.4567872, -2.39, 1.39, 67.42 )
   inv_LL3 <- function( kv_kvs, b, d, e ){
       root <- uniroot( function(x){ d/(1+exp(b*(log(x)-log(e))))- kv_kvs} ,
                        lower = 0,
                        upper = 100,
-                       tol   = 0.0001)
+                       tol   = 1e-10)
       return(root$root)
     }
