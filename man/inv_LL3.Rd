@@ -22,5 +22,5 @@ position
 Built-in the inverse of dose-response models.
 }
 \examples{
-inv_LL3( 0.45, -2.39, 1.39, 67.42 )
+inv_LL3(0.4567872, -2.39, 1.39, 67.42 )
 }
