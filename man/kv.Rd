@@ -7,9 +7,9 @@
 kv(p1, p2, flow, temperature = 15.6)
 }
 \arguments{
-\item{p1}{Inlet Absolute pressure [bar]}
+\item{p1}{Inlet pressure [bar]}
 
-\item{p2}{Outlet Absolute pressure [bar]}
+\item{p2}{Outlet pressure [bar]}
 
 \item{flow}{flow in m³/h}
 

@@ -4,8 +4,8 @@
 #' of cubic meters per hour of water that will flow through
 #' a control valve at a specified position of the control valve (travel) h
 #' with a differential pressure Delta P (p1-p2) across it.
-#' @param p1 Inlet Absolute pressure [bar]
-#' @param p2 Outlet Absolute pressure [bar]
+#' @param p1 Inlet pressure [bar]
+#' @param p2 Outlet pressure [bar]
 #' @param flow flow in m³/h
 #' @param temperature Inlet water temperature in °C
 #'
