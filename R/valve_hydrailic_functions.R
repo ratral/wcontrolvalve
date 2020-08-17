@@ -151,38 +151,12 @@
   flp <- function(kv, fl, dn, d1, d2){
     z1 <- 0.5*(1-(dn/d1)^2)^2
     z2 <- (1-(dn/d2)^2)^2
-    z  <- z1 + z2
+    zb1 <- 1 - (dn/d1)^4
+    zb2 <- 1 - (dn/d2)^4
+    z  <- z1 + z2 + (zb1 - zb2)
     return(fl / sqrt(1+(z*(kv/dn^2)^2)*(fl^2)/0.0016))
   }
 
-
-#' @title Type of flow
-#' @description Tested ob the flow is choked or not
-#'
-#' @param fl Liquid pressure recovery factor of a control valve without attached fittings
-#' @param p1 Inlet Absolute pressure [bar]
-#' @param p2 Outlet Absolute pressure [bar]
-#' @param temp Inlet water temperature in [°C]
-#'
-#' @return chr with "non-choked flow" or "choked flow"
-#' @export
-#'
-#' @examples
-#' type_of_flow(p1 = 6.8, p2 = 2.2, temp = 80, fl = 0.9)
-#' type_of_flow(p1 = 6.8, p2 = 2.2, temp = 80, fl = 0.6)
-#'
-  type_of_flow <- function(p1, p2, temp, fl){
-
-    dp <- p1-p2
-
-    dp_max   <- (fl^2)*(p1-ff(temp)* vapour_pressure(temp)*0.01)
-
-    if (dp < dp_max ) {
-      return("non-choked flow")
-    } else {
-      return("choked flow")
-    }
-  }
 
 #' @title Equations for in-compressible fluids
 #' @description The equations listed below identify the relationships between
@@ -223,104 +197,3 @@
   return(flow)
   }
 
-
-#' @title Vapour pressure of water
-#'
-#' @description The vapor pressure of water is the pressure at which water vapor is in
-#' thermodynamic equilibrium with its condensed state. At higher pressures water
-#' would condense. The water vapor pressure is the partial pressure of water
-#' vapor in any gas mixture in equilibrium with solid or liquid water.
-#' As for other substances, water vapor pressure is a function of temperature
-#' and can be determined with the Clausius–Clapeyron relation.
-#' Approximation formula :
-#' The Buck equation. where T is in °C and P is in kPa.
-#' https://en.wikipedia.org/wiki/Vapour_pressure_of_water
-#'
-#' @author Dr. Raúl Trujillo Álvarez \email{dr.ing.trujillo@gmail.com}
-#'
-#' @param temp is in °C
-#'
-#' @return Vapour pressure of water in (kPa). 1 kPa is  0.01 bar
-#' @export
-#'
-#' @examples
-#' vapour_pressure(25)
-
-  vapour_pressure <- function(temp = 15){
-
-    pv <- 0.61121*exp((18.678-temp/234.5)*(temp/(257.14+temp)))
-    return(pv)
-  }
-
-#' @title Barometric formula (Atm. Pressure)
-#'
-#' @description The barometric formula, sometimes called the exponential atmosphere or
-#' isothermal atmosphere, is a formula used to model how the pressure
-#' or density of the air changes with altitude. The pressure drops
-#' approximately by 11.3 Pa per meter in first 1000 meters above sea level.
-#' 1 Kilopascals (kPa)	=	0.01 bar
-#' https://www.math24.net/barometric-formula/
-#'
-#' @author Dr. Raúl Trujillo Álvarez \email{dr.ing.trujillo@gmail.com}
-#'
-#' @param masl metres above sea level [m]
-#' @return Atmospheric pressure in bar
-#'
-#' @export
-#'
-#' @examples
-#' atm_pressure(2600)
-
-  atm_pressure  <- function(masl = 0 ) {
-
-    p_at <- 101.325*exp(-0.000118547*masl)*0.01
-    return(p_at)
-  }
-
-
-
-#' @title dose-response models.
-#' @description Built-in dose-response models. These models are
-#' parameterized using a unified structure with a coefficient b denoting the
-#' steepness of the dose-response curve, d the upper asymptotes or
-#' limits of the response, and, for some models, e the effective dose.
-#'
-#'
-#' @param x valve position
-#' @param b steepness
-#' @param d upper value
-#' @param e the effective dose
-#'
-#' @return ll3
-#' @export
-#'
-#' @examples
-#' drm_LL3( 50, -2.39, 1.39, 67.42 )
-  drm_LL3 <- function(x,b,d,e){
-    ll3 <- d/(1+exp(b*(log(x)-log(e))))
-    return(ll3)
-  }
-
-
-#' @title Inverse of the dose-response models.
-#' @description Built-in the inverse of dose-response models.
-#'
-#' @param kv_kvs valve position
-#' @param b steepness
-#' @param d upper value
-#' @param e the effective dose
-#'
-#' @importFrom stats uniroot
-#'
-#' @return position
-#' @export
-#'
-#' @examples
-#' inv_LL3(0.4567872, -2.39, 1.39, 67.42 )
-  inv_LL3 <- function( kv_kvs, b, d, e ){
-      root <- uniroot( function(x){ d/(1+exp(b*(log(x)-log(e))))- kv_kvs} ,
-                       lower = 0,
-                       upper = 100,
-                       tol   = 1e-10)
-      return(root$root)
-    }
