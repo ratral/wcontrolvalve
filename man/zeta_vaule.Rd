@@ -25,5 +25,5 @@ zeta_vaule( dn =0.5, kv = 7247.229)
 
 }
 \author{
-Dr. Raúl Trujillo Álvarez \email{dr.ing.trujillo@gmail.com}
+Dr. Raúl Trujillo Álvarez
 }

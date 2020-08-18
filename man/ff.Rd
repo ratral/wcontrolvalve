@@ -20,7 +20,6 @@ At vapor pressures near zero, this factor is 0.96.
 }
 \examples{
 ff(15)
-
 }
 \author{
 Dr. Raúl Trujillo Álvarez \email{dr.ing.trujillo@gmail.com}

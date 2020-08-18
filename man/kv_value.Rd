@@ -25,5 +25,5 @@ across it.
 kv_value( dn = 0.5, zeta = 1.9)
 }
 \author{
-Dr. Raúl Trujillo Álvarez \email{dr.ing.trujillo@gmail.com}
+Dr. Raúl Trujillo Álvarez
 }
