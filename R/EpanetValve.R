@@ -13,7 +13,7 @@
 #' @import dplyr
 #' @import tidyr
 #' @importFrom  lubridate hms
-#' @examples
+
 
   valve_analyze <- function( net, report, valve_name, temperature = 15, masl = 0 ){
 
