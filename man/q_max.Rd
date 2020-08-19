@@ -7,7 +7,7 @@
 q_max(p1, fl, kv, dn, d1, d2, masl, temp)
 }
 \arguments{
-\item{p1}{Gauge upstream pressure}
+\item{p1}{Gauge upstream pressure (bar)}
 
 \item{fl}{liquid pressure recovery factor}
 
@@ -19,9 +19,9 @@ q_max(p1, fl, kv, dn, d1, d2, masl, temp)
 
 \item{d2}{upstream pipe diameter (m).}
 
-\item{masl}{metres above sea level [m]}
+\item{masl}{meters above sea level [m]}
 
-\item{temp}{The temperature is in Celcius.}
+\item{temp}{The temperature is in Celsius.}
 }
 \value{
 q_max (m3/h)

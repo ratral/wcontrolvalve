@@ -185,14 +185,14 @@
 
 
 #' @title the maximum flow through the valve
-#' @param p1 Gauge upstream pressure
+#' @param p1 Gauge upstream pressure (bar)
 #' @param fl liquid pressure recovery factor
 #' @param kv Flow coefficient value in (m3/h).
 #' @param dn valve diameter (m).
 #' @param d1 downstream pipe diameter (m).
 #' @param d2 upstream pipe diameter (m).
-#' @param masl metres above sea level [m]
-#' @param temp The temperature is in Celcius.
+#' @param masl meters above sea level [m]
+#' @param temp The temperature is in Celsius.
 #' @return q_max (m3/h)
 
   q_max <- function(p1, fl, kv, dn, d1, d2, masl, temp){
@@ -202,4 +202,136 @@
     r_density <- water_density(temp)/water_density(15.6)
     flow <- kv * flp_value * sqrt((p1 - ff_value * vapour_pressure(temp))/r_density)
     return(flow)
+  }
+
+
+#' @title cavitation index (Reference upstream pressure P1):
+#' @description The value for the operating service conditions of a valve.
+#'
+#' @param p1 Gauge Inlet pressure (bar)
+#' @param p2 Gauge outlet pressure (bar)
+#' @param masl meters above sea level [m]
+#' @param temp The temperature is in Celsius.
+#'
+#' @return Sigma
+#' @export
+#'
+#' @examples
+  sigma_0 <- function(p1, p2, masl, temp){
+    pv <- vapour_pressure(temp)
+    p1 = p1 + atm_pressure(masl)
+    p2 = p2 + atm_pressure(masl)
+    return((p1-pv)/(p1-p2))
+  }
+
+
+#' @title cavitation index (Reference downstream pressure P2):
+#' @description The value for the operating service conditions of a valve.
+#' Reference downstream pressure
+#'
+#' @param p1 Gauge Inlet pressure (bar)
+#' @param p2 Gauge outlet pressure (bar)
+#' @param masl meters above sea level [m]
+#' @param temp The temperature is in Celsius.
+#'
+#' @return Sigma
+#' @export
+#'
+#' @examples
+  sigma_1 <- function(p1, p2, masl, temp){
+    pv <- vapour_pressure(temp)
+    p1 = p1 + atm_pressure(masl)
+    p2 = p2 + atm_pressure(masl)
+    return((p2-pv)/(p1-p2))
+  }
+
+
+#' @title cavitation index (Reference downstream pressure P2):
+#' @description The value for the operating service conditions of a valve.
+#' Reference downstream pressure and Adding the cavitation caused by surface
+#' roughness, an isolated roughness, an offset in the boundary, or by any
+#' device for which it is not possible or convenient to evaluate a pressure
+#' differential), the velocity head can be used in adding the DP in
+#' the Equation.
+#'
+#' @param p1 Gauge Inlet pressure (bar)
+#' @param p2 Gauge outlet pressure (bar)
+#' @param flow flow in m³/s
+#' @param dn valve diameter (m).
+#' @param masl meters above sea level (m)
+#' @param temp The temperature is in Celsius.
+#'
+#' @return sigma
+#' @export
+#'
+#' @examples
+  sigma_3 <- function(p1, p2, flow, dn, masl, temp){
+    pv <- vapour_pressure(temp) * 10
+    p1 = (p1 + atm_pressure(masl)) * 10
+    p2 = (p2 + atm_pressure(masl)) * 10
+    vfactor <- velocity(flow, dn)^2/(2*9.807)
+    return((p2-pv)/(p1-p2+vfactor))
+  }
+
+
+#' @title Incipient Cavitation.
+#' @description The onset of cavitation, where only small vapor bubbles are
+#' formed in the flow stream. A cavitation level sufficient to begin minor,
+#' observable indications of pitting damage.
+#'  - Onset of cavitation;
+#'  - Detect using high-frequency vibration measurement;
+#'  - Very local phenomenon; Transient: random “ticks” sound;
+#'  - Low-level cavitation: usually not damaging;
+#'  - Occurs prior to the loss of capacity
+#'
+#' @param fl liquid pressure recovery factor
+#'
+#' @return Sigma_i
+#' @export
+#'
+#' @examples
+  Sigma_i <- function(fl){
+    xfz <- 0.71
+    return( 1/(xfz * fl^2) - 1 )
+  }
+
+#' @title Constant Cavitation.
+#'
+#' @description An early level of cavitation characterized by mild,
+#' steady popping or crackling sounds that may be audible or detected by
+#' vibration measurements. It is the next higher inflection point on the
+#' cavitation profile above the point of incipient cavitation.
+#'  - More regular cavitation events
+#'  - Lower frequency sound and vibration sensed: “rumbling” sound
+#'  - Some damage to surfaces may occur: dependent upon valve and trim styles, and materials.
+#'
+#' @param fl liquid pressure recovery factor
+#'
+#' @return Sigma_c
+#' @export
+#'
+#' @examples
+  Sigma_c <- function(fl){
+    kc <- 0.81
+    return( 1/(kc * fl^2) - 1 )
+  }
+
+
+#' @title Maximum Vibration Cavitation
+#'
+#' @description The level of cavitation associated with peak vibration
+#' measurements.
+#' - Highest vibration amplitude: sounds like “marbles” or “gravel”
+#'  - Vigorous, large scale cavitation
+#'  - Predicted by steady flow pressure distribution ( = Fl )
+#'  - Very high damage potential
+#'
+#' @param fl liquid pressure recovery factor
+#'
+#' @return Sigma_mv
+#' @export
+#'
+#' @examples
+  Sigma_mv <- function(fl){
+    return( 1/(fl^2) - 1 )
   }
