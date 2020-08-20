@@ -75,9 +75,9 @@
 #' @title  Resistance coefficients of all fittings attached to the control valve
 #' @description  The algebraic sum of all effective resistance coefficients of
 #' all fittings attached to the control valve.
-#' @param dn valve diameter (m).
-#' @param d1 downstream pipe diameter (m).
-#' @param d2 upstream pipe diameter (m)
+#' @param dn valve diameter (mm).
+#' @param d1 downstream pipe diameter (mm).
+#' @param d2 upstream pipe diameter (mm)
 #' @return Resistance coefficient.
 #' @export
   resistance_coefficient <- function(dn, d1, d2){
@@ -115,9 +115,9 @@
 #' of a valve with attached fittings to the flow coefficient (kv) of a valve
 #' installed in a straight pipe of the same size as the valve.
 #' @param kv Flow coefficient in m³/h
-#' @param dn diameter in meter [m]
-#' @param d1 Inlet diameter reducer only in meter [m]
-#' @param d2 Outlet diameter increaser only in meter [m]
+#' @param dn diameter in meter [mm]
+#' @param d1 Inlet diameter reducer only in meter [mm]
+#' @param d2 Outlet diameter increaser only in meter [mm]
 #' @return Fp Piping geometry factor, dimensionless
 #' @export
 #' @examples
@@ -137,9 +137,9 @@
 #' factor for the valve-fitting combination as a single factor, flp.
 #' @param kv Flow coefficient in m³/h
 #' @param fl Liquid pressure recovery factor of a control valve without attached fittings
-#' @param dn diameter in meter [m]
-#' @param d1 Inlet diameter reducer only in meter [m]
-#' @param d2 Outlet diameter increaser only in meter [m]
+#' @param dn diameter in meter [mm]
+#' @param d1 Inlet diameter reducer only in meter [mm]
+#' @param d2 Outlet diameter increaser only in meter [mm]
 #' @return Product of the liquid pressure recovery factor of a valve with
 #' attached fittings (no symbol has been identified) and the piping geometry
 #' factor, dimensionless.
