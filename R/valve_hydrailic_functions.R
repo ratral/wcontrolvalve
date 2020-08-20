@@ -115,9 +115,9 @@
 #' of a valve with attached fittings to the flow coefficient (kv) of a valve
 #' installed in a straight pipe of the same size as the valve.
 #' @param kv Flow coefficient in m³/h
-#' @param dn diameter in meter [mm]
-#' @param d1 Inlet diameter reducer only in meter [mm]
-#' @param d2 Outlet diameter increaser only in meter [mm]
+#' @param dn diameter in meter (mm).
+#' @param d1 Inlet diameter reducer only in meter (mm).
+#' @param d2 Outlet diameter increase only in meter (mm).
 #' @return Fp Piping geometry factor, dimensionless
 #' @export
 #' @examples
@@ -137,9 +137,9 @@
 #' factor for the valve-fitting combination as a single factor, flp.
 #' @param kv Flow coefficient in m³/h
 #' @param fl Liquid pressure recovery factor of a control valve without attached fittings
-#' @param dn diameter in meter [mm]
-#' @param d1 Inlet diameter reducer only in meter [mm]
-#' @param d2 Outlet diameter increaser only in meter [mm]
+#' @param dn diameter in meter (mm).
+#' @param d1 Inlet diameter reducer only in meter (mm).
+#' @param d2 Outlet diameter increase only in meter (mm).
 #' @return Product of the liquid pressure recovery factor of a valve with
 #' attached fittings (no symbol has been identified) and the piping geometry
 #' factor, dimensionless.
@@ -171,8 +171,8 @@
 #' @param dn valve diameter (m).
 #' @param d1 downstream pipe diameter (m).
 #' @param d2 upstream pipe diameter (m).
-#' @param masl metres above sea level [m]
-#' @param temp The temperature is in Celcius.
+#' @param masl meters above sea level (m).
+#' @param temp The temperature is in Celsius.
 #' @return DPmax (bar)
   dp_max <- function(p1, fl, kv, dn, d1, d2, masl, temp){
     p1 = p1 + atm_pressure(masl)
@@ -191,7 +191,7 @@
 #' @param dn valve diameter (m).
 #' @param d1 downstream pipe diameter (m).
 #' @param d2 upstream pipe diameter (m).
-#' @param masl meters above sea level [m]
+#' @param masl meters above sea level (m).
 #' @param temp The temperature is in Celsius.
 #' @return q_max (m3/h)
 
@@ -208,9 +208,9 @@
 #' @title cavitation index (Reference upstream pressure P1):
 #' @description The value for the operating service conditions of a valve.
 #'
-#' @param p1 Gauge Inlet pressure (bar)
-#' @param p2 Gauge outlet pressure (bar)
-#' @param masl meters above sea level [m]
+#' @param p1 Gauge Inlet pressure (bar).
+#' @param p2 Gauge outlet pressure (bar).
+#' @param masl meters above sea level (m).
 #' @param temp The temperature is in Celsius.
 #'
 #' @return Sigma
@@ -229,9 +229,9 @@
 #' @description The value for the operating service conditions of a valve.
 #' Reference downstream pressure
 #'
-#' @param p1 Gauge Inlet pressure (bar)
-#' @param p2 Gauge outlet pressure (bar)
-#' @param masl meters above sea level [m]
+#' @param p1 Gauge Inlet pressure (bar).
+#' @param p2 Gauge outlet pressure (bar).
+#' @param masl meters above sea level (m).
 #' @param temp The temperature is in Celsius.
 #'
 #' @return Sigma
@@ -254,11 +254,11 @@
 #' differential), the velocity head can be used in adding the DP in
 #' the Equation.
 #'
-#' @param p1 Gauge Inlet pressure (bar)
-#' @param p2 Gauge outlet pressure (bar)
-#' @param flow flow in m³/s
+#' @param p1 Gauge Inlet pressure (bar).
+#' @param p2 Gauge outlet pressure (bar).
+#' @param flow flow in (m³/s).
 #' @param dn valve diameter (m).
-#' @param masl meters above sea level (m)
+#' @param masl meters above sea level (m).
 #' @param temp The temperature is in Celsius.
 #'
 #' @return sigma
@@ -323,7 +323,7 @@
 #' measurements.
 #' - Highest vibration amplitude: sounds like “marbles” or “gravel”
 #'  - Vigorous, large scale cavitation
-#'  - Predicted by steady flow pressure distribution ( = Fl )
+#'  - Predicted by steady flow pressure distribution (=Fl)
 #'  - Very high damage potential
 #'
 #' @param fl liquid pressure recovery factor
