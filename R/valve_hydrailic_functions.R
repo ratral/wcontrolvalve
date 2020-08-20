@@ -125,7 +125,7 @@
 #'
   fp <- function(kv, dn, d1, d2){
     rc <- resistance_coefficient(dn, d1, d2)
-    return(1 / sqrt(1+(rc*(kv/dn^2)^2)/0.0016))
+    return(1 / sqrt(1+(rc*(kv/dn^2)^2)/0.00214))
   }
 
 
@@ -149,7 +149,7 @@
 #'
   flp <- function(kv, fl, dn, d1, d2){
     rc <- resistance_coefficient(dn, d1, d2)
-    return(fl / sqrt(1+(rc*(kv/dn^2)^2)*(fl^2)/0.0016))
+    return(fl / sqrt(1+(rc*(kv/dn^2)^2)*(fl^2)/0.00214))
   }
 
 #' @title  FL liquid pressure recovery factor
