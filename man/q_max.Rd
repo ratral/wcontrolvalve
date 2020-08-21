@@ -19,7 +19,7 @@ q_max(p1, fl, kv, dn, d1, d2, masl, temp)
 
 \item{d2}{upstream pipe diameter (m).}
 
-\item{masl}{meters above sea level [m]}
+\item{masl}{meters above sea level (m).}
 
 \item{temp}{The temperature is in Celsius.}
 }

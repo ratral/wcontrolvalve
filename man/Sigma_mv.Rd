@@ -17,6 +17,6 @@ The level of cavitation associated with peak vibration
 measurements.
 - Highest vibration amplitude: sounds like “marbles” or “gravel”
  - Vigorous, large scale cavitation
- - Predicted by steady flow pressure distribution ( = Fl )
+ - Predicted by steady flow pressure distribution (=Fl)
  - Very high damage potential
 }

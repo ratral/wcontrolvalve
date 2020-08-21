@@ -9,11 +9,11 @@ fp(kv, dn, d1, d2)
 \arguments{
 \item{kv}{Flow coefficient in m³/h}
 
-\item{dn}{diameter in meter [m]}
+\item{dn}{diameter in meter (mm).}
 
-\item{d1}{Inlet diameter reducer only in meter [m]}
+\item{d1}{Inlet diameter reducer only in meter (mm).}
 
-\item{d2}{Outlet diameter increaser only in meter [m]}
+\item{d2}{Outlet diameter increase only in meter (mm).}
 }
 \value{
 Fp Piping geometry factor, dimensionless

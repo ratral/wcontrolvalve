@@ -7,15 +7,15 @@
 sigma_3(p1, p2, flow, dn, masl, temp)
 }
 \arguments{
-\item{p1}{Gauge Inlet pressure (bar)}
+\item{p1}{Gauge Inlet pressure (bar).}
 
-\item{p2}{Gauge outlet pressure (bar)}
+\item{p2}{Gauge outlet pressure (bar).}
 
-\item{flow}{flow in m³/s}
+\item{flow}{flow in (m³/s).}
 
 \item{dn}{valve diameter (m).}
 
-\item{masl}{meters above sea level (m)}
+\item{masl}{meters above sea level (m).}
 
 \item{temp}{The temperature is in Celsius.}
 }

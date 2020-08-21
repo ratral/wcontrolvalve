@@ -7,11 +7,11 @@
 sigma_1(p1, p2, masl, temp)
 }
 \arguments{
-\item{p1}{Gauge Inlet pressure (bar)}
+\item{p1}{Gauge Inlet pressure (bar).}
 
-\item{p2}{Gauge outlet pressure (bar)}
+\item{p2}{Gauge outlet pressure (bar).}
 
-\item{masl}{meters above sea level [m]}
+\item{masl}{meters above sea level (m).}
 
 \item{temp}{The temperature is in Celsius.}
 }

@@ -22,4 +22,6 @@ VigenetteBuilder:
 Imports: 
     dplyr,
     tidyr,
-    lubridate
+    lubridate,
+    ggplot2,
+    latex2exp

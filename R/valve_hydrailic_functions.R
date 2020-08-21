@@ -216,7 +216,6 @@
 #' @return Sigma
 #' @export
 #'
-#' @examples
   sigma_0 <- function(p1, p2, masl, temp){
     pv <- vapour_pressure(temp)
     p1 = p1 + atm_pressure(masl)
@@ -237,7 +236,6 @@
 #' @return Sigma
 #' @export
 #'
-#' @examples
   sigma_1 <- function(p1, p2, masl, temp){
     pv <- vapour_pressure(temp)
     p1 = p1 + atm_pressure(masl)
@@ -264,7 +262,6 @@
 #' @return sigma
 #' @export
 #'
-#' @examples
   sigma_3 <- function(p1, p2, flow, dn, masl, temp){
     pv <- vapour_pressure(temp) * 10
     p1 = (p1 + atm_pressure(masl)) * 10
@@ -289,7 +286,6 @@
 #' @return Sigma_i
 #' @export
 #'
-#' @examples
   Sigma_i <- function(fl){
     xfz <- 0.71
     return( 1/(xfz * fl^2) - 1 )
@@ -310,7 +306,6 @@
 #' @return Sigma_c
 #' @export
 #'
-#' @examples
   Sigma_c <- function(fl){
     kc <- 0.81
     return( 1/(kc * fl^2) - 1 )
@@ -331,7 +326,6 @@
 #' @return Sigma_mv
 #' @export
 #'
-#' @examples
   Sigma_mv <- function(fl){
     return( 1/(fl^2) - 1 )
   }

@@ -7,11 +7,11 @@
 resistance_coefficient(dn, d1, d2)
 }
 \arguments{
-\item{dn}{valve diameter (m).}
+\item{dn}{valve diameter (mm).}
 
-\item{d1}{downstream pipe diameter (m).}
+\item{d1}{downstream pipe diameter (mm).}
 
-\item{d2}{upstream pipe diameter (m)}
+\item{d2}{upstream pipe diameter (mm)}
 }
 \value{
 Resistance coefficient.
