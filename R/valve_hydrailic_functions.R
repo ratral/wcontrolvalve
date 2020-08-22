@@ -42,7 +42,7 @@
 #' with a differential pressure Delta P (p1-p2) of 1bar  (105 Pa)
 #' across it.
 #' @author Dr. Raúl Trujillo Álvarez
-#' @param dn diameter in meter [m]
+#' @param dn diameter in meter (m)
 #' @param zeta dimensionless quantity
 #' @return kv Flow coefficient in m³/h
 #' @export

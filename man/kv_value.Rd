@@ -7,7 +7,7 @@
 kv_value(dn, zeta)
 }
 \arguments{
-\item{dn}{diameter in meter [m]}
+\item{dn}{diameter in meter (m)}
 
 \item{zeta}{dimensionless quantity}
 }

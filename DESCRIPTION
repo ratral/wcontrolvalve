@@ -24,4 +24,5 @@ Imports:
     tidyr,
     lubridate,
     ggplot2,
+    scales,
     latex2exp
