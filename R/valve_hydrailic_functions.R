@@ -281,14 +281,19 @@
 #'  - Low-level cavitation: usually not damaging;
 #'  - Occurs prior to the loss of capacity
 #'
-#' @param fl liquid pressure recovery factor
+#' @param fls liquid pressure recovery full open (max between fl and Flp/Fp)
+#' @param x valve position
+#' @param b steepness
+#' @param d upper value
+#' @param e the effective dose
 #'
 #' @return Sigma_i
 #' @export
 #'
-  Sigma_i <- function(fl){
+  Sigma_i <- function(fls, x, b, d, e){
     xfz <- 0.71
-    return( 1/(xfz * fl^2) - 1 )
+    kv_kvs <- drm_LL3(x, b, d, e)
+    return( (1/(xfz * fls^2) - 1) * kv_kvs)
   }
 
 #' @title Constant Cavitation.
@@ -301,14 +306,19 @@
 #'  - Lower frequency sound and vibration sensed: “rumbling” sound
 #'  - Some damage to surfaces may occur: dependent upon valve and trim styles, and materials.
 #'
-#' @param fl liquid pressure recovery factor
+#' @param fls liquid pressure recovery full open (max between fl and Flp/Fp)
+#' @param x valve position
+#' @param b steepness
+#' @param d upper value
+#' @param e the effective dose
 #'
 #' @return Sigma_c
 #' @export
 #'
-  Sigma_c <- function(fl){
+  Sigma_c <- function(fls, x, b, d, e){
     kc <- 0.81
-    return( 1/(kc * fl^2) - 1 )
+    kv_kvs <- drm_LL3(x, b, d, e)
+    return( (1/(kc * fls^2) - 1) * kv_kvs)
   }
 
 
@@ -321,11 +331,16 @@
 #'  - Predicted by steady flow pressure distribution (=Fl)
 #'  - Very high damage potential
 #'
-#' @param fl liquid pressure recovery factor
+#' @param fls liquid pressure recovery full open (max between fl and Flp/Fp)
+#' @param x valve position
+#' @param b steepness
+#' @param d upper value
+#' @param e the effective dose
 #'
 #' @return Sigma_mv
 #' @export
 #'
-  Sigma_mv <- function(fl){
-    return( 1/(fl^2) - 1 )
+  Sigma_mv <- function(fls, x, b, d, e){
+    kv_kvs <- drm_LL3(x, b, d, e)
+    return( (1/(fls^2) - 1) * kv_kvs )
   }
