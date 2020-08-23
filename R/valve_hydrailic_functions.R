@@ -168,7 +168,7 @@
     return(fl)
   }
 
-#' @title Differential pressure maximun between upstream and downstream pressure
+#' @title Differential pressure maximum between upstream and downstream pressure
 #' @param p1 Gauge upstream pressure
 #' @param fl liquid pressure recovery factor
 #' @param kv Flow coefficient value in (m3/h).
