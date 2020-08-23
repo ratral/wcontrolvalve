@@ -79,7 +79,7 @@
 #' @export
 #'
   plot_zv <- function(b, d, e, zvs, cylindertyp){
-    x   <- data.frame(x = 0:100)
+    x   <- data.frame(x = 1:100)
     ggplot( data = x, mapping = aes(x = x)) +
       stat_function( fun = function(x) {zvs/(drm_LL3(x, b, d, e))^2},
                      size = 1, color = "green") +

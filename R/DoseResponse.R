@@ -17,10 +17,10 @@
 #'
 #' @examples
 #' drm_LL3( 50, -2.39, 1.39, 67.42 )
-drm_LL3 <- function(x,b,d,e){
-  ll3 <- d/(1+exp(b*(log(x)-log(e))))
-  return(ll3)
-}
+  drm_LL3 <- function(x,b,d,e){
+    ll3 <- d/(1+exp(b*(log(x)-log(e))))
+    return(ll3)
+  }
 
 
 #' @title Inverse of the dose-response models.
@@ -38,10 +38,10 @@ drm_LL3 <- function(x,b,d,e){
 #'
 #' @examples
 #' inv_LL3(0.4567872, -2.39, 1.39, 67.42 )
-inv_LL3 <- function( kv_kvs, b, d, e ){
-  root <- uniroot( function(x){ d/(1+exp(b*(log(x)-log(e))))- kv_kvs} ,
-                   lower = 0,
-                   upper = 100,
-                   tol   = 1e-10)
-  return(root$root)
-}
+  inv_LL3 <- function( kv_kvs, b, d, e ){
+    root <- uniroot( function(x){ d/(1+exp(b*(log(x)-log(e))))- kv_kvs} ,
+                     lower = 0,
+                     upper = 100,
+                     tol   = 1e-10)
+    return(root$root)
+  }

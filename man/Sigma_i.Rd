@@ -4,10 +4,18 @@
 \alias{Sigma_i}
 \title{Incipient Cavitation.}
 \usage{
-Sigma_i(fl)
+Sigma_i(fls, x, b, d, e)
 }
 \arguments{
-\item{fl}{liquid pressure recovery factor}
+\item{fls}{liquid pressure recovery full open (max between fl and Flp/Fp)}
+
+\item{x}{valve position}
+
+\item{b}{steepness}
+
+\item{d}{upper value}
+
+\item{e}{the effective dose}
 }
 \value{
 Sigma_i

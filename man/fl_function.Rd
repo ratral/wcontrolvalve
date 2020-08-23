@@ -4,12 +4,18 @@
 \alias{fl_function}
 \title{FL liquid pressure recovery factor}
 \usage{
-fl_function(fls, kv_kvs)
+fl_function(fls, x, b, d, e)
 }
 \arguments{
-\item{fls}{liquid pressure recovery factor full open}
+\item{fls}{liquid pressure recovery full open (max between fl and Flp/Fp)}
 
-\item{kv_kvs}{relative flow coefficient as Array}
+\item{x}{valve position}
+
+\item{b}{steepness}
+
+\item{d}{upper value}
+
+\item{e}{the effective dose}
 }
 \value{
 fl liquid pressure recovery factor for
