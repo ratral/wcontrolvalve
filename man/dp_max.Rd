@@ -2,7 +2,7 @@
 % Please edit documentation in R/valve_hydrailic_functions.R
 \name{dp_max}
 \alias{dp_max}
-\title{Differential pressure maximun between upstream and downstream pressure}
+\title{Differential pressure maximum between upstream and downstream pressure}
 \usage{
 dp_max(p1, fl, kv, dn, d1, d2, masl, temp)
 }
@@ -27,5 +27,5 @@ dp_max(p1, fl, kv, dn, d1, d2, masl, temp)
 DPmax (bar)
 }
 \description{
-Differential pressure maximun between upstream and downstream pressure
+Differential pressure maximum between upstream and downstream pressure
 }
