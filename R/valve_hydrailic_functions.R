@@ -48,7 +48,6 @@
 #' @export
 #' @examples
 #' kv_value( dn = 0.5, zeta = 1.9)
-
   kv_value <- function(dn, zeta){
     kv <- ((dn*1000)^2)/sqrt(626.3*zeta)
     return(kv)
@@ -99,7 +98,6 @@
 #' @export
 #' @examples
 #' ff(15)
-
   ff <- function(temp = 15){
     pv <- vapour_pressure(temp) * 0.01
     #  the critical thermodynamic pressure for water is 221.2 bar
