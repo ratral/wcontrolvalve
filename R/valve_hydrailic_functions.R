@@ -170,7 +170,6 @@
     return(fl)
   }
 
-
 #' Function Resistance Coefficient Zeta
 #'
 #' @param x valve position
@@ -185,7 +184,6 @@
   zv_function <- function( x, b, d, e, zvs ) {
     return(zvs/(drm_LL3( x, b, d, e ))^2)
   }
-
 
 #' @title Differential pressure maximum between upstream and downstream pressure
 #' @param p1 Gauge upstream pressure
