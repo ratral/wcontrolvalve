@@ -2,7 +2,7 @@
 % Please edit documentation in R/valve_hydrailic_functions.R
 \name{fl_function}
 \alias{fl_function}
-\title{FL liquid pressure recovery factor}
+\title{Function FL liquid pressure recovery factor}
 \usage{
 fl_function(x, b, d, e, fls)
 }
