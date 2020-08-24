@@ -177,7 +177,7 @@
 #' @param b steepness
 #' @param d upper value
 #' @param e the effective dose
-#' @param zvs
+#' @param zvs Resistance Coefficient
 #'
 #' @return zv Resistance Coefficient
 #' @export
