@@ -12,7 +12,7 @@
 #' @return ggplot graphic. Valve flow coefficient
 #' @export
 #'
-  plot_kv_kvs <- function(b, d, e, cylindertyp){
+  plot_kv_kvs <- function( b, d, e, cylindertyp ){
     x <- data.frame(x = 0:100)
     ggplot( data = x, mapping = aes(x = x)) +
       stat_function( fun = function(x) {x}, aes(), size = 1,
@@ -22,7 +22,7 @@
       scale_x_continuous( breaks = seq(0, 100, 10)) +
       scale_y_continuous( breaks = seq(0, 100, 10)) +
       labs( title    = TeX("Flow Characteristics $(k_{v}/k_{vs})$"),
-            subtitle = paste("For Cylinder:", cylindertyp),
+            subtitle = paste("Flow characteristics: ", cylindertyp),
             caption  = "Dr.Trujillo",
             x        = "Opening degree (%)",
             y        = TeX('$k_{v}/k_{vS}$')) +
@@ -37,7 +37,7 @@
 #' @param e the effective dose
 #' @param dn dn diameter in meter (m)
 #' @param zvs Resistance Coefficient Zeta full open
-#' @param cylindertyp Name of the control type
+#' @param cylindertyp Name of the control characteristic
 #'
 #'
 #' @import ggplot2
@@ -55,7 +55,7 @@
                      size = 1, color = "blue") +
       scale_x_continuous( breaks = seq(0, 100, 10)) +
       labs( title    = TeX("Flow Coefficient $k_{v} (m^3/h)$"),
-            subtitle = paste("For Cylinder:", cylindertyp),
+            subtitle = paste("Flow characteristics: ", cylindertyp),
             caption  = "Dr.Trujillo",
             x        = "Opening degree (%)",
             y        = TeX('$k_{v} (m^3/h)$')) +
@@ -69,7 +69,7 @@
 #' @param d upper value
 #' @param e the effective dose
 #' @param zvs Resistance Coefficient Zeta full open
-#' @param cylindertyp Name of the control type
+#' @param cylindertyp Name of the control characteristic
 #'
 #' @import ggplot2
 #' @import latex2exp
@@ -86,11 +86,39 @@
       scale_y_log10() +
       scale_x_continuous( breaks = seq(0, 100, 10)) +
       annotation_logticks(sides = "lr") +
-      labs( title    = "Zeta Value Curve",
-            subtitle = paste("For Cylinder:", cylindertyp),
+      labs( title    = TeX('Zeta Value Curve $\\zeta_{v}$'),
+            subtitle = paste("Flow characteristics :", cylindertyp),
             caption  = "Dr.Trujillo",
             x        = "Opening degree (%)",
             y        = TeX('$\\zeta_{v}$')) +
       theme_bw()
+  }
+
+
+#' Plot liquid pressure recovery factor
+#'
+#' @param b steepness
+#' @param d upper value
+#' @param e the effective dose
+#' @param fls liquid pressure recovery full open (max between fl and Flp/Fp)
+#' @param cylindertyp  Name of the control characteristic
+#'
+#' @return ggplot graphic. of the liquid pressure recovery factor
+#' @export
+#'
+  plot_fl <- function( b, d, e, fls, cylindertyp){
+    x   <- data.frame(x = 1:100)
+    ggplot( data = x, mapping = aes(x = x)) +
+      stat_function( fun = function(x) {fl_function( x, b, d, e, fls)},
+                     size = 1, color = "black") +
+      scale_x_continuous( breaks = seq(0, 100, 10)) +
+      scale_y_continuous( breaks = seq(0, 1, 0.05)) +
+      labs( title    = TeX('Liquid Pressure Recovery Factor ($F_{L}$, or
+                            respectively $F_{LP} / F_{P}$)'),
+             subtitle = paste("Flow characteristics :", cylindertyp),
+             caption  = "Dr.Trujillo",
+             x        = "Opening degree (%)",
+             y        = TeX('$F_{L}$')) +
+       theme_bw()
   }
 

@@ -15,7 +15,7 @@ plot_zv(b, d, e, zvs, cylindertyp)
 
 \item{zvs}{Resistance Coefficient Zeta full open}
 
-\item{cylindertyp}{Name of the control type}
+\item{cylindertyp}{Name of the control characteristic}
 }
 \value{
 ggplot graphic. Zeta Value Curve

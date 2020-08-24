@@ -17,7 +17,7 @@ plot_kv(b, d, e, dn, zvs, cylindertyp)
 
 \item{zvs}{Resistance Coefficient Zeta full open}
 
-\item{cylindertyp}{Name of the control type}
+\item{cylindertyp}{Name of the control characteristic}
 }
 \value{
 ggplot graphic. Flow coefficient Kv Value

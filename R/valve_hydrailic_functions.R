@@ -154,14 +154,14 @@
 
 #' @title  FL liquid pressure recovery factor
 #' @description for a control valve without attached fittings
-#' @param fls liquid pressure recovery full open (max between fl and Flp/Fp)
 #' @param x valve position
 #' @param b steepness
 #' @param d upper value
 #' @param e the effective dose
+#' @param fls liquid pressure recovery full open (max between fl and Flp/Fp)
 #' @return fl liquid pressure recovery factor for
 #' @export
-  fl_function <- function(fls, x, b, d, e){
+  fl_function <- function( x, b, d, e, fls){
     sigma_value <- 1/(fls^2) - 1
     kv_kvs <- drm_LL3(x, b, d, e)
     fl <- sqrt(1/(sigma_value * kv_kvs + 1))
