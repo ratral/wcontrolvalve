@@ -152,7 +152,7 @@
     return(fl / sqrt(1+(rc*(kv/dn^2)^2)*(fl^2)/0.00214))
   }
 
-#' @title  FL liquid pressure recovery factor
+#' @title  Function FL liquid pressure recovery factor
 #' @description for a control valve without attached fittings
 #' @param x valve position
 #' @param b steepness
@@ -160,13 +160,32 @@
 #' @param e the effective dose
 #' @param fls liquid pressure recovery full open (max between fl and Flp/Fp)
 #' @return fl liquid pressure recovery factor for
+#'
 #' @export
-  fl_function <- function( x, b, d, e, fls){
+#'
+  fl_function <- function( x, b, d, e, fls ){
     sigma_value <- 1/(fls^2) - 1
     kv_kvs <- drm_LL3(x, b, d, e)
     fl <- sqrt(1/(sigma_value * kv_kvs + 1))
     return(fl)
   }
+
+
+#' Function Resistance Coefficient Zeta
+#'
+#' @param x valve position
+#' @param b steepness
+#' @param d upper value
+#' @param e the effective dose
+#' @param zvs
+#'
+#' @return zv Resistance Coefficient
+#' @export
+#'
+  zv_function <- function( x, b, d, e, zvs ) {
+    return(zvs/(drm_LL3( x, b, d, e ))^2)
+  }
+
 
 #' @title Differential pressure maximum between upstream and downstream pressure
 #' @param p1 Gauge upstream pressure
@@ -178,6 +197,9 @@
 #' @param masl meters above sea level (m).
 #' @param temp The temperature is in Celsius.
 #' @return DPmax (bar)
+#'
+#' @export
+#'
   dp_max <- function(p1, fl, kv, dn, d1, d2, masl, temp){
     p1 = p1 + atm_pressure(masl)
     flp_value <-  flp(kv, fl, dn, d1, d2)
@@ -198,7 +220,9 @@
 #' @param masl meters above sea level (m).
 #' @param temp The temperature is in Celsius.
 #' @return q_max (m3/h)
-
+#'
+#' @export
+#'
   q_max <- function(p1, fl, kv, dn, d1, d2, masl, temp){
     p1 = p1 + atm_pressure(masl)
     flp_value <-  flp(kv, fl, dn, d1, d2)
@@ -266,7 +290,7 @@
 #' @return sigma
 #' @export
 #'
-  sigma_3 <- function(p1, p2, flow, dn, masl, temp){
+  sigma_2 <- function(p1, p2, flow, dn, masl, temp){
     pv <- vapour_pressure(temp) * 10
     p1 = (p1 + atm_pressure(masl)) * 10
     p2 = (p2 + atm_pressure(masl)) * 10
