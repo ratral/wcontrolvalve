@@ -314,7 +314,7 @@
 #' @return Sigma_i
 #' @export
 #'
-  Sigma_i <- function(fls, x, b, d, e){
+  Sigma_i <- function(x, b, d, e, fls){
     xfz <- 0.71
     kv_kvs <- drm_LL3(x, b, d, e)
     return( (1/(xfz * fls^2) - 1) * kv_kvs)
@@ -339,7 +339,7 @@
 #' @return Sigma_c
 #' @export
 #'
-  Sigma_c <- function(fls, x, b, d, e){
+  Sigma_c <- function(x, b, d, e, fls){
     kc <- 0.81
     kv_kvs <- drm_LL3(x, b, d, e)
     return( (1/(kc * fls^2) - 1) * kv_kvs)
@@ -364,7 +364,7 @@
 #' @return Sigma_mv
 #' @export
 #'
-  Sigma_mv <- function(fls, x, b, d, e){
+  Sigma_mv <- function(x, b, d, e, fls){
     kv_kvs <- drm_LL3(x, b, d, e)
     return( (1/(fls^2) - 1) * kv_kvs )
   }

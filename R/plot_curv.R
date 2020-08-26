@@ -81,7 +81,7 @@
   plot_zv <- function(b, d, e, zvs, cylindertyp){
     x   <- data.frame(x = 1:100)
     ggplot( data = x, mapping = aes(x = x)) +
-      stat_function( fun = function(x) {zvs/(drm_LL3(x, b, d, e))^2},
+      stat_function( fun = function(x) {zv_function( x, b, d, e, zvs )},
                      size = 1, color = "green") +
       scale_y_log10() +
       scale_x_continuous( breaks = seq(0, 100, 10)) +
@@ -120,5 +120,32 @@
              x        = "Opening degree (%)",
              y        = TeX('$F_{L}$')) +
        theme_bw()
+  }
+
+
+#' Plot sigma for Incipient, Constant and Maximum cavitation
+#'
+#' @param b steepness
+#' @param d upper value
+#' @param e the effective dose
+#' @param fls liquid pressure recovery full open (max between fl and Flp/Fp)
+#' @param cylindertyp  Name of the control characteristic
+#'
+#' @return ggplot graphic. of the sigma for Incipient, Constant and Maximum cavitation
+#' @export
+#'
+  plot_sigma <- function( b, d, e, fls, cylindertyp){
+    x   <- data.frame(x = 1:100)
+    ggplot( data = x, mapping = aes(x = x)) +
+      stat_function( fun = function(x) {Sigma_mv(x, b, d, e, fls)}, size = 1, color = "red") +
+      stat_function( fun = function(x) {Sigma_c(x, b, d, e, fls)}, size = 1,  color = "orange") +
+      stat_function( fun = function(x) {Sigma_i(x, b, d, e, fls)}, size = 1,  color = "green") +
+      scale_x_continuous( breaks = seq(0, 100, 10)) +
+      labs( title    = TeX('Borders of the Sigma value ($\\sigma$'),
+            subtitle = paste("Flow characteristics :", cylindertyp),
+            caption  = "Dr.Trujillo",
+            x        = "Opening degree (%)",
+            y        = TeX('$F_{L}$')) +
+      theme_bw()
   }
 
