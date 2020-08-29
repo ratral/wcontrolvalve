@@ -4,7 +4,7 @@
 \alias{kv}
 \title{Valve flow coefficient}
 \usage{
-kv(p1, p2, flow, temperature = 15.6)
+kv(p1, p2, flow, temp = 15.6)
 }
 \arguments{
 \item{p1}{Inlet pressure [bar]}
@@ -13,7 +13,7 @@ kv(p1, p2, flow, temperature = 15.6)
 
 \item{flow}{flow in m³/h}
 
-\item{temperature}{Inlet water temperature in °C}
+\item{temp}{temperature is in Celsius.}
 }
 \value{
 kv Flow coefficient in m³/h

@@ -9,7 +9,7 @@ A \code{tibble} with 265 rows and 4 variables:
 \describe{
   \item{problem_typ}{types of problems: "selection", "flow", "pressure"}
   \item{reynolds}{Valve Reynolds Number}
-  \item{fr}{Reynolds number factor }
+  \item{fr}{Valve Reynolds number factor}
 }
 }
 \source{

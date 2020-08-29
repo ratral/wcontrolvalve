@@ -7,14 +7,14 @@
 #' @param p1 Inlet pressure [bar]
 #' @param p2 Outlet pressure [bar]
 #' @param flow flow in m³/h
-#' @param temperature Inlet water temperature in °C
+#' @param temp temperature is in Celsius.
 #' @return kv Flow coefficient in m³/h
 #' @export
 #' @examples
 #' kv(2, 1, 200)
 
-  kv <- function(p1, p2, flow, temperature = 15.6){
-    r_density <-  water_density(temperature)/water_density(15.6)
+  kv <- function(p1, p2, flow, temp = 15.6){
+    r_density <-  water_density(temp)/water_density(15.6)
     kv <- flow*sqrt(r_density/(p1-p2))
     return(kv)
   }
@@ -24,7 +24,7 @@
 #' @param p1  Inlet Gauge pressure (bar).
 #' @param p2  Outlet Gauge pressure (bar).
 #' @param kv Flow coefficient in (m³/h).
-#' @param temp temperature is in Celcius.
+#' @param temp temperature is in Celsius.
 #' @return flow in (m³/h).
 #' @export
 #'
@@ -123,7 +123,7 @@
 #'
   fp <- function(kv, dn, d1, d2){
     rc <- resistance_coefficient(dn, d1, d2)
-    return(1 / sqrt(1+(rc*(kv/dn^2)^2)/0.00214))
+    return(1 / sqrt(1+(rc*(kv/dn^2)^2)/0.0016))
   }
 
 
@@ -147,8 +147,65 @@
 #'
   flp <- function(kv, fl, dn, d1, d2){
     rc <- resistance_coefficient(dn, d1, d2)
-    return(fl / sqrt(1+(rc*(kv/dn^2)^2)*(fl^2)/0.00214))
+    return(fl / sqrt(1+(rc*(kv/dn^2)^2)*(fl^2)/0.0016))
   }
+
+
+#' Valve Reynolds number
+#' @param flow flow in m³/h
+#' @param kv Flow coefficient in m³/h
+#' @param dn diameter in meter (mm).
+#' @param d1 Inlet diameter reducer only in meter (mm).
+#' @param d2 Outlet diameter increase only in meter (mm).
+#' @param temp temperature is in Celsius.
+#' @param fl Liquid pressure recovery factor of a control valve without attached fittings
+#' @param fd Valve style modifier (1.0 fuer Ventile mit V-fourmigen Drosselquerschnitt)
+#' @return valve Reynolds number
+#' @export
+#'
+  Reynolds_valve <- function( flow, kv, dn, d1, d2, temp, fl, fd){
+
+    Fp <- fp(kv, dn, d1, d2)  # Fp Piping geometry factor
+
+    n4 <- 7.07e4
+    n2 <- 0.0016
+
+    kvisc <- kinematic_viscosity(temp) # in mm2/s
+
+    reynolds <- (n4*fd*flow)/(kvisc*sqrt(Fp*fl*kv))*
+                ((Fp^2*fl^2*kv^2)/(n2*dn^4)+1)^(1/4)
+
+    return(reynolds)
+
+  }
+
+
+#' Title
+#' @param reynolds_factor A \code{tibble} containing the values for the
+#' calculation and plot of the Valve Reynolds Number Factor.
+#' @param Rev Valve Reynolds number
+#' @param problem_typ types of problems: "selection", "flow", "pressure"
+#' @importFrom stats spline
+#' @return Valve Reynolds number factor
+#' @export
+#'
+  fr <- function(reynolds_factor, Rev, problem_typ){
+
+    dat <- reynolds_factor %>%
+      filter(problem_typ == problem_typ)
+
+    factor <- case_when(
+      Rev >= 40000 ~ 1.0,
+      Rev <  56 & problem_typ == "selection" ~ 0.0190  * (Rev)^0.67,
+      Rev < 106 & problem_typ == "flow"      ~ 0.0027  * (Rev),
+      Rev <  30 & problem_typ == "pressure"  ~ 0.0052  * (Rev),
+      TRUE ~ with(dat, spline(dat$reynolds, dat$fr, xout = c(Rev)))$y
+    )
+
+    return(factor)
+
+  }
+
 
 #' @title  Function FL liquid pressure recovery factor
 #' @description for a control valve without attached fittings
@@ -209,6 +266,7 @@
 #' @title the maximum flow through the valve
 #' @param p1 Gauge upstream pressure (bar)
 #' @param fl liquid pressure recovery factor
+#' @param fr Reynolds number factor
 #' @param kv Flow coefficient value in (m3/h).
 #' @param dn valve diameter (m).
 #' @param d1 downstream pipe diameter (m).
@@ -219,12 +277,12 @@
 #'
 #' @export
 #'
-  q_max <- function(p1, fl, kv, dn, d1, d2, masl, temp){
+  q_max <- function(p1, fl, fr, kv, dn, d1, d2, masl, temp){
     p1 = p1 + atm_pressure(masl)
     flp_value <-  flp(kv, fl, dn, d1, d2)
     ff_value <- ff(temp)
     r_density <- water_density(temp)/water_density(15.6)
-    flow <- kv * flp_value * sqrt((p1 - ff_value * vapour_pressure(temp))/r_density)
+    flow <- kv * flp_value * fr * sqrt((p1 - ff_value * vapour_pressure(temp))/r_density)
     return(flow)
   }
 

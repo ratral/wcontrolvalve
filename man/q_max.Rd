@@ -4,12 +4,14 @@
 \alias{q_max}
 \title{the maximum flow through the valve}
 \usage{
-q_max(p1, fl, kv, dn, d1, d2, masl, temp)
+q_max(p1, fl, fr, kv, dn, d1, d2, masl, temp)
 }
 \arguments{
 \item{p1}{Gauge upstream pressure (bar)}
 
 \item{fl}{liquid pressure recovery factor}
+
+\item{fr}{Reynolds number factor}
 
 \item{kv}{Flow coefficient value in (m3/h).}
 

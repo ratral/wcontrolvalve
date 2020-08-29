@@ -13,7 +13,7 @@ flow_Kv(p1, p2, kv, temp)
 
 \item{kv}{Flow coefficient in (m³/h).}
 
-\item{temp}{temperature is in Celcius.}
+\item{temp}{temperature is in Celsius.}
 }
 \value{
 flow in (m³/h).

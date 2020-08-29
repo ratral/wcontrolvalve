@@ -13,7 +13,7 @@
 #' \describe{
 #'   \item{problem_typ}{types of problems: "selection", "flow", "pressure"}
 #'   \item{reynolds}{Valve Reynolds Number}
-#'   \item{fr}{Reynolds number factor }
+#'   \item{fr}{Valve Reynolds number factor}
 #' }
 #' @source ISA–75.01–1985 (R1995) "Flow Equations for Sizing Control Valves"
 "reynolds_factor"
