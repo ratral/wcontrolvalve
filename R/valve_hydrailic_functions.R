@@ -446,7 +446,7 @@
     limit_3 <- Sigma_mv(x, b, d, e, fls)
 
     regime <- case_when(
-      sigma_value > limit_1 ~ "free of cavitation (regime I)",
+      sigma_value > limit_1 ~ "free cavitation (regime I)",
       sigma_value < limit_1 & sigma_value > limit_2 ~ "incipient cavitation (regime II)",
       sigma_value < limit_2 & sigma_value > limit_3 ~ "constant cavitation, incipient damage (regime III)",
       sigma_value < limit_3 ~ "choking cavitation, maximum vibration and damage (regime IV)"

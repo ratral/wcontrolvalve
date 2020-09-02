@@ -2,7 +2,7 @@
 % Please edit documentation in R/valve_hydrailic_functions.R
 \name{cavtation_regime}
 \alias{cavtation_regime}
-\title{Cavtation Regime}
+\title{Cavitation Level (Regime)}
 \usage{
 cavtation_regime(x, b, d, e, fls, sigma_value)
 }
@@ -23,5 +23,5 @@ cavtation_regime(x, b, d, e, fls, sigma_value)
 regime
 }
 \description{
-Cavtation Regime
+Cavitation Level (Regime)
 }
