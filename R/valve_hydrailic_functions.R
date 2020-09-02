@@ -428,7 +428,11 @@
   }
 
 
+<<<<<<< HEAD
 #' Cavitation Level (Regime)
+=======
+#' Cavtation Regime
+>>>>>>> 9f37c8c235504de5c3be4e1435b9d9e822ec4144
 #'
 #' @param x valve position
 #' @param b steepness
@@ -446,10 +450,17 @@
     limit_3 <- Sigma_mv(x, b, d, e, fls)
 
     regime <- case_when(
+<<<<<<< HEAD
       sigma_value > limit_1 ~ "free of cavitation (regime I)",
       sigma_value < limit_1 & sigma_value > limit_2 ~ "incipient cavitation (regime II)",
       sigma_value < limit_2 & sigma_value > limit_3 ~ "constant cavitation, incipient damage (regime III)",
       sigma_value < limit_3 ~ "choking cavitation, maximum vibration and damage (regime IV)"
+=======
+      sigma_value > limit_1 ~ "regime_1",
+      sigma_value < limit_1 & sigma_value > limit_2 ~ "regime_2",
+      sigma_value < limit_2 & sigma_value > limit_3 ~ "regime_3",
+      sigma_value < limit_3 ~ "regime_3"
+>>>>>>> 9f37c8c235504de5c3be4e1435b9d9e822ec4144
     )
 
     return(regime)
