@@ -413,11 +413,11 @@
 #'  - Predicted by steady flow pressure distribution (=Fl)
 #'  - Very high damage potential
 #'
-#' @param fls liquid pressure recovery full open (max between fl and Flp/Fp)
 #' @param x valve position
 #' @param b steepness
 #' @param d upper value
 #' @param e the effective dose
+#' @param fls liquid pressure recovery full open (max between fl and Flp/Fp)
 #'
 #' @return Sigma_mv
 #' @export
@@ -425,4 +425,32 @@
   Sigma_mv <- function(x, b, d, e, fls){
     kv_kvs <- drm_LL3(x, b, d, e)
     return( (1/(fls^2) - 1) * kv_kvs )
+  }
+
+
+#' Cavtation Regime
+#'
+#' @param x valve position
+#' @param b steepness
+#' @param d upper value
+#' @param e the effective dose
+#' @param fls liquid pressure recovery full open (max between fl and Flp/Fp)
+#' @param sigma_value cavitation index (Reference downstream pressure P2)
+#'
+#' @return regime
+#' @export
+#'
+  cavtation_regime <- function(x, b, d, e, fls, sigma_value) {
+    limit_1 <- Sigma_i(x, b, d, e, fls)
+    limit_2 <- Sigma_c(x, b, d, e, fls)
+    limit_3 <- Sigma_mv(x, b, d, e, fls)
+
+    regime <- case_when(
+      sigma_value > limit_1 ~ "regime_1",
+      sigma_value < limit_1 & sigma_value > limit_2 ~ "regime_2",
+      sigma_value < limit_2 & sigma_value > limit_3 ~ "regime_3",
+      sigma_value < limit_3 ~ "regime_3"
+    )
+
+    return(regime)
   }
