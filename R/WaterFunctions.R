@@ -11,14 +11,14 @@
 #' https://en.wikipedia.org/wiki/Vapour_pressure_of_water
 #' @author Dr. Raúl Trujillo Álvarez
 #' @param temp is in °C
-#' @return Vapour pressure of water in (kPa). 1 kPa is  0.01 bar
+#' @return Vapour pressure of water in (bar)
 #' @export
 #' @examples
 #' vapour_pressure(25)
 
 vapour_pressure <- function(temp = 15){
   pv <- 0.61121*exp((18.678-temp/234.5)*(temp/(257.14+temp)))
-  return(pv)
+  return(pv/100)
 }
 
 #' @title Barometric formula (Atm. Pressure)

@@ -92,12 +92,12 @@
 
   test_that(desc = "Test vapour_pressure function",
             {
-              expect_equal(vapour_pressure(0),     0.6113, tolerance = 0.001)
-              expect_equal(vapour_pressure(20),    2.3388, tolerance = 0.001)
-              expect_equal(vapour_pressure(35),    5.6267, tolerance = 0.001)
-              expect_equal(vapour_pressure(50),   12.3440, tolerance = 0.001)
-              expect_equal(vapour_pressure(75),   38.5630, tolerance = 0.001)
-              expect_equal(vapour_pressure(100), 101.3200, tolerance = 0.001)
+              expect_equal(vapour_pressure(0)*100,     0.6113, tolerance = 0.001)
+              expect_equal(vapour_pressure(20)*100,    2.3388, tolerance = 0.001)
+              expect_equal(vapour_pressure(35)*100,    5.6267, tolerance = 0.001)
+              expect_equal(vapour_pressure(50)*100,   12.3440, tolerance = 0.001)
+              expect_equal(vapour_pressure(75)*100,   38.5630, tolerance = 0.001)
+              expect_equal(vapour_pressure(100)*100, 101.3200, tolerance = 0.001)
             }
   )
 

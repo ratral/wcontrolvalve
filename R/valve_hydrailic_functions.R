@@ -99,9 +99,9 @@
 #' @examples
 #' ff(15)
   ff <- function(temp = 15){
-    pv <- vapour_pressure(temp) * 0.01
+    pv <- vapour_pressure(temp)
     #  the critical thermodynamic pressure for water is 221.2 bar
-    pc <- 221.2 # Thermodynamic critical pressure of water in kPa
+    pc <- 221.2
     return(0.96-0.28*sqrt(pv/pc))
   }
 

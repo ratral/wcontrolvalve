@@ -10,7 +10,7 @@ vapour_pressure(temp = 15)
 \item{temp}{is in °C}
 }
 \value{
-Vapour pressure of water in (kPa). 1 kPa is  0.01 bar
+Vapour pressure of water in (bar)
 }
 \description{
 The vapor pressure of water is the pressure at which water vapor is in
