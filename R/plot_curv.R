@@ -79,7 +79,7 @@
 #' @export
 #'
   plot_zv <- function(b, d, e, zvs, cylindertyp){
-    x   <- data.frame(x = 5:100)
+    x   <- data.frame(x = 0:100)
     ggplot( data = x, mapping = aes(x = x)) +
       stat_function( fun = function(x) {zv_function( x, b, d, e, zvs )},
                      size = 1, color = "green") +
