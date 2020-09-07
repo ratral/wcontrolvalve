@@ -80,9 +80,9 @@
 #' @return Resistance coefficient.
 #' @export
   resistance_coefficient <- function(dn, d1, d2){
-    reducer  = 0.5 * (1-(dn/d1^2)^2)
+    reducer  =  0.5 * ((1-(dn/d1)^2)^2)
     diffuser =  ((1-(dn/d2)^2)^2)
-    bernulli = (1 - ((dn/d1)^4)) - (1 - ((dn/d2)^4))
+    bernulli =  (dn/d2)^4 - (dn/d1)^4
     result = reducer + diffuser + bernulli
     return(result)
   }
