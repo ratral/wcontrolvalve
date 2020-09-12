@@ -15,7 +15,7 @@
   plot_kv_kvs <- function( b, d, e, cylindertyp ){
     x <- data.frame(x = 0:100)
     ggplot( data = x, mapping = aes(x = x)) +
-      stat_function( fun = function(x) {x}, aes(), size = 1,
+      stat_function( fun = function(x) {x}, aes(), size = 0.5,
                      color = "black", linetype = 2) +
       stat_function( fun = function(x) {drm_LL3( x, b, d, e)*100},
                      size = 1, color = "blue") +
@@ -150,3 +150,22 @@
       theme_bw() + theme(legend.position = "bottom")
   }
 
+#' Return segment data
+#'
+#'
+#' @param data_points data frame with the coordinates x and y of the points
+#' @return dataframe with data for a straight line between points (x, y) and x and y axis.
+#'
+#' @export
+#'
+  segment_data <- function(data_points){
+
+    return( tibble ( x    = data_points$x,
+                     y    = data_points$y*0,
+                     xend = data_points$x,
+                     yend = data_points$y) %>%
+            add_row( x    = data_points$x*0,
+                     y    = data_points$y,
+                     xend = data_points$x,
+                     yend = data_points$y))
+  }
