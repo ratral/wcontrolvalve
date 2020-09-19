@@ -47,7 +47,7 @@
 #' @return kv Flow coefficient in m³/h
 #' @export
 #' @examples
-#' kv_value( dn = 0.5, zeta = 1.9)
+#' kv_value( dn = 500, zeta = 1.9)
   kv_value <- function(dn, zeta){
     kv <- ((dn)^2)/sqrt(626.3*zeta)
     return(kv)
@@ -60,14 +60,14 @@
 #' through valves and fittings is proportional to square of velocity.
 #' @author Dr. Raúl Trujillo Álvarez
 #' @param kv Kv Flow coefficient in m³/h
-#' @param dn diameter in meter (m)
+#' @param dn diameter in millimeter (mm)
 #' @return Zeta Vaule
 #' @export
 #' @examples
-#' zeta_vaule( dn =0.5, kv = 7247.229)
+#' zeta_vaule( dn = 500, kv = 7247.229)
 #'
   zeta_vaule  <- function(dn, kv){
-    zeta <- (1/626.3)*((dn*1000)^2/kv)^2
+    zeta <- (1/626.3)*((dn)^2/kv)^2
     return(zeta)
   }
 
@@ -113,9 +113,9 @@
 #' of a valve with attached fittings to the flow coefficient (kv) of a valve
 #' installed in a straight pipe of the same size as the valve.
 #' @param kv Flow coefficient in m³/h
-#' @param dn diameter in meter (mm).
-#' @param d1 Inlet diameter reducer only in meter (mm).
-#' @param d2 Outlet diameter increase only in meter (mm).
+#' @param dn diameter in millimeter (mm).
+#' @param d1 Inlet diameter reducer only in millimeter (mm).
+#' @param d2 Outlet diameter increase only in millimeter (mm).
 #' @return Fp Piping geometry factor, dimensionless
 #' @export
 #' @examples
@@ -135,9 +135,9 @@
 #' factor for the valve-fitting combination as a single factor, flp.
 #' @param kv Flow coefficient in m³/h
 #' @param fl Liquid pressure recovery factor of a control valve without attached fittings
-#' @param dn diameter in meter (mm).
-#' @param d1 Inlet diameter reducer only in meter (mm).
-#' @param d2 Outlet diameter increase only in meter (mm).
+#' @param dn diameter in millimeter (mm).
+#' @param d1 Inlet diameter reducer only in millimeter (mm).
+#' @param d2 Outlet diameter increase only in millimeter (mm).
 #' @return Product of the liquid pressure recovery factor of a valve with
 #' attached fittings (no symbol has been identified) and the piping geometry
 #' factor, dimensionless.
@@ -154,9 +154,9 @@
 #' Valve Reynolds number
 #' @param flow flow in m³/h
 #' @param kv Flow coefficient in m³/h
-#' @param dn diameter in meter (mm).
-#' @param d1 Inlet diameter reducer only in meter (mm).
-#' @param d2 Outlet diameter increase only in meter (mm).
+#' @param dn diameter in millimeter (mm).
+#' @param d1 Inlet diameter reducer only in millimeter (mm).
+#' @param d2 Outlet diameter increase only in millimeter (mm).
 #' @param temp temperature is in Celsius.
 #' @param fl Liquid pressure recovery factor of a control valve without attached fittings
 #' @param fd Valve style modifier (1.0 fuer Ventile mit V-fourmigen Drosselquerschnitt)
@@ -244,9 +244,9 @@
 #' @param p1 Gauge upstream pressure
 #' @param fl liquid pressure recovery factor
 #' @param kv Flow coefficient value in (m3/h).
-#' @param dn valve diameter (m).
-#' @param d1 downstream pipe diameter (m).
-#' @param d2 upstream pipe diameter (m).
+#' @param dn valve diameter (mm).
+#' @param d1 downstream pipe diameter (mm).
+#' @param d2 upstream pipe diameter (mm).
 #' @param masl meters above sea level (m).
 #' @param temp The temperature is in Celsius.
 #' @return DPmax (bar)
@@ -268,10 +268,10 @@
 #' @param fl liquid pressure recovery factor
 #' @param fr Reynolds number factor
 #' @param kv Flow coefficient value in (m3/h).
-#' @param dn valve diameter (m).
-#' @param d1 downstream pipe diameter (m).
-#' @param d2 upstream pipe diameter (m).
-#' @param masl meters above sea level (m).
+#' @param dn valve diameter (mm).
+#' @param d1 downstream pipe diameter (mm).
+#' @param d2 upstream pipe diameter (mm).
+#' @param masl meters above sea level (mm).
 #' @param temp The temperature is in Celsius.
 #' @return q_max (m3/h)
 #'
@@ -337,7 +337,7 @@
 #' @param p1 Gauge Inlet pressure (bar).
 #' @param p2 Gauge outlet pressure (bar).
 #' @param flow flow in (m³/s).
-#' @param dn valve diameter (m).
+#' @param dn valve diameter (mm).
 #' @param masl meters above sea level (m).
 #' @param temp The temperature is in Celsius.
 #'
@@ -348,7 +348,7 @@
     pv <- vapour_pressure(temp) * 10
     p1 = (p1 + atm_pressure(masl)) * 10
     p2 = (p2 + atm_pressure(masl)) * 10
-    vfactor <- velocity(flow, dn)^2/(2*9.807)
+    vfactor <- velocity(flow, dn/1000)^2/(2*9.807)
     return((p2-pv)/(p1-p2+vfactor))
   }
 
