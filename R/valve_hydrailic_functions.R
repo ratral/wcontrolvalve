@@ -42,14 +42,14 @@
 #' with a differential pressure Delta P (p1-p2) of 1bar  (105 Pa)
 #' across it.
 #' @author Dr. Raúl Trujillo Álvarez
-#' @param dn diameter in meter (m)
+#' @param dn diameter in millimeter (mm)
 #' @param zeta dimensionless quantity
 #' @return kv Flow coefficient in m³/h
 #' @export
 #' @examples
 #' kv_value( dn = 0.5, zeta = 1.9)
   kv_value <- function(dn, zeta){
-    kv <- ((dn*1000)^2)/sqrt(626.3*zeta)
+    kv <- ((dn)^2)/sqrt(626.3*zeta)
     return(kv)
   }
 
