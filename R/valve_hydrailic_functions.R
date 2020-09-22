@@ -345,9 +345,9 @@
 #' @export
 #'
   sigma_2 <- function(p1, p2, flow, dn, masl, temp){
-    pv <- vapour_pressure(temp) * 10
-    p1 = (p1 + atm_pressure(masl)) * 10
-    p2 = (p2 + atm_pressure(masl)) * 10
+    pv <- vapour_pressure(temp)
+    p1 = (p1 + atm_pressure(masl))
+    p2 = (p2 + atm_pressure(masl))
     vfactor <- velocity(flow, dn/1000)^2/(2*9.807)
     return((p2-pv)/(p1-p2+vfactor))
   }
