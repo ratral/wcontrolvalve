@@ -11,11 +11,11 @@ Reynolds_valve(flow, kv, dn, d1, d2, temp, fl, fd)
 
 \item{kv}{Flow coefficient in m³/h}
 
-\item{dn}{diameter in meter (mm).}
+\item{dn}{diameter in millimeter (mm).}
 
-\item{d1}{Inlet diameter reducer only in meter (mm).}
+\item{d1}{Inlet diameter reducer only in millimeter (mm).}
 
-\item{d2}{Outlet diameter increase only in meter (mm).}
+\item{d2}{Outlet diameter increase only in millimeter (mm).}
 
 \item{temp}{temperature is in Celsius.}
 

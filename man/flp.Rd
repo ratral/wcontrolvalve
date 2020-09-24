@@ -11,11 +11,11 @@ flp(kv, fl, dn, d1, d2)
 
 \item{fl}{Liquid pressure recovery factor of a control valve without attached fittings}
 
-\item{dn}{diameter in meter (mm).}
+\item{dn}{diameter in millimeter (mm).}
 
-\item{d1}{Inlet diameter reducer only in meter (mm).}
+\item{d1}{Inlet diameter reducer only in millimeter (mm).}
 
-\item{d2}{Outlet diameter increase only in meter (mm).}
+\item{d2}{Outlet diameter increase only in millimeter (mm).}
 }
 \value{
 Product of the liquid pressure recovery factor of a valve with

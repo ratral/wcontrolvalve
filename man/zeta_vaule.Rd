@@ -7,7 +7,7 @@
 zeta_vaule(dn, kv)
 }
 \arguments{
-\item{dn}{diameter in meter (m)}
+\item{dn}{diameter in millimeter (mm)}
 
 \item{kv}{Kv Flow coefficient in m³/h}
 }
@@ -21,7 +21,7 @@ that pressure drop or head loss due to flow of fluids in turbulent range
 through valves and fittings is proportional to square of velocity.
 }
 \examples{
-zeta_vaule( dn =0.5, kv = 7247.229)
+zeta_vaule( dn = 500, kv = 7247.229)
 
 }
 \author{

@@ -13,7 +13,7 @@ sigma_2(p1, p2, flow, dn, masl, temp)
 
 \item{flow}{flow in (m³/s).}
 
-\item{dn}{valve diameter (m).}
+\item{dn}{valve diameter (mm).}
 
 \item{masl}{meters above sea level (m).}
 
