@@ -450,8 +450,36 @@
       sigma_value > limit_1 ~ "free of cavitation (regime I)",
       sigma_value < limit_1 & sigma_value > limit_2 ~ "incipient cavitation (regime II)",
       sigma_value < limit_2 & sigma_value > limit_3 ~ "constant cavitation (regime III)",
-      sigma_value < limit_3 ~ "choking cavitation (regime IV)"
+      sigma_value < limit_3 ~ "maximum cavitation (regime IV)"
     )
 
     return(regime)
+  }
+
+
+  #' Cavitation Index (Regime)
+  #'
+  #' @param x valve position
+  #' @param b steepness
+  #' @param d upper value
+  #' @param e the effective dose
+  #' @param fls liquid pressure recovery full open (max between fl and Flp/Fp)
+  #' @param sigma_value cavitation index (Reference downstream pressure P2)
+  #'
+  #' @return index 0 = free; 1 <- incipient; 2 <- constant; 3 <- maximum
+  #' @export
+  #'
+  cavtation_index <- function(x, b, d, e, fls, sigma_value) {
+    limit_1 <- Sigma_i(x, b, d, e, fls)
+    limit_2 <- Sigma_c(x, b, d, e, fls)
+    limit_3 <- Sigma_mv(x, b, d, e, fls)
+
+    index <- case_when(
+      sigma_value > limit_1 ~ 0,
+      sigma_value < limit_1 & sigma_value > limit_2 ~ 1,
+      sigma_value < limit_2 & sigma_value > limit_3 ~ 2,
+      sigma_value < limit_3 ~ 3
+    )
+
+    return(index)
   }

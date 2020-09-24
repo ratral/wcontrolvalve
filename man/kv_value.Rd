@@ -7,7 +7,7 @@
 kv_value(dn, zeta)
 }
 \arguments{
-\item{dn}{diameter in meter (m)}
+\item{dn}{diameter in millimeter (mm)}
 
 \item{zeta}{dimensionless quantity}
 }
@@ -22,7 +22,7 @@ with a differential pressure Delta P (p1-p2) of 1bar  (105 Pa)
 across it.
 }
 \examples{
-kv_value( dn = 0.5, zeta = 1.9)
+kv_value( dn = 500, zeta = 1.9)
 }
 \author{
 Dr. Raúl Trujillo Álvarez

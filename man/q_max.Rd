@@ -15,13 +15,13 @@ q_max(p1, fl, fr, kv, dn, d1, d2, masl, temp)
 
 \item{kv}{Flow coefficient value in (m3/h).}
 
-\item{dn}{valve diameter (m).}
+\item{dn}{valve diameter (mm).}
 
-\item{d1}{downstream pipe diameter (m).}
+\item{d1}{downstream pipe diameter (mm).}
 
-\item{d2}{upstream pipe diameter (m).}
+\item{d2}{upstream pipe diameter (mm).}
 
-\item{masl}{meters above sea level (m).}
+\item{masl}{meters above sea level (mm).}
 
 \item{temp}{The temperature is in Celsius.}
 }
