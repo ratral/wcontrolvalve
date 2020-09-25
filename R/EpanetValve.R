@@ -11,7 +11,6 @@
 #' @return A Tible Table with the values of ..Values of the
 #' @export
 #' @import dplyr
-#' @import tidyr
 #' @importFrom  lubridate hms
 
 
@@ -59,5 +58,85 @@
 
     return(results)
 
+  }
+
+#' data_analyze selection of the right valve type
+#'
+#' @param base_data tibble table
+#' @param valves tibble table
+#' @param dn valve diameter (mm).
+#' @param d1 downstream pipe diameter (mm).
+#' @param d2 upstream pipe diameter (mm).
+#' @param masl meters above sea level (m).
+#' @param temp The water temperature is in Celsius.
+#' @param add_factor additional factor Select valve types that meet Kvs > 1.3 Kv
+#' @import dplyr
+#' @import tidyr
+#' @import purrr
+#' @return data_analyze tibble table
+#' @export
+#'
+  valve_param_calc <- function( base_data, valves, dn, d1, d2, masl, temp, add_factor = 1.3){
+
+    # https://www.r-bloggers.com/2019/08/no-visible-binding-for-global-variable/
+
+    valves <- valves %>%
+      mutate( kvs  = kv_value(dn, .data$zvs)) %>%
+      mutate( fps  = fp(.data$kvs, dn, d1, d2)) %>%
+      mutate( flps = flp(.data$kvs, .data$fls, dn, d1, d2)) %>%
+      mutate( flps_fps = .data$flps/.data$fps) %>%
+      select( .data$typ, .data$kv.b, .data$kv.d, .data$kv.e, .data$kvs,
+              .data$zvs,  .data$fls, .data$fps, .data$flps, .data$flps_fps)
+
+    # Calculation characteristics
+    base_data <- base_data %>%
+      mutate( dp = (.data$p1 - .data$p2),
+              kv = kv(.data$p1, .data$p2, .data$flow, temp)) %>%
+      mutate( zeta  = zeta_vaule(dn, .data$kv),
+              sig_1 = sigma_1(.data$p1, .data$p2, masl, temp),
+              sig_2 = sigma_2(.data$p1, .data$p2, .data$flow/3600, dn, masl, temp))
+
+    # Filter valves with Kvs > 1.3*Kv(max) Requerido
+    valves <- valves %>%
+      filter(.data$kvs >  max(base_data$kv)*add_factor) %>%
+      arrange(desc(.data$fls))
+
+    data_analyze <- valves %>%
+      mutate(data = list(base_data)) %>%
+      unnest(.data$data) %>%
+      mutate(kv_kvs = ifelse(.data$kv > .data$kvs, NA, .data$kv/.data$kvs), position = 0)
+
+    for(i in c(1:length(data_analyze$kv_kvs))){
+      if(is.na(data_analyze$kv_kvs[i])){
+        data_analyze$position[i] <- NA
+      } else {
+        data_analyze$position[i] <- inv_LL3(data_analyze$kv_kvs[i],
+                                            data_analyze$kv.b[i],
+                                            data_analyze$kv.d[i],
+                                            data_analyze$kv.e[i])
+      }
+    }
+
+    data_analyze <- data_analyze %>%
+      mutate( flp_fp = ifelse(kv > .data$kvs, NA, fl_function( .data$position, .data$kv.b, .data$kv.d, .data$kv.e, .data$flps_fps)),
+              Sig_i  = ifelse(kv > .data$kvs, NA, Sigma_i( .data$position, .data$kv.b, .data$kv.d, .data$kv.e, .data$flps_fps)),  # Incipient Cavitation
+              Sig_c  = ifelse(kv > .data$kvs, NA, Sigma_c( .data$position, .data$kv.b, .data$kv.d, .data$kv.e, .data$flps_fps)),  # Constant Cavitation
+              Sig_mv = ifelse(kv > .data$kvs, NA, Sigma_mv( .data$position, .data$kv.b, .data$kv.d, .data$kv.e, .data$flps_fps)), #  Maximum Vibration Cavitation
+              regime = ifelse(kv > .data$kvs, NA, cavtation_regime(.data$position, .data$kv.b, .data$kv.d, .data$kv.e, .data$flps_fps, .data$sig_2)),
+              cav_index = ifelse(kv > .data$kvs, NA, cavtation_index(.data$position, .data$kv.b, .data$kv.d, .data$kv.e, .data$flps_fps, .data$sig_2)))
+
+    data_analyze <- data_analyze %>%
+      group_by( .data$typ, .data$kv.b, .data$kv.d, .data$kv.e, .data$zvs, .data$kvs, .data$fls, .data$fps, .data$flps, .data$flps_fps) %>%
+      nest()
+
+    data_analyze <- data_analyze %>%
+      mutate( cav_index_01 = map_dbl( .x = .data$data, .f = ~mean(.x$cav_index)),
+              cav_index_02 = map_dbl( .x = .data$data, .f = ~max(.x$cav_index))) %>%
+      mutate( pos_index_01 = map_dbl( .x = .data$data, .f = ~min(.x$position)),
+              pos_index_02 = map_dbl( .x = .data$data, .f = ~sd(.x$position))) %>%
+      filter(.data$pos_index_01 > 10) %>%
+      arrange(.data$cav_index_01, desc(.data$pos_index_02))
+
+    return(data_analyze)
   }
 

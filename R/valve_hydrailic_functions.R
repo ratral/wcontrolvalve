@@ -271,7 +271,7 @@
 #' @param dn valve diameter (mm).
 #' @param d1 downstream pipe diameter (mm).
 #' @param d2 upstream pipe diameter (mm).
-#' @param masl meters above sea level (mm).
+#' @param masl meters above sea level (m).
 #' @param temp The temperature is in Celsius.
 #' @return q_max (m3/h)
 #'
