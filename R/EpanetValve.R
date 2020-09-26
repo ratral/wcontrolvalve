@@ -85,7 +85,7 @@
       mutate( fps  = fp(.data$kvs, dn, d1, d2)) %>%
       mutate( flps = flp(.data$kvs, .data$fls, dn, d1, d2)) %>%
       mutate( flps_fps = .data$flps/.data$fps) %>%
-      select( .data$typ, .data$kv.b, .data$kv.d, .data$kv.e, .data$kvs,
+      select( .data$name, .data$kv_b, .data$kv_d, .data$kv_e, .data$kvs,
               .data$zvs,  .data$fls, .data$fps, .data$flps, .data$flps_fps)
 
     # Calculation characteristics
@@ -111,22 +111,22 @@
         data_analyze$position[i] <- NA
       } else {
         data_analyze$position[i] <- inv_LL3(data_analyze$kv_kvs[i],
-                                            data_analyze$kv.b[i],
-                                            data_analyze$kv.d[i],
-                                            data_analyze$kv.e[i])
+                                            data_analyze$kv_b[i],
+                                            data_analyze$kv_d[i],
+                                            data_analyze$kv_e[i])
       }
     }
 
     data_analyze <- data_analyze %>%
-      mutate( flp_fp = ifelse(kv > .data$kvs, NA, fl_function( .data$position, .data$kv.b, .data$kv.d, .data$kv.e, .data$flps_fps)),
-              Sig_i  = ifelse(kv > .data$kvs, NA, Sigma_i( .data$position, .data$kv.b, .data$kv.d, .data$kv.e, .data$flps_fps)),  # Incipient Cavitation
-              Sig_c  = ifelse(kv > .data$kvs, NA, Sigma_c( .data$position, .data$kv.b, .data$kv.d, .data$kv.e, .data$flps_fps)),  # Constant Cavitation
-              Sig_mv = ifelse(kv > .data$kvs, NA, Sigma_mv( .data$position, .data$kv.b, .data$kv.d, .data$kv.e, .data$flps_fps)), #  Maximum Vibration Cavitation
-              regime = ifelse(kv > .data$kvs, NA, cavtation_regime(.data$position, .data$kv.b, .data$kv.d, .data$kv.e, .data$flps_fps, .data$sig_2)),
-              cav_index = ifelse(kv > .data$kvs, NA, cavtation_index(.data$position, .data$kv.b, .data$kv.d, .data$kv.e, .data$flps_fps, .data$sig_2)))
+      mutate( flp_fp = ifelse(kv > .data$kvs, NA, fl_function( .data$position, .data$kv_b, .data$kv_d, .data$kv_e, .data$flps_fps)),
+              Sig_i  = ifelse(kv > .data$kvs, NA, Sigma_i( .data$position, .data$kv_b, .data$kv_d, .data$kv_e, .data$flps_fps)),  # Incipient Cavitation
+              Sig_c  = ifelse(kv > .data$kvs, NA, Sigma_c( .data$position, .data$kv_b, .data$kv_d, .data$kv_e, .data$flps_fps)),  # Constant Cavitation
+              Sig_mv = ifelse(kv > .data$kvs, NA, Sigma_mv( .data$position, .data$kv_b, .data$kv_d, .data$kv_e, .data$flps_fps)), #  Maximum Vibration Cavitation
+              regime = ifelse(kv > .data$kvs, NA, cavtation_regime(.data$position, .data$kv_b, .data$kv_d, .data$kv_e, .data$flps_fps, .data$sig_2)),
+              cav_index = ifelse(kv > .data$kvs, NA, cavtation_index(.data$position, .data$kv_b, .data$kv_d, .data$kv_e, .data$flps_fps, .data$sig_2)))
 
     data_analyze <- data_analyze %>%
-      group_by( .data$typ, .data$kv.b, .data$kv.d, .data$kv.e, .data$zvs, .data$kvs, .data$fls, .data$fps, .data$flps, .data$flps_fps) %>%
+      group_by( .data$name, .data$kv_b, .data$kv_d, .data$kv_e, .data$zvs, .data$kvs, .data$fls, .data$fps, .data$flps, .data$flps_fps) %>%
       nest()
 
     data_analyze <- data_analyze %>%
