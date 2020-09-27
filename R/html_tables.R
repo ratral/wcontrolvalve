@@ -19,11 +19,6 @@
               .data$sig_1, .data$sig_2, .data$Sig_i, .data$Sig_c, .data$Sig_mv,
               .data$regime) %>%
 
-      mutate( flow = scales::comma(.data$flow),
-              kv = scales::comma(.data$kv),
-              kv_kvs = scales::percent(round(.data$kv_kvs,2)),
-              position = scales::percent(round(.data$position/100,2))) %>%
-
       kbl( caption ="Parameter of the valves",
            col.names = c( "Measurements", "P1", "P2", "DP", "Flow", "Kv",
                           "Zeta", "FLp/Fp", "Kv/Kvs", "Position",  "Sigma 1",
@@ -33,16 +28,4 @@
       kable_classic( bootstrap_options = "striped",
                      full_width = F, position = "left")  %>%
 
-      column_spec(column = 1:14, width = "0.5in")  %>%
-
-      column_spec(column = 16, width = "2in")  %>%
-
-      row_spec( which( .data$regime == "maximum cavitation (regime IV)"),
-                bold = T, color = "white", background = "#D7261E") %>%
-
-      row_spec( which( .data$regime == "constant cavitation (regime III)"),
-                bold = T, background = "yellow") %>%
-
-      row_spec( which( .data$regime == "incipient cavitation (regime II)"),
-                bold = T)
   }
