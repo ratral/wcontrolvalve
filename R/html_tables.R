@@ -30,11 +30,6 @@
                           "Sigma 2", "Sigma_i", "Sigma_c", "Sigma_mv", "Regime"),
            digits = c(0, 2, 2, 2, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0)) %>%
 
-      kable_classic( bootstrap_options = "striped", full_width = F, position = "left") %>%
+      kable_classic( bootstrap_options = "striped", full_width = F, position = "left")
       
-      kableExtra::column_spec( column = 1:14, width = "0.5in") %>%
-      kableExtra::column_spec( column = 16,   width = "2in") %>%
-      kableExtra::row_spec(which( param_points$regime == "maximum cavitation (regime IV)"), bold = T, color = "white", background = "#D7261E") %>%
-      kableExtra::row_spec(which( param_points$regime == "constant cavitation (regime III)"), bold = T, background = "yellow") %>%
-      kableExtra::row_spec(which( param_points$regime == "incipient cavitation (regime II)"), bold = T)
   }
