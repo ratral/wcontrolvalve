@@ -21,6 +21,7 @@
     
       mutate( flow     = scales::comma(flow), 
               kv       = scales::comma(kv),
+              zeta     = scales::comma(zeta),
               kv_kvs   = scales::percent(round(kv_kvs,2)), 
               position = scales::percent(round(position/100,2))) %>%
 
