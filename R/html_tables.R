@@ -19,10 +19,10 @@
               .data$sig_1, .data$sig_2, .data$Sig_i, .data$Sig_c, .data$Sig_mv,
               .data$regime) %>%
     
-      mutate( .data$flow     = scales::comma(.data$flow), 
-              .data$kv       = scales::comma(.data$kv),
-              .data$kv_kvs   = scales::percent(round(.data$kv_kvs,2)), 
-              .data$position = scales::percent(round(.data$position/100,2))) %>%
+      mutate( flow     = scales::comma(.data$flow), 
+              kv       = scales::comma(.data$kv),
+              kv_kvs   = scales::percent(round(.data$kv_kvs,2)), 
+              position = scales::percent(round(.data$position/100,2))) %>%
 
       kbl( caption ="Parameter of the valves",
            col.names = c( "Measurements", "P1", "P2", "DP", "Flow", "Kv",
