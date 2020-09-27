@@ -19,7 +19,7 @@
               .data$sig_1, .data$sig_2, .data$Sig_i, .data$Sig_c, .data$Sig_mv,
               .data$regime) %>%
     
-      mutate( flow     = scales::comma(flow), 
+      mutate( flow     = scales::comma(.data$flow), 
               kv       = scales::comma(kv),
               zeta     = scales::comma(zeta),
               kv_kvs   = scales::percent(round(kv_kvs,2)), 
