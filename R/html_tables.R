@@ -34,7 +34,7 @@
       
       kableExtra::column_spec( column = 1:14, width = "0.5in") %>%
       kableExtra::column_spec( column = 16,   width = "2in") %>%
-      kableExtra::row_spec(which( .data$regime == "maximum cavitation (regime IV)"), bold = T, color = "white", background = "#D7261E") %>%
-      kableExtra::row_spec(which( .data$regime == "constant cavitation (regime III)"), bold = T, background = "yellow") %>%
-      kableExtra::row_spec(which( .data$regime == "incipient cavitation (regime II)"), bold = T)
+      kableExtra::row_spec(which( param_points$regime == "maximum cavitation (regime IV)"), bold = T, color = "white", background = "#D7261E") %>%
+      kableExtra::row_spec(which( param_points$regime == "constant cavitation (regime III)"), bold = T, background = "yellow") %>%
+      kableExtra::row_spec(which( param_points$regime == "incipient cavitation (regime II)"), bold = T)
   }
