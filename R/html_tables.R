@@ -33,7 +33,12 @@
       kable_classic( bootstrap_options = "striped", full_width = F, position = "left") %>%
       
       column_spec(column = 1:14, width = "0.5in")  %>%
-      column_spec(column = 16, width = "2in")
+      column_spec(column = 16, width = "2in") %>%
     
-
+      row_spec(which( param_points$regime == "maximum cavitation (regime IV)"),
+                      bold = T, color = "white", background = "#D7261E") %>%
+      row_spec(which( param_points$regime == "constant cavitation (regime III)"),
+                      bold = T, background = "yellow") %>%
+      row_spec(which( param_points$regime == "incipient cavitation (regime II)"),
+                      bold = T)
   }
