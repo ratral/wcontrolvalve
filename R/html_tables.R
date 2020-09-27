@@ -19,9 +19,9 @@
               .data$sig_1, .data$sig_2, .data$Sig_i, .data$Sig_c, .data$Sig_mv,
               .data$regime) %>%
     
-      mutate( flow = scales::comma(flow), 
-              kv = scales::comma(kv),
-              kv_kvs = scales::percent(round(kv_kvs,2)), 
+      mutate( flow     = scales::comma(flow), 
+              kv       = scales::comma(kv),
+              kv_kvs   = scales::percent(round(kv_kvs,2)), 
               position = scales::percent(round(position/100,2))) %>%
 
       kbl( caption ="Parameter of the valves",
@@ -32,13 +32,9 @@
 
       kable_classic( bootstrap_options = "striped", full_width = F, position = "left") %>%
       
-      column_spec(column = 1:14, width = "0.5in")  %>%
-      column_spec(column = 16, width = "2in") %>%
-    
-      row_spec(which( param_points$regime == "maximum cavitation (regime IV)"),
-                      bold = T, color = "white", background = "#D7261E") %>%
-      row_spec(which( param_points$regime == "constant cavitation (regime III)"),
-                      bold = T, background = "yellow") %>%
-      row_spec(which( param_points$regime == "incipient cavitation (regime II)"),
-                      bold = T)
+      column_spec( column = 1:14, width = "0.5in") %>%
+      column_spec( column = 16,   width = "2in") %>%
+      row_spec(which( param_points$regime == "maximum cavitation (regime IV)"), bold = T, color = "white", background = "#D7261E") %>%
+      row_spec(which( param_points$regime == "constant cavitation (regime III)"), bold = T, background = "yellow") %>%
+      row_spec(which( param_points$regime == "incipient cavitation (regime II)"), bold = T)
   }
