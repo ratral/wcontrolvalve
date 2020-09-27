@@ -29,7 +29,7 @@
            col.names = c( "Measurements", "P1", "P2", "DP", "Flow", "Kv",
                           "Zeta", "FLp/Fp", "Kv/Kvs", "Position",  "Sigma 1",
                           "Sigma 2", "Sigma_i", "Sigma_c", "Sigma_mv", "Regime"),
-           digits = c(0, 2, 2, 2, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0)) %>%
+           digits = c(0, 2, 2, 2, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 0)) %>%
 
       kable_classic( bootstrap_options = "striped", full_width = F, position = "left")
       
