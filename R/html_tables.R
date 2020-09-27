@@ -31,6 +31,7 @@
                           "Sigma 2", "Sigma_i", "Sigma_c", "Sigma_mv", "Regime"),
            digits = c(0, 2, 2, 2, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 0)) %>%
 
-      kable_classic( bootstrap_options = "striped", full_width = F, position = "left")
+      kable_classic( bootstrap_options = "striped", full_width = F, position = "left") %>%
+      row_spec(which( param_points$regime == "maximum cavitation (regime IV)"), bold = T, color = "white", background = "#D7261E") 
       
   }
