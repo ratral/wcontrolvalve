@@ -26,6 +26,6 @@
            digits = c(0, 2, 2, 2, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0)) %>%
 
       kable_classic( bootstrap_options = "striped",
-                     full_width = F, position = "left")  %>%
+                     full_width = F, position = "left")
 
   }
