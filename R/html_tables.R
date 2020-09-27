@@ -25,7 +25,10 @@
                           "Sigma 2", "Sigma_i", "Sigma_c", "Sigma_mv", "Regime"),
            digits = c(0, 2, 2, 2, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0)) %>%
 
-      kable_classic( bootstrap_options = "striped",
-                     full_width = F, position = "left")
+      kable_classic( bootstrap_options = "striped", full_width = F, position = "left") %>%
+      
+      column_spec(column = 1:14, width = "0.5in")  %>%
+      column_spec(column = 16, width = "2in")
+    
 
   }
