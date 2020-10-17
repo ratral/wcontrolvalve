@@ -60,6 +60,52 @@
 
   }
 
+
+#' calculation of the cylinder parameter
+#'
+#' @param valves tibble table
+#' @param dn valve diameter (mm).
+#' @param d1 downstream pipe diameter (mm).
+#' @param d2 upstream pipe diameter (mm).
+#' @import dplyr
+#' @import tidyr
+#' @return calculation of the parameter as tibble table
+#' @export
+#'
+cylinder_param <- function(valves, dn, d1, d2){
+  # https://www.r-bloggers.com/2019/08/no-visible-binding-for-global-variable/
+  valves <- valves %>%
+    mutate( kvs  = kv_value(dn, .data$zvs)) %>%
+    mutate( fps  = fp(.data$kvs, dn, d1, d2)) %>%
+    mutate( flps = flp(.data$kvs, .data$fls, dn, d1, d2)) %>%
+    mutate( flps_fps = .data$flps/.data$fps) %>%
+    select( .data$name, .data$kv_b, .data$kv_d, .data$kv_e, .data$kvs,
+            .data$zvs,  .data$fls, .data$fps, .data$flps, .data$flps_fps)
+
+  return(valves)
+}
+
+
+#' Calculation of the factors for the points cloud
+#'
+#' @param base_data tibble table
+#' @param dn valve diameter (mm).
+#' @param masl meters above sea level (m).
+#' @param temp The water temperature is in Celsius.
+#' @return calculation of the parameter as tibble table
+#' @export
+#'
+points_cloud_param <- function( base_data, dn, masl, temp){
+  base_data <- base_data %>%
+    mutate( dp = (.data$p1 - .data$p2),
+            kv = kv(.data$p1, .data$p2, .data$flow, temp)) %>%
+    mutate( zeta  = zeta_vaule(dn, .data$kv),
+            sig_1 = sigma_1(.data$p1, .data$p2, masl, temp),
+            sig_2 = sigma_2(.data$p1, .data$p2, .data$flow/3600, dn, masl, temp))
+  return(base_data)
+}
+
+
 #' data_analyze selection of the right valve type
 #'
 #' @param base_data tibble table
@@ -78,27 +124,17 @@
 #'
   valve_param_calc <- function( base_data, valves, dn, d1, d2, masl, temp, add_factor = 1.3){
 
-    # https://www.r-bloggers.com/2019/08/no-visible-binding-for-global-variable/
-
-    valves <- valves %>%
-      mutate( kvs  = kv_value(dn, .data$zvs)) %>%
-      mutate( fps  = fp(.data$kvs, dn, d1, d2)) %>%
-      mutate( flps = flp(.data$kvs, .data$fls, dn, d1, d2)) %>%
-      mutate( flps_fps = .data$flps/.data$fps) %>%
-      select( .data$name, .data$kv_b, .data$kv_d, .data$kv_e, .data$kvs,
-              .data$zvs,  .data$fls, .data$fps, .data$flps, .data$flps_fps)
+    valves <- cylinder_param(valves, dn, d1, d2)
 
     # Calculation characteristics
-    base_data <- base_data %>%
-      mutate( dp = (.data$p1 - .data$p2),
-              kv = kv(.data$p1, .data$p2, .data$flow, temp)) %>%
-      mutate( zeta  = zeta_vaule(dn, .data$kv),
-              sig_1 = sigma_1(.data$p1, .data$p2, masl, temp),
-              sig_2 = sigma_2(.data$p1, .data$p2, .data$flow/3600, dn, masl, temp))
+    base_data <- points_cloud_param( base_data, dn, masl, temp)
+
+    min_kvs <- max(base_data$kv)*add_factor
 
     # Filter valves with Kvs > 1.3*Kv(max) Requerido
     valves <- valves %>%
-      filter(.data$kvs >  max(base_data$kv)*add_factor) %>%
+      filter(.data$kvs >  min_kvs) %>%
+      mutate( min_dn = ceiling( min_kvs^(1/2) * zvs^(1/4) * 626.3^(1/4) / 100)*100) %>%
       arrange(desc(.data$fls))
 
     data_analyze <- valves %>%
@@ -126,7 +162,7 @@
               cav_index = ifelse(kv > .data$kvs, NA, cavtation_index(.data$position, .data$kv_b, .data$kv_d, .data$kv_e, .data$flps_fps, .data$sig_2)))
 
     data_analyze <- data_analyze %>%
-      group_by( .data$name, .data$kv_b, .data$kv_d, .data$kv_e, .data$zvs, .data$kvs, .data$fls, .data$fps, .data$flps, .data$flps_fps) %>%
+      group_by( .data$name, .data$kv_b, .data$kv_d, .data$kv_e, .data$zvs, .data$kvs, .data$fls, .data$fps, .data$flps, .data$flps_fps, .data$min_dn) %>%
       nest()
 
     data_analyze <- data_analyze %>%
@@ -134,7 +170,7 @@
               cav_index_02 = map_dbl( .x = .data$data, .f = ~max(.x$cav_index))) %>%
       mutate( pos_index_01 = map_dbl( .x = .data$data, .f = ~min(.x$position)),
               pos_index_02 = map_dbl( .x = .data$data, .f = ~sd(.x$position))) %>%
-      filter(.data$pos_index_01 > 10) %>%
+      filter(.data$pos_index_01 > 10 & .data$cav_index_02 < 2) %>%
       arrange(.data$cav_index_01, desc(.data$pos_index_02))
 
     return(data_analyze)
