@@ -134,7 +134,7 @@ points_cloud_param <- function( base_data, dn, masl, temp){
     # Filter valves with Kvs > 1.3*Kv(max) Requerido
     valves <- valves %>%
       filter(.data$kvs >  min_kvs) %>%
-      mutate( min_dn = ceiling( min_kvs^(1/2) * zvs^(1/4) * 626.3^(1/4) / 100)*100) %>%
+      mutate( min_dn = ceiling( min_kvs^(1/2) * .data$zvs^(1/4) * 626.3^(1/4) / 100)*100) %>%
       arrange(desc(.data$fls))
 
     data_analyze <- valves %>%
@@ -164,6 +164,12 @@ points_cloud_param <- function( base_data, dn, masl, temp){
     data_analyze <- data_analyze %>%
       group_by( .data$name, .data$kv_b, .data$kv_d, .data$kv_e, .data$zvs, .data$kvs, .data$fls, .data$fps, .data$flps, .data$flps_fps, .data$min_dn) %>%
       nest()
+
+    # Definition of the decision conditions.
+    #   cav_index_01: Mean of th cavitation index (this will be between 0 and <3)
+    #   cav_index_02: Maximum cavitation Index (the cavitation index muss be lower as 3)
+    #   pos_index_01: Minimum Position (This must be above 10%)
+    #   pos_index_02: Standard deviation of the position (the bigger it is, the better)
 
     data_analyze <- data_analyze %>%
       mutate( cav_index_01 = map_dbl( .x = .data$data, .f = ~mean(.x$cav_index)),
