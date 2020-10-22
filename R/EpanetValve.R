@@ -175,8 +175,9 @@ points_cloud_param <- function( base_data, dn, masl, temp){
       mutate( cav_index_01 = map_dbl( .x = .data$data, .f = ~mean(.x$cav_index)),
               cav_index_02 = map_dbl( .x = .data$data, .f = ~max(.x$cav_index))) %>%
       mutate( pos_index_01 = map_dbl( .x = .data$data, .f = ~min(.x$position)),
-              pos_index_02 = map_dbl( .x = .data$data, .f = ~sd(.x$position))) %>%
-      filter(.data$pos_index_01 > 10 & .data$cav_index_02 < 3) %>%
+              pos_index_02 = map_dbl( .x = .data$data, .f = ~max(.x$position)-min(.x$position))) %>%
+      # filter(.data$pos_index_01 > 10 & .data$cav_index_02 < 3) %>%
+      filter(.data$pos_index_01 > 10) %>%
       arrange(.data$cav_index_01, desc(.data$pos_index_02))
 
     return(data_analyze)
