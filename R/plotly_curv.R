@@ -1,5 +1,5 @@
 
-#' Plottly the Valve flow coefficient
+#' Plotly the Valve flow coefficient
 #'
 #' @param valves tibble with the valves factors
 #' @param i cylinder order
@@ -45,7 +45,7 @@
   }
 
 
-#' Plottly Flow Coefficient (Kv) of the valve
+#' Plotly Flow Coefficient (Kv) of the valve
 #'
 #' @param valves tibble with the valves factors
 #' @param i cylinder order
@@ -86,7 +86,7 @@
 
   }
 
-#' Plottly Cavitation Coefficients
+#' Plotly Cavitation Coefficients
 #'
 #' @param valves tibble with the valves factors
 #' @param i cylinder order
@@ -154,3 +154,40 @@
 
   }
 
+#' Plotly Zeta Value Curve
+#'
+#' @param valves tibble with the valves factors
+#' @param i cylinder order
+#' @import plotly
+#' @return plotly graph
+#' @export
+#'
+  plotly_zv <- function( valves, i ){
+
+  data_points <- valves$data[[i]] %>%
+      select(.data$position, .data$zeta)
+
+  data.zeta <- tibble(position = 10:100)%>%
+    mutate( zeta = map_dbl( .x = .data$position,
+                            ~zv_function( .x, valves$kv_b[i], valves$kv_d[i],
+                                          valves$kv_e[i], valves$zvs[i])))
+
+  h.template <- paste( "%{yaxis.title.text}: %{y:,.1f}<br>",
+                       "%{xaxis.title.text}: %{x:.1f}",
+                       "<extra></extra>")
+
+  p <-  plot_ly() %>%
+    add_trace( data = data.zeta, x = ~position, y = ~zeta,
+               type = "scatter", mode = "lines",
+               hovertemplate = h.template) %>%
+    add_trace( data = data_points, x = ~position, y = ~zeta,
+               type = "scatter", mode = "markers",
+               hovertemplate = h.template, color = I("black")) %>%
+    layout( title = paste("Valve typ:", valves$name[i]),
+            xaxis = list( title = "Valve Position (%)", type = "log"),
+            yaxis = list( title = "Zeta Value", type = "log"),
+            showlegend = FALSE) %>%
+    config( displayModeBar = FALSE )
+
+  return(p)
+  }

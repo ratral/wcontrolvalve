@@ -2,7 +2,7 @@
 % Please edit documentation in R/plotly_curv.R
 \name{plotly_sigma}
 \alias{plotly_sigma}
-\title{Plottly Cavitation Coefficients}
+\title{Plotly Cavitation Coefficients}
 \usage{
 plotly_sigma(valves, i)
 }
@@ -15,5 +15,5 @@ plotly_sigma(valves, i)
 plotly graph
 }
 \description{
-Plottly Cavitation Coefficients
+Plotly Cavitation Coefficients
 }

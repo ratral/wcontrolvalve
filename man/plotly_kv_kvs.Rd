@@ -2,7 +2,7 @@
 % Please edit documentation in R/plotly_curv.R
 \name{plotly_kv_kvs}
 \alias{plotly_kv_kvs}
-\title{Plottly the Valve flow coefficient}
+\title{Plotly the Valve flow coefficient}
 \usage{
 plotly_kv_kvs(valves, i)
 }
@@ -15,5 +15,5 @@ plotly_kv_kvs(valves, i)
 plot in gglot format
 }
 \description{
-Plottly the Valve flow coefficient
+Plotly the Valve flow coefficient
 }
