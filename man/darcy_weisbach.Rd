@@ -7,7 +7,7 @@
 darcy_weisbach(flow, pipe_length, dn, roughness, temp = 15.6)
 }
 \arguments{
-\item{flow}{cubic meter per second (m³/s)}
+\item{flow}{cubic meter per second (m3/s)}
 
 \item{pipe_length}{length of pipe  (m)}
 

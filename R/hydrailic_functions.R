@@ -82,7 +82,7 @@
 #' or flow coefficient.
 #' [https://en.wikipedia.org/wiki/Darcy%E2%80%93Weisbach_equation]
 #' @author Dr. Raúl Trujillo Álvarez \email{dr.ing.trujillo@gmail.com}
-#' @param flow cubic meter per second (m³/s)
+#' @param flow cubic meter per second (m3/s)
 #' @param pipe_length length of pipe  (m)
 #' @param dn inner diameter of pipe  (m)
 #' @param roughness internal roughness of the pipe in (m)
@@ -105,4 +105,62 @@
       darcy <- friction*(pipe_length/dn)*((v^2)/(2*9.807))
       return(darcy)
     }
+
+
+#' Minor Losses
+#' @description Although they often account for a major portion of the head loss,
+#' especially in process piping, the additional losses due to entries and exits,
+#' fittings and valves are traditionally referred to as minor losses.
+#' These losses represent additional energy dissipation in the flow, usually
+#' caused by secondary flows induced by curvature or recirculation.
+#' The minor losses are any head loss present in addition to the head loss for
+#' the same length of straight pipe.
+#' allows for easy integration of minor losses into the Darcy-Weisbach equation.
+#' Zeta is the sum of all of the loss coefficients in the length of pipe, each
+#' contributing to the overall head loss. Although Zeta appears to be a constant
+#' coefficient, it varies with different flow conditions.
+#' Factors affecting the value of K include: the exact geometry of the component
+#' in question; the flow Reynolds Number; proximity to other fittings, etc.
+#' (Tabulated values of K are for components in isolation - with long straight
+#'  runs of pipe upstream and downstream.)
+#' @param flow cubic meter per second (m3/s)
+#' @param dn inner diameter of pipe  (m)
+#' @param zeta loss coefficient
+#'
+#' @return minor losses in meter
+#' @export
+#'
+#' @examples
+#'  minor_losses( flow = 0.042,
+#'                 dn = 0.150,
+#'                 zeta = 3)
+
+    minor_losses <- function(flow, dn, zeta){
+      v <- velocity(flow, dn)
+      losses <- zeta * ((v^2)/(2*9.807))
+    }
+
+
+#' Flow Calculation
+#' @description Pressure Drop in Pipe with Losses (Determine flow)
+#' @param pipe_length length of pipe  (m)
+#' @param dn inner diameter of pipe  (m)
+#' @param roughness internal roughness of the pipe in (m)
+#' @param zeta loss coefficient
+#' @param dp pressure diff.
+#' @param temp temperature in °C
+#' @importFrom stats uniroot
+#'
+#' @return flow in m3/s
+#' @export
+#'
+flow_calculation <- function(pipe_length, dn, roughness, zeta, dp, temp = 15.6){
+
+  root <- uniroot( function(x){ darcy_weisbach(x, pipe_length, dn, roughness, temp) +
+                                minor_losses(x, dn, zeta) - dp } ,
+                   lower = 0.0001,
+                   upper = 10,
+                   tol   = 1e-10)
+  return(root$root)
+}
 

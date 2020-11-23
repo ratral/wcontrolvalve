@@ -25,7 +25,7 @@
             subtitle = paste("Flow characteristics: ", cylindertyp),
             caption  = "Dr.Trujillo",
             x        = "Opening degree (%)",
-            y        = TeX('$k_{v}/k_{vS}$')) +
+            y        = TeX('$k_{v}/k_{vs}$')) +
       theme_bw()
   }
 
