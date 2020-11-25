@@ -98,6 +98,7 @@ cylinder_param <- function(valves, dn, d1, d2){
 points_cloud_param <- function( base_data, dn, masl, temp){
   base_data <- base_data %>%
     mutate( dp = (.data$p1 - .data$p2),
+            velocity = velocity(.data$flow/3600, dn/1000),
             kv = kv(.data$p1, .data$p2, .data$flow, temp)) %>%
     mutate( zeta  = zeta_vaule(dn, .data$kv),
             sig_1 = sigma_1(.data$p1, .data$p2, masl, temp),
